@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dir /b /s \"X:\\\\Unreal Projects\\\\Unreal Projects\\\\LowPoly\\\\*.md\")",
+      "Bash(dir /b /s \"X:\\\\Unreal Projects\\\\Unreal Projects\\\\LowPoly\\\\*RULES*\")"
+    ]
+  }
+}

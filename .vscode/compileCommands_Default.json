@@ -1,0 +1,1202 @@
+[
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Plugins\\VisualStudioTools\\Source\\VisualStudioBlueprintDebuggerHelper\\Private\\VisualStudioBlueprintDebuggerHelperModule.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\VisualStudioBlueprintDebuggerHelper.204.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Plugins\\VisualStudioTools\\Source\\VisualStudioBlueprintDebuggerHelper\\Private\\VisualStudioBlueprintDebuggerHelperModule.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\VisualStudioBlueprintDebuggerHelper.204.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Plugins\\VisualStudioTools\\Source\\VisualStudioBlueprintDebuggerHelper\\VisualStudioBlueprintDebuggerHelper.Build.cs",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\VisualStudioBlueprintDebuggerHelper.204.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Plugins\\VisualStudioTools\\Source\\VisualStudioTools\\Private\\BlueprintAssetHelper.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\VisualStudioTools.203.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Plugins\\VisualStudioTools\\Source\\VisualStudioTools\\Private\\BlueprintAssetHelpers.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\VisualStudioTools.203.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Plugins\\VisualStudioTools\\Source\\VisualStudioTools\\Private\\BlueprintReferencesCommandlet.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\VisualStudioTools.203.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Plugins\\VisualStudioTools\\Source\\VisualStudioTools\\Private\\BlueprintReferencesCommandlet.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\VisualStudioTools.203.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Plugins\\VisualStudioTools\\Source\\VisualStudioTools\\Private\\FSmartBSTR.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\VisualStudioTools.203.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Plugins\\VisualStudioTools\\Source\\VisualStudioTools\\Private\\VSServerCommandlet.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\VisualStudioTools.203.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Plugins\\VisualStudioTools\\Source\\VisualStudioTools\\Private\\VSServerCommandlet.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\VisualStudioTools.203.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Plugins\\VisualStudioTools\\Source\\VisualStudioTools\\Private\\VSTestAdapterCommandlet.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\VisualStudioTools.203.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Plugins\\VisualStudioTools\\Source\\VisualStudioTools\\Private\\VSTestAdapterCommandlet.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\VisualStudioTools.203.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Plugins\\VisualStudioTools\\Source\\VisualStudioTools\\Private\\VisualStudioTools.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\VisualStudioTools.203.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Plugins\\VisualStudioTools\\Source\\VisualStudioTools\\Private\\VisualStudioToolsBlueprintBreakpointExtension.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\VisualStudioTools.203.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Plugins\\VisualStudioTools\\Source\\VisualStudioTools\\Private\\VisualStudioToolsBlueprintBreakpointExtension.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\VisualStudioTools.203.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Plugins\\VisualStudioTools\\Source\\VisualStudioTools\\Private\\VisualStudioToolsCommandlet.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\VisualStudioTools.203.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Plugins\\VisualStudioTools\\Source\\VisualStudioTools\\Private\\VisualStudioToolsCommandlet.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\VisualStudioTools.203.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Plugins\\VisualStudioTools\\Source\\VisualStudioTools\\Private\\VisualStudioToolsCommandletBase.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\VisualStudioTools.203.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Plugins\\VisualStudioTools\\Source\\VisualStudioTools\\Private\\VisualStudioToolsCommandletBase.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\VisualStudioTools.203.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Plugins\\VisualStudioTools\\Source\\VisualStudioTools\\Public\\VisualStudioTools.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\VisualStudioTools.203.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Plugins\\VisualStudioTools\\Source\\VisualStudioTools\\VisualStudioTools.Build.cs",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\VisualStudioTools.203.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\.claude\\settings.local.json",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\.claude\\temp_cpp_content.txt",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\ABeamBase.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\ABeamBase.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\AbilityBase.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\AbilityBase.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\ArmorBase.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\ArmorBase.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\AttributeComponent.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\AttributeComponent.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\CKCombatAnimNotifies.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\CKCombatAnimNotifies.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\CKCombatAnimNotifyStates.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\CKCombatAnimNotifyStates.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\CKEscapeMenuWidget.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\CKEscapeMenuWidget.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\CKGameMode.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\CKGameMode.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\CKGameState.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\CKGameState.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\CKGameUserSettings.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\CKGameUserSettings.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\CKHUD.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\CKHUD.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\CKHUDWidget.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\CKHUDWidget.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\CKPlayerState.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\CKPlayerState.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\CKRoundResultWidget.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\CKRoundResultWidget.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\CKScopeOverlayWidget.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\CKScopeOverlayWidget.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\CKScoreboardWidget.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\CKScoreboardWidget.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\CKSettingsWidget.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\CKSettingsWidget.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\CKXPBarWidget.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\CKXPBarWidget.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\ConsumableBase.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\ConsumableBase.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\EquipWidget.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\EquipWidget.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\FloatingDamageActor.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\FloatingDamageActor.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\FloatingDamageWidget.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\FloatingDamageWidget.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\InteractionComponent.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\InteractionComponent.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\InventoryComponent.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\InventoryComponent.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\InventorySlotWidget.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\InventorySlotWidget.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\ItemBase.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\ItemBase.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\ItemDragDropOperation.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\ItemTooltipWidget.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\ItemTooltipWidget.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\LevelUpWidget.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\LevelUpWidget.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\LoadoutWidget.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\LoadoutWidget.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\LootGenerationData.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\LootSpawner.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\LootSpawner.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\LootTableEntry.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\LowPoly.Build.cs",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\LowPoly.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\LowPoly.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\MagicWeaponBase.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\MagicWeaponBase.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\MainHandBase.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\MainHandBase.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\MeleeBase.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\MeleeBase.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\OffHandBase.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\OffHandBase.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\PerkBase.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\PerkBase.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\PlayerCharacter.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\PlayerCharacter.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\PreRoundRootWidget.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\PreRoundRootWidget.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\ProjectileBase.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\ProjectileBase.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\Public\\LowPoly.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\RangedBeamWeaponBase.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\RangedBeamWeaponBase.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\RangedWeaponBase.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\RangedWeaponBase.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\RisingWallBase.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\RisingWallBase.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\SecondaryRangedBase.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\SecondaryRangedBase.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\ShieldBase.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\ShieldBase.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\ShopComponent.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\ShopComponent.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\ShopContextMenuWidget.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\ShopContextMenuWidget.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\ShopSlotWidget.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\ShopSlotWidget.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\ShopWidget.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\ShopWidget.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\SkillSlotInfo.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\SpectralShieldBase.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\SpectralShieldBase.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\SpellBase.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\SpellBase.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\SpellBeam.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\SpellBeam.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\SpellChannelBase.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\SpellChannelBase.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\SpellProjectile.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\SpellProjectile.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\SpellRisingWall.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\SpellRisingWall.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\SpellSpectralShield.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\SpellSpectralShield.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\TestDummy.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\TestDummy.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\TestDummyBase.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\TestDummyBase.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\TestDummyHealthBar.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\TestDummyHealthBar.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\TomeBase.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\TomeBase.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\TomeOfTheRisingWall.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\TomeOfTheRisingWall.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\WeaponStanceTypes.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	}
+]
