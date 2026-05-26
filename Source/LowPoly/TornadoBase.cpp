@@ -38,6 +38,7 @@ ATornadoBase::ATornadoBase()
 	ProjectileMovement->Friction = 0.0f;
 	ProjectileMovement->Velocity = FVector::ZeroVector;
 	ProjectileMovement->ProjectileGravityScale = 0.0f;  // We handle ground snapping
+	ProjectileMovement->bAutoUpdateTickRegistration = false;
 
 	LoopAudioComponent = nullptr;
 }
@@ -92,6 +93,9 @@ void ATornadoBase::InitTornado(AActor* InCaster, const FDamageBundle& InDamage, 
 		const FVector Dir = CasterActor->GetActorForwardVector();
 		ProjectileMovement->Velocity = Dir * MovementSpeed;
 	}
+
+	ProjectileMovement->SetComponentTickEnabled(true);
+	ProjectileMovement->Activate(true);
 
 	// Spawn Niagara VFX
 	if (TornadoVFX)
