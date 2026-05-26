@@ -70,6 +70,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CK|Tornado|Effects")
 	class UNiagaraSystem* TornadoHitVFX;
 
+	// --- Debug ---
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CK|Tornado|Debug")
+	bool bDebugDamage = false;
+
 protected:
 	virtual void BeginPlay() override;
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
@@ -86,6 +90,10 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "CK|Tornado|Components")
 	UProjectileMovementComponent* ProjectileMovement;
 
+	/** VFX Component so it follows the mesh and dies with it */
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "CK|Tornado|Components")
+	UNiagaraComponent* TornadoVFXComponent;
+
 	UPROPERTY()
 	UAudioComponent* LoopAudioComponent;
 
@@ -99,6 +107,10 @@ private:
 
 	/** Steer toward the homing target (if valid) */
 	void UpdateHoming(float DeltaTime);
+
+	/** Fires VFX & audio on server + all clients */
+	UFUNCTION(NetMulticast, Reliable)
+	void Multicast_ActivateVFX();
 
 	UPROPERTY()
 	AActor* CasterActor = nullptr;

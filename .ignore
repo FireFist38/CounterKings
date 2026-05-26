@@ -4,6 +4,7 @@
 /.sixth
 /.vscode
 /Content
+/DerivedDataCache
 /Intermediate
 /Saved
 /Plugins/VisualStudioTools/azure-pipelines
