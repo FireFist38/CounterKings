@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "SpellBase.h"
+#include "ItemBase.h"
 #include "SpellTornado.generated.h"
 
 class ATornadoBase;

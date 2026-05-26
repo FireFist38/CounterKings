@@ -37,7 +37,7 @@ bool USpellTornado::Cast(APlayerCharacter* Caster, AMagicWeaponBase* Staff)
 		APlayerController* PC = It->Get();
 		if (!PC) continue;
 
-		APlayerCharacter* OtherPlayer = Cast<APlayerCharacter>(PC->GetPawn());
+		APlayerCharacter* OtherPlayer = ::Cast<APlayerCharacter>(PC->GetPawn());
 		if (!OtherPlayer || OtherPlayer == Caster) continue;
 
 		UAttributeComponent* OtherAttr = OtherPlayer->GetAttributeComponent();
