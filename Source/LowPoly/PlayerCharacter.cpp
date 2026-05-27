@@ -39,6 +39,7 @@
 #include "Engine/Engine.h"
 #include "CKHUD.h"
 #include "CKHUDWidget.h"
+#include "CKInteractable.h"
 
 APlayerCharacter::APlayerCharacter()
 {
@@ -417,22 +418,33 @@ void APlayerCharacter::SetRotationClamp(bool bEnable, float Limit)
 void APlayerCharacter::Interact()
 {
 	if (!HasAuthority()) { Server_Interact(); return; }
-	AItemBase* BestItem = GetBestInteractable();
-	if (BestItem && InventoryComponent) InventoryComponent->Server_TryPickupItem(BestItem);
+	AActor* BestInteractable = GetBestInteractable();
+	if (BestInteractable)
+    {
+        ICKInteractable::Execute_Interact(BestInteractable, this);
+    }
 }
 
-AItemBase* APlayerCharacter::GetBestInteractable() const
+AActor* APlayerCharacter::GetBestInteractable() const
 {
 	TArray<AActor*> OverlappingActors;
-	GetOverlappingActors(OverlappingActors, AItemBase::StaticClass());
-	AItemBase* BestItem = nullptr;
+	GetOverlappingActors(OverlappingActors);
+	AActor* BestInteractable = nullptr;
 	float MinDistSq = 500.0f * 500.0f;
 	for (AActor* Actor : OverlappingActors)
 	{
-		AItemBase* Item = Cast<AItemBase>(Actor);
-		if (Item && !Item->IsHidden()) { float DistSq = FVector::DistSquared(GetActorLocation(), Item->GetActorLocation()); if (DistSq < MinDistSq) { MinDistSq = DistSq; BestItem = Item; } }
+		if (Actor && Actor->GetClass()->ImplementsInterface(UCKInteractable::StaticClass()))
+        {
+            float DistSq = FVector::DistSquared(GetActorLocation(), Actor->GetActorLocation());
+            if (DistSq < MinDistSq) { MinDistSq = DistSq; BestInteractable = Actor; }
+        }
 	}
-	return BestItem;
+	return BestInteractable;
+}
+
+void APlayerCharacter::Client_OpenLobbyUI_Implementation(ELobbyStationType Type)
+{
+    BP_OnOpenLobbyUI(Type);
 }
 
 void APlayerCharacter::Multicast_AttachItem_Implementation(AItemBase* Item, FName SocketName)
@@ -515,6 +527,16 @@ void APlayerCharacter::Server_Attack_Implementation()
 { 
     if (AttributeComponent && AttributeComponent->IsDead()) return; 
     if (bIsBlocking) return; 
+
+    // --- Safe Zone Check ---
+    if (UWorld* World = GetWorld())
+    {
+        if (ACKGameState* GS = World->GetGameState<ACKGameState>())
+        {
+            if (GS->GetMatchPhase() != ECKMatchPhase::Combat) return;
+        }
+    }
+
     AMainHandBase* W = GetActiveMainHandWeapon(); 
     if (!W) return; 
     
@@ -736,7 +758,23 @@ void APlayerCharacter::Server_SetSprinting_Implementation(bool S) { if (Attribut
 void APlayerCharacter::Ability1() { Server_UseAbility(0); }
 void APlayerCharacter::Ability2() { Server_UseAbility(1); }
 void APlayerCharacter::Ability3() { Server_UseAbility(2); }
-void APlayerCharacter::Server_UseAbility_Implementation(int32 SlotIndex) { if ((AttributeComponent && AttributeComponent->IsDead()) || IsUIOpen()) return; if (!InventoryComponent) return; if (InventoryComponent->IsAbilitySlotUnlocked(SlotIndex)) { TArray<AAbilityBase*> Abilities = InventoryComponent->GetAbilitySlots(); if (Abilities.IsValidIndex(SlotIndex) && Abilities[SlotIndex]) Abilities[SlotIndex]->ActivateAbility(this); } }
+
+void APlayerCharacter::Server_UseAbility_Implementation(int32 SlotIndex) 
+{ 
+    if ((AttributeComponent && AttributeComponent->IsDead()) || IsUIOpen()) return; 
+    
+    // --- Safe Zone Check ---
+    if (UWorld* World = GetWorld())
+    {
+        if (ACKGameState* GS = World->GetGameState<ACKGameState>())
+        {
+            if (GS->GetMatchPhase() != ECKMatchPhase::Combat) return;
+        }
+    }
+
+    if (!InventoryComponent) return; 
+    if (InventoryComponent->IsAbilitySlotUnlocked(SlotIndex)) { TArray<AAbilityBase*> Abilities = InventoryComponent->GetAbilitySlots(); if (Abilities.IsValidIndex(SlotIndex) && Abilities[SlotIndex]) Abilities[SlotIndex]->ActivateAbility(this); } 
+}
 
 void APlayerCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const 
 { 

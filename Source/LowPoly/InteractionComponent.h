@@ -5,7 +5,6 @@
 #include "InteractionComponent.generated.h"
 
 class USphereComponent;
-class AItemBase;
 
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class LOWPOLY_API UInteractionComponent : public UActorComponent
@@ -29,9 +28,11 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "CK|Interaction")
 	void PerformInteraction();
 
+    /** Returns the best interactable object currently in range */
+    UFUNCTION(BlueprintCallable, Category = "CK|Interaction")
+    AActor* GetBestInteractable();
+
 private:
 	UFUNCTION(Server, Reliable)
 	void Server_PerformInteraction();
-
-	AItemBase* GetBestInteractable();
 };

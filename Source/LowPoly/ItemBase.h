@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "CKInteractable.h"
 #include "ItemBase.generated.h"
 
 UENUM(BlueprintType)
@@ -112,7 +113,7 @@ struct FDamageBundle
 };
 
 UCLASS(Abstract, BlueprintType, Blueprintable)
-class LOWPOLY_API AItemBase : public AActor
+class LOWPOLY_API AItemBase : public AActor, public ICKInteractable
 {
 	GENERATED_BODY()
 	
@@ -121,6 +122,10 @@ public:
 
 protected:
 	virtual void BeginPlay() override;
+
+    // --- ICKInteractable Interface ---
+    virtual void Interact_Implementation(APlayerCharacter* Interactor) override;
+    virtual FText GetInteractionText_Implementation() const override;
 
 	void RestoreAuthoredMeshRelativeTransform();
 

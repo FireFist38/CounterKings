@@ -11,7 +11,7 @@ class ATargetedAOEDetonation;
 /**
  * Two-phase targeted AOE spell.
  * First cast: projects a targeting circle onto the ground under the caster's crosshair.
- * Second cast: confirms the location, destroys the indicator, and detonates the AOE effect.
+ * Second cast: confirms the location, destroys the indicator, and triggers OnDetonate.
  */
 UCLASS(Blueprintable, EditInlineNew)
 class LOWPOLY_API USpellTargetedAOE : public USpellBase
@@ -45,7 +45,13 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CK|Spell|TargetedAOE")
 	float DetonationLifetime = 3.0f;
 
-private:
+protected:
+    /** 
+     * Called when the player confirms the location with the second cast.
+     * Subclasses can override this to spawn projectiles, hazards, or immediate effects.
+     */
+    virtual void OnDetonate(APlayerCharacter* Caster, AMagicWeaponBase* Staff, const FVector& TargetLocation);
+
 	/** True while the indicator is active and waiting for a confirm cast */
 	bool bIsTargeting = false;
 

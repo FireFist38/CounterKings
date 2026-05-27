@@ -45,6 +45,13 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "CK|Rules")
 	float RoundDuration = 180.0f;
 
+    // --- 3D Lobby Tags ---
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "CK|Lobby")
+    FName LobbySpawnTag = FName("LobbySpawn");
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "CK|Lobby")
+    FName ArenaSpawnTag = FName("ArenaSpawn");
+
 protected:
 	int32 CurrentRound = 0;
 
@@ -55,6 +62,12 @@ protected:
 	void HandleArenaTransition();
 	void SpawnLootInArena();
 	void CleanupArenaLoot();
+
+    // Teleports all players to points with the given tag
+    void TeleportAllPlayers(FName TargetTag);
+
+    void TeleportPlayersToLobby();
+    void TeleportPlayersToArena();
 
 public:
 	UFUNCTION(BlueprintCallable, Category = "CK|GameLoop")

@@ -1,6 +1,7 @@
 #include "AttributeComponent.h"
 #include "Net/UnrealNetwork.h"
 #include "CKGameMode.h"
+#include "CKGameState.h"
 #include "PlayerCharacter.h"
 #include "InventoryComponent.h"
 #include "OffHandBase.h"
@@ -287,6 +288,19 @@ bool UAttributeComponent::ApplyCombatDamage(const FDamageBundle& Damage, AActor*
 	{
 		return false;
 	}
+
+    // --- Safe Zone Check ---
+    if (UWorld* World = GetWorld())
+    {
+        if (ACKGameState* GS = World->GetGameState<ACKGameState>())
+        {
+            if (GS->GetMatchPhase() != ECKMatchPhase::Combat)
+            {
+                // Damage is only allowed during the Combat phase
+                return false;
+            }
+        }
+    }
 
     FDamageBundle FinalDamage = Damage;
 

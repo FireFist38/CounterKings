@@ -4,6 +4,7 @@
 #include "PlayerCharacter.h"
 #include "Camera/CameraComponent.h"
 #include "Kismet/KismetSystemLibrary.h"
+#include "Kismet/GameplayStatics.h"
 #include "Net/UnrealNetwork.h"
 
 ATargetedAOEIndicator::ATargetedAOEIndicator()
@@ -73,9 +74,18 @@ bool ATargetedAOEIndicator::GetAimGroundPoint(FVector& OutPoint) const
     FCollisionQueryParams Params;
     Params.AddIgnoredActor(Caster);
     Params.AddIgnoredActor(this);
+    
+    // Explicitly ignore all pawns to prevent the indicator from "climbing" characters/dummies
+    TArray<AActor*> FoundPawns;
+    UGameplayStatics::GetAllActorsOfClass(GetWorld(), APawn::StaticClass(), FoundPawns);
+    Params.AddIgnoredActors(FoundPawns);
 
-    // Trace against WorldStatic and WorldDynamic (ground/floors)
-    if (GetWorld()->LineTraceSingleByChannel(Hit, TraceStart, TraceEnd, ECC_WorldStatic, Params))
+    // Trace specifically for the ground. 
+    // ECC_WorldStatic is usually floors/walls, but we use a list of object types to be safer.
+    FCollisionObjectQueryParams ObjectParams;
+    ObjectParams.AddObjectTypesToQuery(ECC_WorldStatic);
+
+    if (GetWorld()->LineTraceSingleByObjectType(Hit, TraceStart, TraceEnd, ObjectParams, Params))
     {
         OutPoint = Hit.Location;
         return true;
@@ -86,11 +96,10 @@ bool ATargetedAOEIndicator::GetAimGroundPoint(FVector& OutPoint) const
     FVector FloorPoint = Caster->GetActorLocation() - FVector(0,0, DistanceToFloor);
     FPlane FloorPlane(FloorPoint, FVector::UpVector);
     
-    float T;
-    FVector Intersection;
-    if (FMath::SegmentPlaneIntersection(TraceStart, TraceEnd, FloorPlane, T, Intersection))
+    FVector IntersectionPoint;
+    if (FMath::SegmentPlaneIntersection(TraceStart, TraceEnd, FloorPlane, IntersectionPoint))
     {
-        OutPoint = Intersection;
+        OutPoint = IntersectionPoint;
         return true;
     }
 

@@ -3,6 +3,8 @@
 #include "Components/StaticMeshComponent.h"
 #include "Components/PointLightComponent.h"
 #include "Components/SphereComponent.h"
+#include "PlayerCharacter.h"
+#include "InventoryComponent.h"
 
 AItemBase::AItemBase()
 {
@@ -48,6 +50,22 @@ void AItemBase::BeginPlay()
 {
 	Super::BeginPlay();
 	UpdateRarityVisuals();
+}
+
+void AItemBase::Interact_Implementation(APlayerCharacter* Interactor)
+{
+    if (!HasAuthority() || !Interactor) return;
+
+    UInventoryComponent* Inv = Interactor->GetInventoryComponent();
+    if (Inv)
+    {
+        Inv->Server_TryPickupItem(this);
+    }
+}
+
+FText AItemBase::GetInteractionText_Implementation() const
+{
+    return FText::Format(NSLOCTEXT("CK", "PickupItem", "Pick up {0}"), FText::FromName(ItemName));
 }
 
 void AItemBase::RestoreAuthoredMeshRelativeTransform()

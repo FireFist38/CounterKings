@@ -1,8 +1,7 @@
 #include "InteractionComponent.h"
 #include "Components/SphereComponent.h"
-#include "ItemBase.h"
+#include "CKInteractable.h"
 #include "PlayerCharacter.h"
-#include "InventoryComponent.h"
 
 UInteractionComponent::UInteractionComponent()
 {
@@ -36,40 +35,39 @@ void UInteractionComponent::PerformInteraction()
 
 void UInteractionComponent::Server_PerformInteraction_Implementation()
 {
-	AItemBase* BestItem = GetBestInteractable();
-	if (BestItem)
+	AActor* BestInteractable = GetBestInteractable();
+	if (BestInteractable)
 	{
 		APlayerCharacter* Character = Cast<APlayerCharacter>(GetOwner());
-		if (Character && Character->GetInventoryComponent())
+		if (Character)
 		{
-			Character->GetInventoryComponent()->Server_TryPickupItem(BestItem);
+            ICKInteractable::Execute_Interact(BestInteractable, Character);
 		}
 	}
 }
 
-AItemBase* UInteractionComponent::GetBestInteractable()
+AActor* UInteractionComponent::GetBestInteractable()
 {
 	if (!InteractionSphere) return nullptr;
 
 	TArray<AActor*> OverlappingActors;
-	InteractionSphere->GetOverlappingActors(OverlappingActors, AItemBase::StaticClass());
+	InteractionSphere->GetOverlappingActors(OverlappingActors);
 
-	AItemBase* ClosestItem = nullptr;
+	AActor* ClosestInteractable = nullptr;
 	float MinDistanceSq = FMath::Square(InteractionRadius + 100.0f);
 
 	for (AActor* Actor : OverlappingActors)
 	{
-		AItemBase* Item = Cast<AItemBase>(Actor);
-		if (Item)
+		if (Actor && Actor->GetClass()->ImplementsInterface(UCKInteractable::StaticClass()))
 		{
-			float DistanceSq = FVector::DistSquared(GetOwner()->GetActorLocation(), Item->GetActorLocation());
+			float DistanceSq = FVector::DistSquared(GetOwner()->GetActorLocation(), Actor->GetActorLocation());
 			if (DistanceSq < MinDistanceSq)
 			{
 				MinDistanceSq = DistanceSq;
-				ClosestItem = Item;
+				ClosestInteractable = Actor;
 			}
 		}
 	}
 
-	return ClosestItem;
+	return ClosestInteractable;
 }

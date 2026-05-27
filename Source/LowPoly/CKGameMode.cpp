@@ -13,6 +13,7 @@
 #include "Net/UnrealNetwork.h"
 #include "UObject/ConstructorHelpers.h"
 #include "Engine/DataTable.h"
+#include "GameFramework/PlayerStart.h"
 
 ACKGameMode::ACKGameMode()
 {
@@ -95,6 +96,8 @@ void ACKGameMode::StartRound()
 		HandleArenaTransition();
 	}
 
+    TeleportPlayersToArena();
+
 	CleanupArenaLoot();
 	SpawnLootInArena();
 
@@ -166,11 +169,16 @@ void ACKGameMode::StartPostRoundPhaseWithResult(bool bWin)
             
             // C++ Trigger for Shop Generation
             Char->GenerateShopPool();
+
+            // Reset ready state for next round
+            Char->Server_SetReadyForNextRound(false);
 		}
 	}
 
 	GS->bDebugWin = bWin;
 	GS->SetRoundState(CurrentRound, ECKMatchPhase::PostRound, PostRoundDuration);
+
+    TeleportPlayersToLobby();
 
 	GetWorldTimerManager().SetTimer(RoundTimerHandle, this, &ACKGameMode::AdvanceRound, PostRoundDuration, false);
 }
@@ -223,6 +231,40 @@ void ACKGameMode::CleanupArenaLoot()
 void ACKGameMode::HandleArenaTransition()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Arena Changing for Round %d"), CurrentRound);
+}
+
+void ACKGameMode::TeleportAllPlayers(FName TargetTag)
+{
+    TArray<AActor*> SpawnPoints;
+    UGameplayStatics::GetAllActorsWithTag(GetWorld(), TargetTag, SpawnPoints);
+
+    if (SpawnPoints.Num() == 0)
+    {
+        UE_LOG(LogTemp, Warning, TEXT("No spawn points found with tag: %s"), *TargetTag.ToString());
+        return;
+    }
+
+    int32 SpawnIndex = 0;
+    for (FConstPlayerControllerIterator It = GetWorld()->GetPlayerControllerIterator(); It; ++It)
+    {
+        APlayerController* PC = It->Get();
+        if (PC && PC->GetPawn())
+        {
+            AActor* TargetSpawn = SpawnPoints[SpawnIndex % SpawnPoints.Num()];
+            PC->GetPawn()->SetActorLocationAndRotation(TargetSpawn->GetActorLocation(), TargetSpawn->GetActorRotation(), false, nullptr, ETeleportType::TeleportPhysics);
+            SpawnIndex++;
+        }
+    }
+}
+
+void ACKGameMode::TeleportPlayersToLobby()
+{
+    TeleportAllPlayers(LobbySpawnTag);
+}
+
+void ACKGameMode::TeleportPlayersToArena()
+{
+    TeleportAllPlayers(ArenaSpawnTag);
 }
 
 float ACKGameMode::GetRemainingTime() const

@@ -13,9 +13,6 @@ USpellTargetedAOE::USpellTargetedAOE()
 
 bool USpellTargetedAOE::Cast(APlayerCharacter* Caster, AMagicWeaponBase* Staff)
 {
-    // SpellBase::Cast returns true by default if not overridden with failure logic.
-    // We don't call Super::Cast because it's abstract/empty.
-
     if (!Caster || !Staff) return false;
 
     if (!bIsTargeting)
@@ -44,22 +41,11 @@ bool USpellTargetedAOE::Cast(APlayerCharacter* Caster, AMagicWeaponBase* Staff)
         {
             FVector DetonationLocation = ActiveIndicator->GetActorLocation();
             
-            // Spawn Detonation actor
-            if (DetonationClass)
-            {
-                FActorSpawnParameters Params;
-                Params.Owner = Caster;
-                Params.Instigator = Caster;
-                Params.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+            OnDetonate(Caster, Staff, DetonationLocation);
 
-                ATargetedAOEDetonation* Detonation = GetWorld()->SpawnActor<ATargetedAOEDetonation>(DetonationClass, DetonationLocation, FRotator::ZeroRotator, Params);
-                if (Detonation)
-                {
-                    Detonation->DamageRadius = TargetRadius;
-                    Detonation->DetonationLifetime = DetonationLifetime;
-                    Detonation->InitDetonation(Caster, DetonationDamage);
-                }
-            }
+            // Stop the casting montage when detonating (Phase 2)
+            // We stop the montage that was likely started by MagicWeaponBase::TryCast
+            Caster->Multicast_StopMontage(nullptr, 0.2f);
 
             // Cleanup indicator
             ActiveIndicator->Destroy();
@@ -77,4 +63,26 @@ bool USpellTargetedAOE::Cast(APlayerCharacter* Caster, AMagicWeaponBase* Staff)
     }
 
     return false;
+}
+
+void USpellTargetedAOE::OnDetonate(APlayerCharacter* Caster, AMagicWeaponBase* Staff, const FVector& TargetLocation)
+{
+    if (!Caster || !Caster->HasAuthority()) return;
+
+    // Default behavior: Spawn a detonation actor that deals instant radial damage
+    if (DetonationClass)
+    {
+        FActorSpawnParameters Params;
+        Params.Owner = Caster;
+        Params.Instigator = Caster;
+        Params.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+
+        ATargetedAOEDetonation* Detonation = GetWorld()->SpawnActor<ATargetedAOEDetonation>(DetonationClass, TargetLocation, FRotator::ZeroRotator, Params);
+        if (Detonation)
+        {
+            Detonation->DamageRadius = TargetRadius;
+            Detonation->DetonationLifetime = DetonationLifetime;
+            Detonation->InitDetonation(Caster, DetonationDamage);
+        }
+    }
 }

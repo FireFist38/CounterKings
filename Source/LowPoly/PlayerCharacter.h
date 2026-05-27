@@ -4,6 +4,7 @@
 #include "GameFramework/Character.h"
 #include "WeaponStanceTypes.h"
 #include "ItemBase.h"
+#include "LobbyStation.h"
 #include "PlayerCharacter.generated.h"
 
 class UAttributeComponent;
@@ -45,7 +46,7 @@ public:
 	// --- Accessors ---
 	UFUNCTION(BlueprintCallable, Category = "CK|Equipment") FName GetMainHandSocketName() const { return MainHandSocketName; }
 	UFUNCTION(BlueprintCallable, Category = "CK|Equipment") FName GetOffHandSocketName() const { return OffHandSocketName; }
-	UFUNCTION(BlueprintCallable, Category = "CK|Interaction") AItemBase* GetBestInteractable() const;
+	UFUNCTION(BlueprintCallable, Category = "CK|Interaction") AActor* GetBestInteractable() const;
 	UFUNCTION(BlueprintCallable, Category = "CK|Components") UAttributeComponent* GetAttributeComponent() const { return AttributeComponent; }
 	UFUNCTION(BlueprintCallable, Category = "CK|Components") UInventoryComponent* GetInventoryComponent() const { return InventoryComponent; }
 	UFUNCTION(BlueprintCallable, Category = "CK|Camera") class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
@@ -82,6 +83,13 @@ public:
 
     UFUNCTION(BlueprintCallable, Server, Reliable, Category = "CK|Economy")
 	void Server_SellItem_Direct(int32 SlotIndex);
+
+    // --- Lobby Logic ---
+    UFUNCTION(Client, Reliable)
+    void Client_OpenLobbyUI(ELobbyStationType Type);
+
+    UFUNCTION(BlueprintImplementableEvent, Category = "CK|Lobby")
+    void BP_OnOpenLobbyUI(ELobbyStationType Type);
 
     // --- Weapon/Ability Helpers ---
     AMainHandBase* GetActiveMainHandWeapon() const;

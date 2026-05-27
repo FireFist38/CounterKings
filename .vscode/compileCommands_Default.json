@@ -200,6 +200,22 @@
 		"directory": "X:\\UE_5.7\\Engine\\Source"
 	},
 	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\AOEBurstBase.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\AOEBurstBase.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
 		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\AbilityBase.cpp",
 		"arguments": [
 			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
@@ -497,6 +513,22 @@
 	},
 	{
 		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\EquipWidget.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\FissureBase.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\FissureBase.h",
 		"arguments": [
 			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
 			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
@@ -1016,6 +1048,22 @@
 		"directory": "X:\\UE_5.7\\Engine\\Source"
 	},
 	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\SpellAOEBurst.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\SpellAOEBurst.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
 		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\SpellBase.cpp",
 		"arguments": [
 			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
@@ -1057,6 +1105,22 @@
 	},
 	{
 		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\SpellChannelBase.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\SpellFissure.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\SpellFissure.h",
 		"arguments": [
 			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
 			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
@@ -1112,6 +1176,22 @@
 		"directory": "X:\\UE_5.7\\Engine\\Source"
 	},
 	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\SpellTargetedAOE.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\SpellTargetedAOE.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
 		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\SpellTornado.cpp",
 		"arguments": [
 			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
@@ -1121,6 +1201,38 @@
 	},
 	{
 		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\SpellTornado.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\TargetedAOEDetonation.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\TargetedAOEDetonation.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\TargetedAOEIndicator.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\TargetedAOEIndicator.h",
 		"arguments": [
 			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
 			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_Default\\LowPoly.1.rsp"
