@@ -36,11 +36,6 @@ AMainHandBase::AMainHandBase()
 	HitboxComponent->SetCollisionResponseToChannel(ECC_WorldDynamic, ECR_Overlap);
 }
 
-AMainHandBase::~AMainHandBase()
-{
-    HitActorsThisWindow.Empty();
-}
-
 void AMainHandBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);

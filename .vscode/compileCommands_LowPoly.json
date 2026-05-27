@@ -392,6 +392,14 @@
 		"directory": "X:\\UE_5.7\\Engine\\Source"
 	},
 	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\CKInteractable.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_LowPoly\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
 		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\CKPlayerState.cpp",
 		"arguments": [
 			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
@@ -681,6 +689,22 @@
 	},
 	{
 		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\LoadoutWidget.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_LowPoly\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\LobbyStation.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_LowPoly\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\LobbyStation.h",
 		"arguments": [
 			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
 			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_LowPoly\\LowPoly.1.rsp"
@@ -1121,6 +1145,22 @@
 	},
 	{
 		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\SpellFissure.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_LowPoly\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\SpellIcicleDrop.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_LowPoly\\LowPoly.1.rsp"
+		],
+		"directory": "X:\\UE_5.7\\Engine\\Source"
+	},
+	{
+		"file": "X:\\Unreal Projects\\Unreal Projects\\LowPoly\\Source\\LowPoly\\SpellIcicleDrop.h",
 		"arguments": [
 			"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
 			"@X:\\Unreal Projects\\Unreal Projects\\LowPoly\\.vscode\\compileCommands_LowPoly\\LowPoly.1.rsp"

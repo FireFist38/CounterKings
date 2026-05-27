@@ -40,6 +40,7 @@
 #include "CKHUD.h"
 #include "CKHUDWidget.h"
 #include "CKInteractable.h"
+#include "CKPlayerState.h"
 
 APlayerCharacter::APlayerCharacter()
 {
@@ -365,6 +366,15 @@ void APlayerCharacter::CloseAllUI()
     
     CloseContextMenu();
 
+    // Close lobby UI (Shop, LevelUp, Equip) if open
+    if (ACKHUD* HUD = Cast<ACKHUD>(PC->GetHUD()))
+    {
+        if (UCKHUDWidget* HUDWidget = Cast<UCKHUDWidget>(HUD->GetHUDWidget()))
+        {
+            HUDWidget->CloseLobbyUI();
+        }
+    }
+
     PC->SetInputMode(FInputModeGameOnly());
     PC->bShowMouseCursor = false;
 }
@@ -402,6 +412,19 @@ bool APlayerCharacter::IsUIOpen() const
     if (LoadoutWidgetInstance && LoadoutWidgetInstance->IsInViewport()) return true;
     if (ScoreboardInstance && ScoreboardInstance->IsInViewport()) return true;
     if (ActiveContextMenuInstance && ActiveContextMenuInstance->IsInViewport()) return true;
+
+    // Also check lobby UI (Shop, LevelUp, Equip) via the HUD widget
+    if (APlayerController* PC = Cast<APlayerController>(GetController()))
+    {
+        if (ACKHUD* HUD = Cast<ACKHUD>(PC->GetHUD()))
+        {
+            if (UCKHUDWidget* HUDWidget = Cast<UCKHUDWidget>(HUD->GetHUDWidget()))
+            {
+                if (HUDWidget->IsLobbyUIOpen()) return true;
+            }
+        }
+    }
+
     return false;
 }
 
@@ -442,9 +465,91 @@ AActor* APlayerCharacter::GetBestInteractable() const
 	return BestInteractable;
 }
 
-void APlayerCharacter::Client_OpenLobbyUI_Implementation(ELobbyStationType Type)
+void APlayerCharacter::Client_OpenShop_Implementation()
 {
-    BP_OnOpenLobbyUI(Type);
+    UE_LOG(LogTemp, Log, TEXT("Client_OpenShop called"));
+    APlayerController* PC = Cast<APlayerController>(GetController());
+    if (PC && PC->GetHUD())
+    {
+        UE_LOG(LogTemp, Log, TEXT("  PC and HUD found"));
+        if (ACKHUD* HUD = Cast<ACKHUD>(PC->GetHUD()))
+        {
+            if (UCKHUDWidget* HUDWidget = Cast<UCKHUDWidget>(HUD->GetHUDWidget()))
+            {
+                if (HUDWidget->ShopWidgetClass)
+                {
+                    HUDWidget->OpenShopWidget();
+                }
+                else
+                {
+                    UE_LOG(LogTemp, Warning, TEXT("  ShopWidgetClass is NOT set in CKHUDWidget Blueprint! Call BP_OnOpenLobbyUI instead."));
+                }
+            }
+            else
+            {
+                UE_LOG(LogTemp, Warning, TEXT("  HUD widget is not UCKHUDWidget"));
+            }
+        }
+        else
+        {
+            UE_LOG(LogTemp, Warning, TEXT("  HUD is not ACKHUD"));
+        }
+    }
+    else
+    {
+        UE_LOG(LogTemp, Warning, TEXT("  PC or HUD is null"));
+    }
+
+    // Always fire BP event as fallback
+    BP_OnOpenLobbyUI(ELobbyStationType::Shop);
+}
+
+void APlayerCharacter::Client_OpenLevelUp_Implementation()
+{
+    UE_LOG(LogTemp, Log, TEXT("Client_OpenLevelUp called"));
+    APlayerController* PC = Cast<APlayerController>(GetController());
+    if (PC && PC->GetHUD())
+    {
+        if (ACKHUD* HUD = Cast<ACKHUD>(PC->GetHUD()))
+        {
+            if (UCKHUDWidget* HUDWidget = Cast<UCKHUDWidget>(HUD->GetHUDWidget()))
+            {
+                if (HUDWidget->LevelUpWidgetClass)
+                {
+                    HUDWidget->OpenLevelUpWidget();
+                }
+                else
+                {
+                    UE_LOG(LogTemp, Warning, TEXT("  LevelUpWidgetClass is NOT set in CKHUDWidget Blueprint! Call BP_OnOpenLobbyUI instead."));
+                }
+            }
+        }
+    }
+    BP_OnOpenLobbyUI(ELobbyStationType::LevelUp);
+}
+
+void APlayerCharacter::Client_OpenEquip_Implementation()
+{
+    UE_LOG(LogTemp, Log, TEXT("Client_OpenEquip called"));
+    APlayerController* PC = Cast<APlayerController>(GetController());
+    if (PC && PC->GetHUD())
+    {
+        if (ACKHUD* HUD = Cast<ACKHUD>(PC->GetHUD()))
+        {
+            if (UCKHUDWidget* HUDWidget = Cast<UCKHUDWidget>(HUD->GetHUDWidget()))
+            {
+                if (HUDWidget->EquipWidgetClass)
+                {
+                    HUDWidget->OpenEquipWidget();
+                }
+                else
+                {
+                    UE_LOG(LogTemp, Warning, TEXT("  EquipWidgetClass is NOT set in CKHUDWidget Blueprint! Call BP_OnOpenLobbyUI instead."));
+                }
+            }
+        }
+    }
+    BP_OnOpenLobbyUI(ELobbyStationType::Equipment);
 }
 
 void APlayerCharacter::Multicast_AttachItem_Implementation(AItemBase* Item, FName SocketName)
@@ -797,6 +902,61 @@ void APlayerCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Out
     DOREPLIFETIME(APlayerCharacter, AimPitch);
     DOREPLIFETIME(APlayerCharacter, AimYaw);
     DOREPLIFETIME(APlayerCharacter, AimLookAtLocation);
+}
+
+void APlayerCharacter::SaveToPlayerState()
+{
+    if (!HasAuthority()) return;
+
+    ACKPlayerState* PS = Cast<ACKPlayerState>(GetPlayerState());
+    if (!PS || !AttributeComponent) return;
+
+    PS->SavedLevel = AttributeComponent->GetLevel();
+    PS->SavedXP = AttributeComponent->GetCurrentXP();
+    PS->SavedGold = AttributeComponent->GetGold();
+    PS->SavedAttributePoints = AttributeComponent->GetAttributePoints();
+    PS->SavedStrength = AttributeComponent->Strength;
+    PS->SavedDexterity = AttributeComponent->Dexterity;
+    PS->SavedMagic = AttributeComponent->Magic;
+    PS->SavedLuck = AttributeComponent->Luck;
+
+    // Save shop pool
+    PS->SavedShopPool = ShopPool;
+    PS->SavedLockedSlots = LockedSlots;
+
+    UE_LOG(LogTemp, Log, TEXT("Saved player data to PlayerState - Gold: %d, Level: %d"),
+        PS->SavedGold, PS->SavedLevel);
+}
+
+void APlayerCharacter::RestoreFromPlayerState()
+{
+    if (!HasAuthority()) return;
+
+    ACKPlayerState* PS = Cast<ACKPlayerState>(GetPlayerState());
+    if (!PS || !AttributeComponent) return;
+
+    // Restore shop pool
+    ShopPool = PS->SavedShopPool;
+    LockedSlots = PS->SavedLockedSlots;
+
+    // Check if we have saved data to restore
+    if (PS->SavedGold == 0 && PS->SavedLevel == 1)
+    {
+        UE_LOG(LogTemp, Log, TEXT("No saved data in PlayerState - starting fresh"));
+        return;
+    }
+
+    UE_LOG(LogTemp, Log, TEXT("Restoring player data from PlayerState - Gold: %d, Level: %d"),
+        PS->SavedGold, PS->SavedLevel);
+
+    // Restore attributes directly (we're on the server, so we can write to replicated properties)
+    AttributeComponent->Gold = PS->SavedGold;
+    AttributeComponent->Strength = PS->SavedStrength;
+    AttributeComponent->Dexterity = PS->SavedDexterity;
+    AttributeComponent->Magic = PS->SavedMagic;
+    AttributeComponent->Luck = PS->SavedLuck;
+
+    UE_LOG(LogTemp, Log, TEXT("Finished restoring player data from PlayerState"));
 }
 
 void APlayerCharacter::Client_OnDamageDealt_Implementation() 

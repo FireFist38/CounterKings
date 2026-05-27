@@ -14,6 +14,7 @@
 #include "UObject/ConstructorHelpers.h"
 #include "Engine/DataTable.h"
 #include "GameFramework/PlayerStart.h"
+#include "Misc/PackageName.h"
 
 ACKGameMode::ACKGameMode()
 {
@@ -74,7 +75,6 @@ void ACKGameMode::BeginPlay()
         }
 	}
 	
-	// Start the game loop
 	StartRound();
 }
 
@@ -90,7 +90,6 @@ void ACKGameMode::StartRound()
 		CKGameState->SetRoundState(CurrentRound, ECKMatchPhase::Combat, RoundDuration);
 	}
 
-	// GDD Section 9: Arena changes every 5 rounds
 	if (CurrentRound > 1 && CurrentRound % 5 == 1)
 	{
 		HandleArenaTransition();
@@ -116,7 +115,6 @@ void ACKGameMode::StartPostRoundPhaseWithResult(bool bWin)
 	ACKGameState* GS = GetGameState<ACKGameState>();
 	if (!GS) return;
 
-	// Calculate and Grant Rewards for all players
 	for (FConstPlayerControllerIterator It = GetWorld()->GetPlayerControllerIterator(); It; ++It)
 	{
         APlayerController* PC = It->Get();
@@ -125,15 +123,11 @@ void ACKGameMode::StartPostRoundPhaseWithResult(bool bWin)
 
 		if (Char && Char->GetAttributeComponent() && PS)
 		{
-            // Apply Tournament Damage
             if (!bWin)
             {
-                // Damage = (Base + Round Scaling) + (Loser's Missing HP)
                 int32 BaseDamage = BaseMatchDamage + (CurrentRound * RoundDamageScaling);
                 int32 MissingHealth = FMath::Max(0, Char->GetAttributeComponent()->GetMaxHealth() - Char->GetAttributeComponent()->GetCurrentHealth());
-                
                 PS->MatchHealth -= (BaseDamage + MissingHealth);
-                
                 if (PS->MatchHealth <= 0)
                 {
                     PS->MatchHealth = 0;
@@ -141,14 +135,10 @@ void ACKGameMode::StartPostRoundPhaseWithResult(bool bWin)
                 }
             }
 
-			// Math: Base Income
 			int32 Payout = 100;
-
-			// Math: Interest
 			if (Char->GetAttributeComponent()->GetGold() >= 1000)
 				Payout += 50;
 
-			// Math: Streaks
 			if (bWin)
 			{
 				GS->WinStreak++;
@@ -166,11 +156,7 @@ void ACKGameMode::StartPostRoundPhaseWithResult(bool bWin)
 			else if (CurrentStreak >= 9) Payout += 60;
 
 			Char->GetAttributeComponent()->AddGold(Payout);
-            
-            // C++ Trigger for Shop Generation
             Char->GenerateShopPool();
-
-            // Reset ready state for next round
             Char->Server_SetReadyForNextRound(false);
 		}
 	}
@@ -178,9 +164,29 @@ void ACKGameMode::StartPostRoundPhaseWithResult(bool bWin)
 	GS->bDebugWin = bWin;
 	GS->SetRoundState(CurrentRound, ECKMatchPhase::PostRound, PostRoundDuration);
 
-    TeleportPlayersToLobby();
+    // Delay before traveling to lobby so the result screen plays
+    GetWorldTimerManager().SetTimer(RoundTimerHandle, this, &ACKGameMode::DelayedTravelToLobby, 6.0f, false);
 
-	GetWorldTimerManager().SetTimer(RoundTimerHandle, this, &ACKGameMode::AdvanceRound, PostRoundDuration, false);
+    // Keep the phase timer running for the full PostRoundDuration
+    GetWorldTimerManager().SetTimer(RoundPhaseTimerHandle, this, &ACKGameMode::AdvanceRound, PostRoundDuration, false);
+}
+
+void ACKGameMode::DelayedTravelToLobby()
+{
+    // Save all player data into PlayerState before traveling
+    for (FConstPlayerControllerIterator It = GetWorld()->GetPlayerControllerIterator(); It; ++It)
+    {
+        APlayerController* PC = It->Get();
+        if (PC)
+        {
+            if (APlayerCharacter* Char = Cast<APlayerCharacter>(PC->GetPawn()))
+            {
+                Char->SaveToPlayerState();
+            }
+        }
+    }
+
+    TravelToLobby();
 }
 
 void ACKGameMode::AdvanceRound()
@@ -233,14 +239,35 @@ void ACKGameMode::HandleArenaTransition()
 	UE_LOG(LogTemp, Warning, TEXT("Arena Changing for Round %d"), CurrentRound);
 }
 
-void ACKGameMode::TeleportAllPlayers(FName TargetTag)
+void ACKGameMode::TravelToLobby()
 {
+    if (!HasAuthority()) return;
+
+    if (LobbyMapPath.IsValid())
+    {
+        FString LobbyURL = LobbyMapPath.GetLongPackageName();
+        if (!LobbyURL.IsEmpty())
+        {
+            UE_LOG(LogTemp, Log, TEXT("Traveling to lobby map: %s"), *LobbyURL);
+            GetWorld()->ServerTravel(LobbyURL + "?listen", true, false);
+        }
+    }
+    else
+    {
+        UE_LOG(LogTemp, Warning, TEXT("LobbyMapPath is not set in CKGameMode! Cannot travel to lobby."));
+    }
+}
+
+void ACKGameMode::TeleportPlayersToArena()
+{
+    if (!HasAuthority()) return;
+
     TArray<AActor*> SpawnPoints;
-    UGameplayStatics::GetAllActorsWithTag(GetWorld(), TargetTag, SpawnPoints);
+    UGameplayStatics::GetAllActorsWithTag(GetWorld(), ArenaSpawnTag, SpawnPoints);
 
     if (SpawnPoints.Num() == 0)
     {
-        UE_LOG(LogTemp, Warning, TEXT("No spawn points found with tag: %s"), *TargetTag.ToString());
+        UE_LOG(LogTemp, Warning, TEXT("No spawn points found with tag: %s"), *ArenaSpawnTag.ToString());
         return;
     }
 
@@ -257,14 +284,28 @@ void ACKGameMode::TeleportAllPlayers(FName TargetTag)
     }
 }
 
-void ACKGameMode::TeleportPlayersToLobby()
+void ACKGameMode::HandleStartingNewPlayer_Implementation(APlayerController* NewPlayer)
 {
-    TeleportAllPlayers(LobbySpawnTag);
-}
+    Super::HandleStartingNewPlayer_Implementation(NewPlayer);
 
-void ACKGameMode::TeleportPlayersToArena()
-{
-    TeleportAllPlayers(ArenaSpawnTag);
+    // Restore player data after the character has spawned
+    if (NewPlayer)
+    {
+        FTimerHandle RestoreTimer;
+        GetWorld()->GetTimerManager().SetTimer(RestoreTimer, [NewPlayer]()
+        {
+            if (NewPlayer && NewPlayer->GetPawn())
+            {
+                if (APlayerCharacter* Char = Cast<APlayerCharacter>(NewPlayer->GetPawn()))
+                {
+                    if (Char->HasAuthority())
+                    {
+                        Char->RestoreFromPlayerState();
+                    }
+                }
+            }
+        }, 0.5f, false);
+    }
 }
 
 float ACKGameMode::GetRemainingTime() const

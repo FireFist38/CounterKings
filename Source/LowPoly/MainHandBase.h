@@ -20,7 +20,6 @@ class LOWPOLY_API AMainHandBase : public AItemBase
 
 public:
 	AMainHandBase();
-    virtual ~AMainHandBase();
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "CK|Components")
 	class UBoxComponent* HitboxComponent;

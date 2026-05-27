@@ -84,9 +84,24 @@ public:
     UFUNCTION(BlueprintCallable, Server, Reliable, Category = "CK|Economy")
 	void Server_SellItem_Direct(int32 SlotIndex);
 
+    // --- Data Persistence (survives ServerTravel) ---
+    /** Saves all character data (stats, gold, inventory, shop) into PlayerState before map travel */
+    UFUNCTION(BlueprintCallable, Category = "CK|Persist")
+    void SaveToPlayerState();
+
+    /** Restores all character data from PlayerState after arriving on a new map */
+    UFUNCTION(BlueprintCallable, Category = "CK|Persist")
+    void RestoreFromPlayerState();
+
     // --- Lobby Logic ---
     UFUNCTION(Client, Reliable)
-    void Client_OpenLobbyUI(ELobbyStationType Type);
+    void Client_OpenShop();
+
+    UFUNCTION(Client, Reliable)
+    void Client_OpenLevelUp();
+
+    UFUNCTION(Client, Reliable)
+    void Client_OpenEquip();
 
     UFUNCTION(BlueprintImplementableEvent, Category = "CK|Lobby")
     void BP_OnOpenLobbyUI(ELobbyStationType Type);

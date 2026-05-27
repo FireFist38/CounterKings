@@ -23,6 +23,9 @@ public:
 
 	void AdvanceRound();
 
+    /** Called by a timer after the result screen has played, then travels to the lobby map */
+    void DelayedTravelToLobby();
+
     // --- Match Damage Scaling ---
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "CK|Rules")
     int32 BaseMatchDamage = 5;
@@ -45,9 +48,10 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "CK|Rules")
 	float RoundDuration = 180.0f;
 
-    // --- 3D Lobby Tags ---
+    // --- Map Travel ---
+    /** The lobby map to travel to after each round */
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "CK|Lobby")
-    FName LobbySpawnTag = FName("LobbySpawn");
+    FSoftObjectPath LobbyMapPath;
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "CK|Lobby")
     FName ArenaSpawnTag = FName("ArenaSpawn");
@@ -57,17 +61,23 @@ protected:
 
 	FTimerHandle RoundTimerHandle;
 
+    /** Separate timer for the round/phase duration (doesn't get overridden by DelayedTravelToLobby) */
+    FTimerHandle RoundPhaseTimerHandle;
+
 	virtual void BeginPlay() override;
 
 	void HandleArenaTransition();
 	void SpawnLootInArena();
 	void CleanupArenaLoot();
 
-    // Teleports all players to points with the given tag
-    void TeleportAllPlayers(FName TargetTag);
+    /** Saves all player data into PlayerState, then travels to the lobby map via ServerTravel */
+    void TravelToLobby();
 
-    void TeleportPlayersToLobby();
+    /** Teleports players to arena spawn points */
     void TeleportPlayersToArena();
+
+    /** Restores player data on newly spawned characters after map travel */
+    virtual void HandleStartingNewPlayer_Implementation(APlayerController* NewPlayer) override;
 
 public:
 	UFUNCTION(BlueprintCallable, Category = "CK|GameLoop")

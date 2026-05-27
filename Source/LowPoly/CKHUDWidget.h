@@ -4,6 +4,10 @@
 #include "Blueprint/UserWidget.h"
 #include "CKGameState.h"
 #include "ItemBase.h"
+#include "LobbyStation.h"
+#include "ShopWidget.h"
+#include "LevelUpWidget.h"
+#include "EquipWidget.h"
 #include "CKHUDWidget.generated.h"
 
 class UProgressBar;
@@ -79,6 +83,9 @@ public:
 
 	UPROPERTY(meta = (BindWidget))
 	class UHorizontalBox* InteractionPrompt;
+
+    UPROPERTY(meta = (BindWidget))
+    UTextBlock* InteractionText;
 
 	// --- Ranged HUD ---
 	UPROPERTY(meta = (BindWidget))
@@ -167,14 +174,43 @@ public:
 	UPROPERTY()
 	UCKRoundResultWidget* ResultWidgetInstance;
 
-	UPROPERTY(EditDefaultsOnly, Category = "CK|UI")
-	TSubclassOf<class UPreRoundRootWidget> PreRoundRootWidgetClass;
+	// --- Lobby Widget Classes ---
+	UPROPERTY(EditDefaultsOnly, Category = "CK|Lobby")
+	TSubclassOf<UShopWidget> ShopWidgetClass;
+
+	UPROPERTY(EditDefaultsOnly, Category = "CK|Lobby")
+	TSubclassOf<ULevelUpWidget> LevelUpWidgetClass;
+
+	UPROPERTY(EditDefaultsOnly, Category = "CK|Lobby")
+	TSubclassOf<UEquipWidget> EquipWidgetClass;
+
+	// --- Lobby Widget Instances ---
+	UPROPERTY()
+	UShopWidget* ShopWidgetInstance = nullptr;
 
 	UPROPERTY()
-	class UPreRoundRootWidget* PreRoundRootInstance;
+	ULevelUpWidget* LevelUpWidgetInstance = nullptr;
+
+	UPROPERTY()
+	UEquipWidget* EquipWidgetInstance = nullptr;
 
     UFUNCTION(BlueprintCallable, Category = "CK|UI")
     void ShowHitmarker();
+
+    /** Opens the standalone shop widget when interacting with a Shop station */
+    void OpenShopWidget();
+
+    /** Opens the standalone level up widget when interacting with a Level Up station */
+    void OpenLevelUpWidget();
+
+    /** Opens the standalone equipment widget when interacting with an Equipment station */
+    void OpenEquipWidget();
+
+    /** Returns true if any lobby-specific widget is currently open */
+    bool IsLobbyUIOpen() const;
+
+    /** Closes all open lobby-specific widgets and restores game input */
+    void CloseLobbyUI();
 
 protected:
 	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;

@@ -32,28 +32,36 @@ void UPreRoundRootWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaT
 	}
 }
 
+void UPreRoundRootWidget::SwitchToTab(int32 Index)
+{
+    if (ContentSwitcher)
+    {
+        ContentSwitcher->SetActiveWidgetIndex(Index);
+        if (BackButton)
+        {
+            BackButton->SetVisibility(Index == 0 ? ESlateVisibility::Collapsed : ESlateVisibility::Visible);
+        }
+    }
+}
+
 void UPreRoundRootWidget::ShowShop()
 {
-	if (ContentSwitcher) ContentSwitcher->SetActiveWidgetIndex(1); // Assuming 0 is Menu, 1 is Shop
-	if (BackButton) BackButton->SetVisibility(ESlateVisibility::Visible);
+    SwitchToTab(1);
 }
 
 void UPreRoundRootWidget::ShowLevelUp()
 {
-	if (ContentSwitcher) ContentSwitcher->SetActiveWidgetIndex(2); // Assuming 2 is LevelUp
-	if (BackButton) BackButton->SetVisibility(ESlateVisibility::Visible);
+    SwitchToTab(2);
 }
 
 void UPreRoundRootWidget::ShowEquip()
 {
-	if (ContentSwitcher) ContentSwitcher->SetActiveWidgetIndex(3); // Assuming 3 is Equip
-	if (BackButton) BackButton->SetVisibility(ESlateVisibility::Visible);
+    SwitchToTab(3);
 }
 
 void UPreRoundRootWidget::GoBackToMenu()
 {
-	if (ContentSwitcher) ContentSwitcher->SetActiveWidgetIndex(0); // Return to Root
-	if (BackButton) BackButton->SetVisibility(ESlateVisibility::Collapsed);
+    SwitchToTab(0);
 }
 
 void UPreRoundRootWidget::ReadyUp()

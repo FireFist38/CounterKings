@@ -40,15 +40,22 @@ void ALobbyStation::Interact_Implementation(APlayerCharacter* Interactor)
 {
     if (!HasAuthority() || !Interactor) return;
 
-    // Special logic for ReadyUp station
-    if (StationType == ELobbyStationType::ReadyUp)
+    switch (StationType)
     {
+    case ELobbyStationType::Shop:
+        Interactor->Client_OpenShop();
+        break;
+    case ELobbyStationType::LevelUp:
+        Interactor->Client_OpenLevelUp();
+        break;
+    case ELobbyStationType::Equipment:
+        Interactor->Client_OpenEquip();
+        break;
+    case ELobbyStationType::ReadyUp:
         Interactor->Server_SetReadyForNextRound(true);
-    }
-    else
-    {
-        // Trigger Client RPC to open the specific UI tab
-        Interactor->Client_OpenLobbyUI(StationType);
+        break;
+    default:
+        break;
     }
 }
 

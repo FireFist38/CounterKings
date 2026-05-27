@@ -33,6 +33,9 @@ public:
 	UPROPERTY(meta = (BindWidget))
 	UWidgetSwitcher* ContentSwitcher;
 
+    /** Programmatically switches to a specific tab */
+    void SwitchToTab(int32 Index);
+
 protected:
 	virtual void NativeConstruct() override;
 	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;

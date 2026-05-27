@@ -3,6 +3,9 @@
 #include "CKRoundResultWidget.h"
 #include "CKXPBarWidget.h"
 #include "CKPlayerState.h"
+#include "ShopWidget.h"
+#include "LevelUpWidget.h"
+#include "EquipWidget.h"
 #include "Components/ProgressBar.h"
 #include "Components/TextBlock.h"
 #include "Components/Image.h"
@@ -21,6 +24,7 @@
 #include "OffHandBase.h"
 #include "Kismet/GameplayStatics.h"
 #include "Engine/Engine.h"
+#include "CKInteractable.h"
 
 void UCKHUDWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 {
@@ -32,8 +36,14 @@ void UCKHUDWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 	APlayerCharacter* Character = Cast<APlayerCharacter>(GetOwningPlayerPawn());
 	if (Character && InteractionPrompt)
 	{
-		bool bInRange = Character->GetBestInteractable() != nullptr;
+		AActor* BestInteractable = Character->GetBestInteractable();
+		bool bInRange = BestInteractable != nullptr;
 		InteractionPrompt->SetVisibility(bInRange ? ESlateVisibility::HitTestInvisible : ESlateVisibility::Collapsed);
+
+        if (bInRange && InteractionText)
+        {
+            InteractionText->SetText(ICKInteractable::Execute_GetInteractionText(BestInteractable));
+        }
 	}
 
 	UpdateRangedHUD(InDeltaTime);
@@ -67,8 +77,7 @@ void UCKHUDWidget::ShowRoundResult(bool bWin)
 	TSubclassOf<UCKRoundResultWidget> WidgetToSpawn = bWin ? VictoryWidgetClass : DefeatWidgetClass;
 	if (!WidgetToSpawn)
 	{
-		// If no result widget, jump straight to shop
-		ShowPreRoundMenu();
+		// If no result widget, just let the player roam the lobby freely
 		return;
 	}
 
@@ -96,40 +105,24 @@ void UCKHUDWidget::ShowRoundResult(bool bWin)
             }
         }, FadeStartTime, false);
 
-		// Set timer to swap to the shop menu
+		// Set timer to clean up the result widget after display duration
 		FTimerHandle ResultTimer;
-		GetWorld()->GetTimerManager().SetTimer(ResultTimer, this, &UCKHUDWidget::ShowPreRoundMenu, ResultDisplayDuration, false);
+		GetWorld()->GetTimerManager().SetTimer(ResultTimer, [this]()
+        {
+            if (ResultWidgetInstance)
+            {
+                ResultWidgetInstance->RemoveFromParent();
+                ResultWidgetInstance = nullptr;
+            }
+        }, ResultDisplayDuration, false);
 	}
 }
 
 void UCKHUDWidget::ShowPreRoundMenu()
 {
-	// Clean up the result screen
-	if (ResultWidgetInstance)
-	{
-		ResultWidgetInstance->RemoveFromParent();
-		ResultWidgetInstance = nullptr;
-	}
-
-	// Only show the menu if we are still in the PostRound phase
-	ACKGameState* GS = Cast<ACKGameState>(UGameplayStatics::GetGameState(GetWorld()));
-	if (GS && GS->GetMatchPhase() == ECKMatchPhase::PostRound)
-	{
-		if (PreRoundRootWidgetClass && !PreRoundRootInstance)
-		{
-			APlayerController* PC = GetOwningPlayer();
-            if (PC)
-            {
-			    PreRoundRootInstance = CreateWidget<UPreRoundRootWidget>(PC, PreRoundRootWidgetClass);
-			    if (PreRoundRootInstance)
-			    {
-				    PreRoundRootInstance->AddToViewport(100);
-				    PC->SetShowMouseCursor(true);
-				    PC->SetInputMode(FInputModeGameAndUI().SetWidgetToFocus(PreRoundRootInstance->TakeWidget()));
-			    }
-            }
-		}
-	}
+	// DEPRECATED: PreRoundRootWidget is no longer auto-shown.
+	// Players now interact with LobbyStations in the 3D world to open individual widgets.
+	// The result screen has already been cleaned up by the timer in ShowRoundResult.
 }
 
 void UCKHUDWidget::HideAllPostRoundUI()
@@ -140,16 +133,94 @@ void UCKHUDWidget::HideAllPostRoundUI()
 		ResultWidgetInstance = nullptr;
 	}
 
-	if (PreRoundRootInstance)
-	{
-		PreRoundRootInstance->RemoveFromParent();
-		PreRoundRootInstance = nullptr;
+	// Close any open lobby widgets
+	CloseLobbyUI();
+}
 
-		if (APlayerController* PC = GetOwningPlayer())
-		{
-			PC->SetShowMouseCursor(false);
-			PC->SetInputMode(FInputModeGameOnly());
-		}
+void UCKHUDWidget::OpenShopWidget()
+{
+	APlayerController* PC = GetOwningPlayer();
+	if (!PC || !ShopWidgetClass) return;
+
+	// Close any other open lobby UI first
+	CloseLobbyUI();
+
+	ShopWidgetInstance = CreateWidget<UShopWidget>(PC, ShopWidgetClass);
+	if (ShopWidgetInstance)
+	{
+		ShopWidgetInstance->AddToViewport(100);
+		PC->SetShowMouseCursor(true);
+		PC->SetInputMode(FInputModeGameAndUI().SetWidgetToFocus(ShopWidgetInstance->TakeWidget()));
+	}
+}
+
+void UCKHUDWidget::OpenLevelUpWidget()
+{
+	APlayerController* PC = GetOwningPlayer();
+	if (!PC || !LevelUpWidgetClass) return;
+
+	// Close any other open lobby UI first
+	CloseLobbyUI();
+
+	LevelUpWidgetInstance = CreateWidget<ULevelUpWidget>(PC, LevelUpWidgetClass);
+	if (LevelUpWidgetInstance)
+	{
+		LevelUpWidgetInstance->AddToViewport(100);
+		PC->SetShowMouseCursor(true);
+		PC->SetInputMode(FInputModeGameAndUI().SetWidgetToFocus(LevelUpWidgetInstance->TakeWidget()));
+	}
+}
+
+void UCKHUDWidget::OpenEquipWidget()
+{
+	APlayerController* PC = GetOwningPlayer();
+	if (!PC || !EquipWidgetClass) return;
+
+	// Close any other open lobby UI first
+	CloseLobbyUI();
+
+	EquipWidgetInstance = CreateWidget<UEquipWidget>(PC, EquipWidgetClass);
+	if (EquipWidgetInstance)
+	{
+		EquipWidgetInstance->AddToViewport(100);
+		PC->SetShowMouseCursor(true);
+		PC->SetInputMode(FInputModeGameAndUI().SetWidgetToFocus(EquipWidgetInstance->TakeWidget()));
+	}
+}
+
+bool UCKHUDWidget::IsLobbyUIOpen() const
+{
+	return (ShopWidgetInstance && ShopWidgetInstance->IsInViewport()) ||
+		   (LevelUpWidgetInstance && LevelUpWidgetInstance->IsInViewport()) ||
+		   (EquipWidgetInstance && EquipWidgetInstance->IsInViewport());
+}
+
+void UCKHUDWidget::CloseLobbyUI()
+{
+	APlayerController* PC = GetOwningPlayer();
+
+	if (ShopWidgetInstance)
+	{
+		ShopWidgetInstance->RemoveFromParent();
+		ShopWidgetInstance = nullptr;
+	}
+
+	if (LevelUpWidgetInstance)
+	{
+		LevelUpWidgetInstance->RemoveFromParent();
+		LevelUpWidgetInstance = nullptr;
+	}
+
+	if (EquipWidgetInstance)
+	{
+		EquipWidgetInstance->RemoveFromParent();
+		EquipWidgetInstance = nullptr;
+	}
+
+	if (PC)
+	{
+		PC->SetShowMouseCursor(false);
+		PC->SetInputMode(FInputModeGameOnly());
 	}
 }
 
