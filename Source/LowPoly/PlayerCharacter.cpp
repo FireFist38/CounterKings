@@ -314,10 +314,7 @@ void APlayerCharacter::Server_PurchaseItem_Implementation(int32 SlotIndex)
         AItemBase* NewItem = GetWorld()->SpawnActor<AItemBase>(Entry->ItemClass, GetActorLocation(), FRotator::ZeroRotator);
         if (NewItem)
         {
-            NewItem->SetItemName(FName(*Entry->ItemName.ToString()));
-            NewItem->SetDescription(Entry->Description);
-            NewItem->SetRarity(Entry->Rarity);
-            NewItem->SetGoldValue(Entry->SellPrice);
+            NewItem->ApplyLootTableEntry(*Entry);
             InventoryComponent->Server_TryPickupItem(NewItem);
             ShopPool[SlotIndex] = NAME_None;
             if (LockedSlots.IsValidIndex(SlotIndex)) LockedSlots[SlotIndex] = false;
@@ -413,7 +410,34 @@ void APlayerCharacter::Server_SellItem_Implementation(ESlotGroup SourceGroup, in
 
     if (!ItemToSell) return;
 
-    AttributeComponent->AddGold(ItemToSell->GetGoldValue());
+    // Use data table SellPrice as the single source of truth
+    int32 SellPrice = 0;
+    if (UWorld* World = GetWorld())
+    {
+        if (ACKGameState* GS = World->GetGameState<ACKGameState>())
+        {
+            UClass* ItemClass = ItemToSell->GetClass();
+            FString ItemPath = ItemClass->GetPathName();
+            for (UDataTable* Table : GS->GetAllItemTables())
+            {
+                if (!Table) continue;
+                TArray<FLootTableEntry*> Rows;
+                Table->GetAllRows<FLootTableEntry>(TEXT("SellItem"), Rows);
+                for (auto* Row : Rows)
+                {
+                    if (Row->ItemClass && (Row->ItemClass == ItemClass || Row->ItemClass->GetPathName() == ItemPath))
+                    {
+                        SellPrice = Row->SellPrice;
+                        break;
+                    }
+                }
+                if (SellPrice > 0) break;
+            }
+        }
+    }
+    if (SellPrice <= 0) SellPrice = ItemToSell->GetGoldValue(); // fallback
+
+    AttributeComponent->AddGold(SellPrice);
     Multicast_DetachItem(ItemToSell);
     InventoryComponent->RemoveItem(ItemToSell);
     ItemToSell->Destroy();

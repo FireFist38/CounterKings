@@ -107,15 +107,8 @@ void UInventorySlotWidget::UpdateSlot(AItemBase* Item, int32 NewSlotIndex)
 		}
 	}
 
-	// Fallback if not found in any registered data table
-	if (ItemName)
-	{
-		ItemName->SetText(FText::FromName(Item->GetItemName()));
-	}
-	if (ItemIcon)
-	{
-		ItemIcon->SetOpacity(0.0f);
-	}
+	// Data tables are the single source of truth. If the row isn't found,
+	// leave the fields blank so you know to fill in the data table.
 }
 
 void UInventorySlotWidget::NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)

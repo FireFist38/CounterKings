@@ -26,7 +26,26 @@ AItemBase* ALootSpawner::SpawnLoot(int32 CurrentRound, float PlayerLuck)
     {
         FActorSpawnParameters SpawnParams;
 		SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
-		return GetWorld()->SpawnActor<AItemBase>(DebugGuaranteedItem, GetActorLocation(), GetActorRotation(), SpawnParams);
+		AItemBase* DebugItem = GetWorld()->SpawnActor<AItemBase>(DebugGuaranteedItem, GetActorLocation(), GetActorRotation(), SpawnParams);
+		if (DebugItem)
+		{
+			for (UDataTable* Table : LootTables)
+			{
+				if (!Table) continue;
+
+				TArray<FLootTableEntry*> Rows;
+				Table->GetAllRows<FLootTableEntry>(TEXT("DebugLootHydration"), Rows);
+				for (const FLootTableEntry* Row : Rows)
+				{
+					if (Row && Row->ItemClass && Row->ItemClass == DebugGuaranteedItem)
+					{
+						DebugItem->ApplyLootTableEntry(*Row);
+						return DebugItem;
+					}
+				}
+			}
+		}
+		return DebugItem;
     }
     // ----------------------
 
@@ -66,23 +85,28 @@ AItemBase* ALootSpawner::SpawnLoot(int32 CurrentRound, float PlayerLuck)
 	// Weighted random selection
 	float Roll = FMath::FRandRange(0.0f, TotalWeight);
 	float CurrentWeightSum = 0.0f;
-	TSubclassOf<AItemBase> SelectedClass = nullptr;
+	FLootTableEntry* SelectedEntry = nullptr;
 
 	for (auto* Entry : MatchingTierItems)
 	{
 		CurrentWeightSum += Entry->Weight;
 		if (Roll <= CurrentWeightSum)
 		{
-			SelectedClass = Entry->ItemClass;
+			SelectedEntry = Entry;
 			break;
 		}
 	}
 
-	if (SelectedClass)
+	if (SelectedEntry && SelectedEntry->ItemClass)
 	{
 		FActorSpawnParameters SpawnParams;
 		SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
-		return GetWorld()->SpawnActor<AItemBase>(SelectedClass, GetActorLocation(), GetActorRotation(), SpawnParams);
+		AItemBase* SpawnedItem = GetWorld()->SpawnActor<AItemBase>(SelectedEntry->ItemClass, GetActorLocation(), GetActorRotation(), SpawnParams);
+		if (SpawnedItem)
+		{
+			SpawnedItem->ApplyLootTableEntry(*SelectedEntry);
+		}
+		return SpawnedItem;
 	}
 
 	return nullptr;

@@ -80,24 +80,15 @@ void UShopContextMenuWidget::SetupContextMenu(AItemBase* Item, int32 SlotIndex, 
 			if (FoundEntry) break;
 		}
 
-        // Use Data Table name if found, fallback to Item class name
+        // Data tables are the single source of truth. Leave blank if row is missing.
         if (FoundEntry && ItemNameText)
         {
             ItemNameText->SetText(FoundEntry->ItemName);
         }
-        else if (ItemNameText)
-        {
-            ItemNameText->SetText(FText::FromName(Item->GetItemName()));
-        }
 
-        // --- UPDATED: Fallback to Item's Description if not in Loot Table ---
         if (FoundEntry && DescriptionText)
         {
             DescriptionText->SetText(FoundEntry->Description);
-        }
-        else if (DescriptionText)
-        {
-            DescriptionText->SetText(Item->GetDescription());
         }
 
 		// Reset ranged/magic UI visibility each time (prevents stale state when widget is reused)
@@ -412,15 +403,11 @@ void UShopContextMenuWidget::SetupContextMenu(AItemBase* Item, int32 SlotIndex, 
 			}
 		}
 
+        // Data tables are the single source of truth for prices. Leave blank if row is missing.
         if (FoundEntry)
         {
             if (BuyPriceText) BuyPriceText->SetText(FText::Format(NSLOCTEXT("UI", "BuyLabel", "Buy: {0}"), FText::AsNumber(FoundEntry->BuyPrice)));
             if (SellPriceText) SellPriceText->SetText(FText::Format(NSLOCTEXT("UI", "SellLabel", "Sell: {0}"), FText::AsNumber(FoundEntry->SellPrice)));
-        }
-        else
-        {
-            if (BuyPriceText) BuyPriceText->SetText(FText::Format(NSLOCTEXT("UI", "BuyLabel", "Buy: {0}"), FText::AsNumber(Item->GetGoldValue() * 2)));
-            if (SellPriceText) SellPriceText->SetText(FText::Format(NSLOCTEXT("UI", "SellLabel", "Sell: {0}"), FText::AsNumber(Item->GetGoldValue())));
         }
 		
 		FString ActionLabel = TEXT("Action");

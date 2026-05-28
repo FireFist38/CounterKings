@@ -74,7 +74,11 @@ void UShopWidget::RefreshShopDisplay()
                 if (Entry && Entry->ItemClass)
                 {
                     DummyItem = GetWorld()->SpawnActorDeferred<AItemBase>(Entry->ItemClass, FTransform::Identity);
-                    if(DummyItem) DummyItem->FinishSpawning(FTransform::Identity);
+                    if(DummyItem)
+                    {
+                        DummyItem->FinishSpawning(FTransform::Identity);
+                        DummyItem->ApplyLootTableEntry(*Entry);
+                    }
                     Price = Entry->BuyPrice;
                 }
             }

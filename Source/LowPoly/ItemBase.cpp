@@ -5,6 +5,9 @@
 #include "Components/SphereComponent.h"
 #include "PlayerCharacter.h"
 #include "InventoryComponent.h"
+#include "LootTableEntry.h"
+#include "CKGameState.h"
+#include "Engine/DataTable.h"
 
 AItemBase::AItemBase()
 {
@@ -65,7 +68,36 @@ void AItemBase::Interact_Implementation(APlayerCharacter* Interactor)
 
 FText AItemBase::GetInteractionText_Implementation() const
 {
-    return FText::Format(NSLOCTEXT("CK", "PickupItem", "Pick up {0}"), FText::FromName(ItemName));
+	// Data tables are the single source of truth for display info.
+	// Look up the item name from the data table rather than reading ItemName directly.
+	UWorld* World = GetWorld();
+	if (World)
+	{
+		ACKGameState* GS = World->GetGameState<ACKGameState>();
+		if (GS)
+		{
+			TArray<UDataTable*> Tables = GS->GetAllItemTables();
+			UClass* MyClass = GetClass();
+			FString MyPath = MyClass->GetPathName();
+
+			for (UDataTable* Table : Tables)
+			{
+				if (!Table) continue;
+				TArray<FLootTableEntry*> Rows;
+				Table->GetAllRows<FLootTableEntry>(TEXT("InteractionPrompt"), Rows);
+				for (auto* Row : Rows)
+				{
+					if (Row->ItemClass && (Row->ItemClass == MyClass || Row->ItemClass->GetPathName() == MyPath))
+					{
+						return FText::Format(NSLOCTEXT("CK", "PickupItem", "Pick up {0}"), Row->ItemName);
+					}
+				}
+			}
+		}
+	}
+
+	// Fallback if data table not available (shouldn't happen at runtime)
+	return FText::Format(NSLOCTEXT("CK", "PickupItem", "Pick up {0}"), FText::FromName(ItemName));
 }
 
 void AItemBase::RestoreAuthoredMeshRelativeTransform()
@@ -104,9 +136,37 @@ void AItemBase::OnRep_Rarity()
 
 void AItemBase::UpdateRarityVisuals()
 {
-	if (RarityColors.Contains(Rarity))
+	// Data tables are the single source of truth for display info.
+	// Look up the correct rarity from the data table for the light color.
+	EItemRarity DisplayRarity = Rarity;
+	UWorld* World = GetWorld();
+	if (World)
 	{
-		FLinearColor Color = RarityColors[Rarity];
+		if (ACKGameState* GS = World->GetGameState<ACKGameState>())
+		{
+			UClass* MyClass = GetClass();
+			FString MyPath = MyClass->GetPathName();
+			for (UDataTable* Table : GS->GetAllItemTables())
+			{
+				if (!Table) continue;
+				TArray<FLootTableEntry*> Rows;
+				Table->GetAllRows<FLootTableEntry>(TEXT("RarityVisual"), Rows);
+				for (auto* Row : Rows)
+				{
+					if (Row->ItemClass && (Row->ItemClass == MyClass || Row->ItemClass->GetPathName() == MyPath))
+					{
+						DisplayRarity = Row->Rarity;
+						break;
+					}
+				}
+				if (DisplayRarity != Rarity) break;
+			}
+		}
+	}
+
+	if (RarityColors.Contains(DisplayRarity))
+	{
+		FLinearColor Color = RarityColors[DisplayRarity];
 		if (RarityLight)
 		{
 			RarityLight->SetLightColor(Color);
@@ -158,6 +218,15 @@ void AItemBase::OnDropped(FVector DropLocation)
 	}
 
 	Multicast_SetDroppedState(DropLocation);
+}
+
+void AItemBase::ApplyLootTableEntry(const FLootTableEntry& Entry)
+{
+	SetItemName(FName(*Entry.ItemName.ToString()));
+	SetDescription(Entry.Description);
+	SetRarity(Entry.Rarity);
+	SetGoldValue(Entry.SellPrice);
+	UpdateRarityVisuals();
 }
 
 void AItemBase::Multicast_SetStoredState_Implementation()

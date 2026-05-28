@@ -5,6 +5,8 @@
 #include "CKInteractable.h"
 #include "ItemBase.generated.h"
 
+struct FLootTableEntry;
+
 UENUM(BlueprintType)
 enum class EItemRarity : uint8
 {
@@ -178,6 +180,8 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "CK|Item")
 	void OnDropped(FVector DropLocation);
+
+	void ApplyLootTableEntry(const FLootTableEntry& Entry);
 
 	UFUNCTION(NetMulticast, Reliable)
 	void Multicast_SetStoredState();
