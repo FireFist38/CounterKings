@@ -1153,6 +1153,11 @@ void APlayerCharacter::RestoreFromPersistenceManager()
     // --- Restore Shop Pool ---
     ShopPool = PM.SavedShopPool;
     LockedSlots = PM.SavedLockedSlots;
+    if (ACKPlayerState* PS = Cast<ACKPlayerState>(GetPlayerState()))
+    {
+        PS->SavedShopPool = ShopPool;
+        PS->SavedLockedSlots = LockedSlots;
+    }
     Client_RefreshShopDisplay();
 
     // --- Re-spawn Main Hand Items ---
@@ -1328,16 +1333,16 @@ void APlayerCharacter::RestoreFromPlayerState()
     ACKPlayerState* PS = Cast<ACKPlayerState>(GetPlayerState());
     if (!PS || !AttributeComponent) return;
 
-    // Restore shop pool
-    ShopPool = PS->SavedShopPool;
-    LockedSlots = PS->SavedLockedSlots;
-
     // Check if we have saved data to restore
     if (PS->SavedGold == 0 && PS->SavedLevel == 1)
     {
         UE_LOG(LogTemp, Log, TEXT("No saved data in PlayerState - starting fresh"));
         return;
     }
+
+    // Restore shop pool only when PlayerState contains a real persisted snapshot.
+    ShopPool = PS->SavedShopPool;
+    LockedSlots = PS->SavedLockedSlots;
 
     UE_LOG(LogTemp, Log, TEXT("Restoring player data from PlayerState - Gold: %d, Level: %d"),
         PS->SavedGold, PS->SavedLevel);
