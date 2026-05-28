@@ -1,8 +1,13 @@
 #include "CKGameInstance.h"
+#include "CKPersistenceManager.h"
 
 UCKGameInstance::UCKGameInstance()
 {
     SavedMatchHealth = 100;
+
+    // Clear PersistenceManager singleton on GameInstance init
+    // This ensures PIE sessions start fresh
+    UCKPersistenceManager::Get().ClearAllSavedData();
 }
 
 void UCKGameInstance::ClearAllSavedData()

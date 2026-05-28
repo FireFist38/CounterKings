@@ -93,6 +93,14 @@ public:
     UFUNCTION(BlueprintCallable, Category = "CK|Persist")
     void RestoreFromPlayerState();
 
+    /** Saves all character data to PersistenceManager singleton (survives ServerTravel) */
+    UFUNCTION(BlueprintCallable, Category = "CK|Persist")
+    void SaveToPersistenceManager();
+
+    /** Restores all character data from PersistenceManager singleton after map travel */
+    UFUNCTION(BlueprintCallable, Category = "CK|Persist")
+    void RestoreFromPersistenceManager();
+
     // --- Lobby Logic ---
     UFUNCTION(Client, Reliable)
     void Client_OpenShop();

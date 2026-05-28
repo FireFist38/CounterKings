@@ -65,6 +65,7 @@ protected:
     FTimerHandle RoundPhaseTimerHandle;
 
 	virtual void BeginPlay() override;
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
 	void HandleArenaTransition();
 	void SpawnLootInArena();

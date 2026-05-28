@@ -41,6 +41,7 @@
 #include "CKHUDWidget.h"
 #include "CKInteractable.h"
 #include "CKPlayerState.h"
+#include "CKPersistenceManager.h"
 
 APlayerCharacter::APlayerCharacter()
 {
@@ -81,6 +82,22 @@ void APlayerCharacter::BeginPlay()
 	if (APlayerController* PC = Cast<APlayerController>(Controller)) { if (PC->PlayerCameraManager) { PC->PlayerCameraManager->ViewPitchMin = PitchMin; PC->PlayerCameraManager->ViewPitchMax = PitchMax; } }
 	if (APlayerController* PlayerController = Cast<APlayerController>(Controller)) { if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer())) { Subsystem->AddMappingContext(DefaultMappingContext, 0); } }
     UpdateInputGating();
+
+    // Restore player data from PersistenceManager if this is after map travel
+    if (HasAuthority())
+    {
+        UCKPersistenceManager& PM = UCKPersistenceManager::Get();
+        UE_LOG(LogTemp, Warning, TEXT("BeginPlay: PersistenceManager found - SavedGold: %d, SavedLevel: %d"), PM.SavedGold, PM.SavedLevel);
+        if (PM.SavedGold > 0 || PM.SavedLevel > 1)
+        {
+            UE_LOG(LogTemp, Warning, TEXT("BeginPlay: Restoring player data from PersistenceManager - Gold: %d, Level: %d"), PM.SavedGold, PM.SavedLevel);
+            RestoreFromPersistenceManager();
+        }
+        else
+        {
+            UE_LOG(LogTemp, Warning, TEXT("BeginPlay: No saved data to restore (Gold: %d, Level: %d)"), PM.SavedGold, PM.SavedLevel);
+        }
+    }
 }
 
 void APlayerCharacter::Tick(float DeltaTime)
@@ -926,6 +943,341 @@ void APlayerCharacter::SaveToPlayerState()
 
     UE_LOG(LogTemp, Log, TEXT("Saved player data to PlayerState - Gold: %d, Level: %d"),
         PS->SavedGold, PS->SavedLevel);
+}
+
+void APlayerCharacter::SaveToPersistenceManager()
+{
+    if (!HasAuthority()) return;
+
+    if (!AttributeComponent || !InventoryComponent) return;
+
+    UCKPersistenceManager& PM = UCKPersistenceManager::Get();
+
+    // Clear previous data
+    PM.ClearAllSavedData();
+
+    // Save attributes
+    PM.SavedGold = AttributeComponent->Gold;
+    PM.SavedStrength = AttributeComponent->Strength;
+    PM.SavedDexterity = AttributeComponent->Dexterity;
+    PM.SavedMagic = AttributeComponent->Magic;
+    PM.SavedLuck = AttributeComponent->Luck;
+    PM.SavedLevel = AttributeComponent->GetLevel();
+    PM.SavedXP = AttributeComponent->GetCurrentXP();
+    PM.SavedAttributePoints = AttributeComponent->AttributePoints;
+    PM.SavedMatchHealth = AttributeComponent->GetCurrentHealth();
+
+    // Save shop pool
+    PM.SavedShopPool = ShopPool;
+    PM.SavedLockedSlots = LockedSlots;
+
+    // Save Main Hand items
+    TArray<AItemBase*> MainHands = InventoryComponent->GetMainHandSlotsArray();
+    for (int32 i = 0; i < 2; i++)
+    {
+        if (MainHands.IsValidIndex(i) && MainHands[i])
+        {
+            PM.SavedMainHandClasses.Add(MainHands[i]->GetClass());
+            PM.SavedMainHandRarities.Add(static_cast<int32>(MainHands[i]->GetRarity()));
+            PM.SavedMainHandGoldValues.Add(MainHands[i]->GetGoldValue());
+        }
+        else
+        {
+            PM.SavedMainHandClasses.Add(nullptr);
+            PM.SavedMainHandRarities.Add(0);
+            PM.SavedMainHandGoldValues.Add(0);
+        }
+    }
+
+    // Save Off Hand items
+    TArray<AItemBase*> OffHands = InventoryComponent->GetOffHandSlotsArray();
+    for (int32 i = 0; i < 2; i++)
+    {
+        if (OffHands.IsValidIndex(i) && OffHands[i])
+        {
+            PM.SavedOffHandClasses.Add(OffHands[i]->GetClass());
+            PM.SavedOffHandRarities.Add(static_cast<int32>(OffHands[i]->GetRarity()));
+            PM.SavedOffHandGoldValues.Add(OffHands[i]->GetGoldValue());
+        }
+        else
+        {
+            PM.SavedOffHandClasses.Add(nullptr);
+            PM.SavedOffHandRarities.Add(0);
+            PM.SavedOffHandGoldValues.Add(0);
+        }
+    }
+
+    // Save Bag Inventory items
+    TArray<AItemBase*> Inventory = InventoryComponent->GetInventorySlotsArray();
+    for (int32 i = 0; i < 12; i++)
+    {
+        if (Inventory.IsValidIndex(i) && Inventory[i])
+        {
+            PM.SavedInventoryClasses.Add(Inventory[i]->GetClass());
+            PM.SavedInventoryRarities.Add(static_cast<int32>(Inventory[i]->GetRarity()));
+            PM.SavedInventoryGoldValues.Add(Inventory[i]->GetGoldValue());
+        }
+        else
+        {
+            PM.SavedInventoryClasses.Add(nullptr);
+            PM.SavedInventoryRarities.Add(0);
+            PM.SavedInventoryGoldValues.Add(0);
+        }
+    }
+
+    // Save Ability items
+    TArray<AAbilityBase*> Abilities = InventoryComponent->GetAbilitySlotsArray();
+    for (int32 i = 0; i < 3; i++)
+    {
+        if (Abilities.IsValidIndex(i) && Abilities[i])
+        {
+            PM.SavedAbilityClasses.Add(Abilities[i]->GetClass());
+            PM.SavedAbilityRarities.Add(static_cast<int32>(Abilities[i]->GetRarity()));
+            PM.SavedAbilityGoldValues.Add(Abilities[i]->GetGoldValue());
+        }
+        else
+        {
+            PM.SavedAbilityClasses.Add(nullptr);
+            PM.SavedAbilityRarities.Add(0);
+            PM.SavedAbilityGoldValues.Add(0);
+        }
+    }
+
+    // Save Perk items
+    TArray<APerkBase*> Perks = InventoryComponent->GetPerkSlots();
+    for (int32 i = 0; i < 10; i++)
+    {
+        if (Perks.IsValidIndex(i) && Perks[i])
+        {
+            PM.SavedPerkClasses.Add(Perks[i]->GetClass());
+            PM.SavedPerkRarities.Add(static_cast<int32>(Perks[i]->GetRarity()));
+            PM.SavedPerkGoldValues.Add(Perks[i]->GetGoldValue());
+        }
+        else
+        {
+            PM.SavedPerkClasses.Add(nullptr);
+            PM.SavedPerkRarities.Add(0);
+            PM.SavedPerkGoldValues.Add(0);
+        }
+    }
+
+    // Save Armor
+    if (AItemBase* Armor = InventoryComponent->GetArmorSet())
+    {
+        PM.SavedArmorClass = Armor->GetClass();
+        PM.SavedArmorRarity = static_cast<int32>(Armor->GetRarity());
+        PM.SavedArmorGoldValue = Armor->GetGoldValue();
+    }
+
+    // Save Consumable
+    if (AItemBase* Consumable = InventoryComponent->GetConsumableSlot())
+    {
+        PM.SavedConsumableClass = Consumable->GetClass();
+        PM.SavedConsumableRarity = static_cast<int32>(Consumable->GetRarity());
+        PM.SavedConsumableGoldValue = Consumable->GetGoldValue();
+    }
+
+    UE_LOG(LogTemp, Warning, TEXT("SaveToPersistenceManager: Complete - Saved Gold: %d, Level: %d, MatchHealth: %d, ShopPool size: %d"),
+        PM.SavedGold, PM.SavedLevel, PM.SavedMatchHealth, PM.SavedShopPool.Num());
+}
+
+void APlayerCharacter::RestoreFromPersistenceManager()
+{
+    if (!HasAuthority()) return;
+
+    if (!AttributeComponent || !InventoryComponent) return;
+
+    UCKPersistenceManager& PM = UCKPersistenceManager::Get();
+
+    // Check if we have saved data to restore
+    if (PM.SavedGold == 0 && PM.SavedLevel == 1)
+    {
+        UE_LOG(LogTemp, Warning, TEXT("RestoreFromPersistenceManager: No saved data to restore (Gold: %d, Level: %d)"), PM.SavedGold, PM.SavedLevel);
+        return;
+    }
+
+    UE_LOG(LogTemp, Warning, TEXT("RestoreFromPersistenceManager: Starting restore - Gold: %d, Level: %d, MatchHealth: %d, ShopPool size: %d"),
+        PM.SavedGold, PM.SavedLevel, PM.SavedMatchHealth, PM.SavedShopPool.Num());
+
+    // --- Restore Attributes ---
+    AttributeComponent->Gold = PM.SavedGold;
+    AttributeComponent->Strength = PM.SavedStrength;
+    AttributeComponent->Dexterity = PM.SavedDexterity;
+    AttributeComponent->Magic = PM.SavedMagic;
+    AttributeComponent->Luck = PM.SavedLuck;
+    AttributeComponent->SetLevel(PM.SavedLevel);
+    AttributeComponent->SetCurrentXP(PM.SavedXP);
+    AttributeComponent->AttributePoints = PM.SavedAttributePoints;
+    AttributeComponent->RestoreHealth(PM.SavedMatchHealth);
+
+    // --- Restore Shop Pool ---
+    ShopPool = PM.SavedShopPool;
+    LockedSlots = PM.SavedLockedSlots;
+
+    // --- Re-spawn Main Hand Items ---
+    for (int32 i = 0; i < 2; i++)
+    {
+        if (PM.SavedMainHandClasses.IsValidIndex(i) && PM.SavedMainHandClasses[i])
+        {
+            FActorSpawnParameters SpawnParams;
+            SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+            AItemBase* Item = GetWorld()->SpawnActor<AItemBase>(
+                PM.SavedMainHandClasses[i],
+                GetActorLocation(),
+                FRotator::ZeroRotator,
+                SpawnParams
+            );
+            if (Item)
+            {
+                Item->SetRarityInternal(static_cast<EItemRarity>(PM.SavedMainHandRarities[i]));
+                Item->SetGoldValueInternal(PM.SavedMainHandGoldValues[i]);
+                Item->SetOwner(this);
+                InventoryComponent->SetMainHandSlot(i, Item);
+                Item->Multicast_SetStoredState();
+            }
+        }
+    }
+
+    // --- Re-spawn Off Hand Items ---
+    for (int32 i = 0; i < 2; i++)
+    {
+        if (PM.SavedOffHandClasses.IsValidIndex(i) && PM.SavedOffHandClasses[i])
+        {
+            FActorSpawnParameters SpawnParams;
+            SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+            AItemBase* Item = GetWorld()->SpawnActor<AItemBase>(
+                PM.SavedOffHandClasses[i],
+                GetActorLocation(),
+                FRotator::ZeroRotator,
+                SpawnParams
+            );
+            if (Item)
+            {
+                Item->SetRarityInternal(static_cast<EItemRarity>(PM.SavedOffHandRarities[i]));
+                Item->SetGoldValueInternal(PM.SavedOffHandGoldValues[i]);
+                Item->SetOwner(this);
+                InventoryComponent->SetOffHandSlot(i, Item);
+                Item->Multicast_SetStoredState();
+            }
+        }
+    }
+
+    // --- Re-spawn Bag Inventory Items ---
+    for (int32 i = 0; i < 12; i++)
+    {
+        if (PM.SavedInventoryClasses.IsValidIndex(i) && PM.SavedInventoryClasses[i])
+        {
+            FActorSpawnParameters SpawnParams;
+            SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+            AItemBase* Item = GetWorld()->SpawnActor<AItemBase>(
+                PM.SavedInventoryClasses[i],
+                GetActorLocation(),
+                FRotator::ZeroRotator,
+                SpawnParams
+            );
+            if (Item)
+            {
+                Item->SetRarityInternal(static_cast<EItemRarity>(PM.SavedInventoryRarities[i]));
+                Item->SetGoldValueInternal(PM.SavedInventoryGoldValues[i]);
+                Item->SetOwner(this);
+                InventoryComponent->SetInventorySlot(i, Item);
+                Item->Multicast_SetStoredState();
+            }
+        }
+    }
+
+    // --- Re-spawn Ability Items ---
+    for (int32 i = 0; i < 3; i++)
+    {
+        if (PM.SavedAbilityClasses.IsValidIndex(i) && PM.SavedAbilityClasses[i])
+        {
+            FActorSpawnParameters SpawnParams;
+            SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+            AAbilityBase* Ability = GetWorld()->SpawnActor<AAbilityBase>(
+                PM.SavedAbilityClasses[i],
+                GetActorLocation(),
+                FRotator::ZeroRotator,
+                SpawnParams
+            );
+            if (Ability)
+            {
+                Ability->SetRarityInternal(static_cast<EItemRarity>(PM.SavedAbilityRarities[i]));
+                Ability->SetGoldValueInternal(PM.SavedAbilityGoldValues[i]);
+                Ability->SetOwner(this);
+                InventoryComponent->SetAbilitySlot(i, Ability);
+                Ability->Multicast_SetStoredState();
+            }
+        }
+    }
+
+    // --- Re-spawn Perk Items ---
+    for (int32 i = 0; i < 10; i++)
+    {
+        if (PM.SavedPerkClasses.IsValidIndex(i) && PM.SavedPerkClasses[i])
+        {
+            FActorSpawnParameters SpawnParams;
+            SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+            APerkBase* Perk = GetWorld()->SpawnActor<APerkBase>(
+                PM.SavedPerkClasses[i],
+                GetActorLocation(),
+                FRotator::ZeroRotator,
+                SpawnParams
+            );
+            if (Perk)
+            {
+                Perk->SetRarityInternal(static_cast<EItemRarity>(PM.SavedPerkRarities[i]));
+                Perk->SetGoldValueInternal(PM.SavedPerkGoldValues[i]);
+                Perk->SetOwner(this);
+                InventoryComponent->SetPerkSlot(i, Perk);
+                Perk->Multicast_SetStoredState();
+            }
+        }
+    }
+
+    // --- Re-spawn Armor ---
+    if (PM.SavedArmorClass)
+    {
+        FActorSpawnParameters SpawnParams;
+        SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+        AItemBase* Armor = GetWorld()->SpawnActor<AItemBase>(
+            PM.SavedArmorClass,
+            GetActorLocation(),
+            FRotator::ZeroRotator,
+            SpawnParams
+        );
+        if (Armor)
+        {
+            Armor->SetRarityInternal(static_cast<EItemRarity>(PM.SavedArmorRarity));
+            Armor->SetGoldValueInternal(PM.SavedArmorGoldValue);
+            Armor->SetOwner(this);
+            InventoryComponent->SetArmorSet(Armor);
+            Armor->Multicast_SetStoredState();
+        }
+    }
+
+    // --- Re-spawn Consumable ---
+    if (PM.SavedConsumableClass)
+    {
+        FActorSpawnParameters SpawnParams;
+        SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+        AItemBase* Consumable = GetWorld()->SpawnActor<AItemBase>(
+            PM.SavedConsumableClass,
+            GetActorLocation(),
+            FRotator::ZeroRotator,
+            SpawnParams
+        );
+        if (Consumable)
+        {
+            Consumable->SetRarityInternal(static_cast<EItemRarity>(PM.SavedConsumableRarity));
+            Consumable->SetGoldValueInternal(PM.SavedConsumableGoldValue);
+            Consumable->SetOwner(this);
+            InventoryComponent->SetConsumableSlot(Consumable);
+            Consumable->Multicast_SetStoredState();
+        }
+    }
+
+    UE_LOG(LogTemp, Warning, TEXT("RestoreFromPersistenceManager: Complete - Restored Gold: %d, Level: %d, MatchHealth: %d"),
+        PM.SavedGold, PM.SavedLevel, PM.SavedMatchHealth);
 }
 
 void APlayerCharacter::RestoreFromPlayerState()

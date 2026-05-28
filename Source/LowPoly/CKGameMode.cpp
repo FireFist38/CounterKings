@@ -3,6 +3,7 @@
 #include "CKGameMode.h"
 #include "CKGameState.h"
 #include "CKPlayerState.h"
+#include "CKPersistenceManager.h"
 #include "TimerManager.h"
 #include "Engine/World.h"
 #include "Kismet/GameplayStatics.h"
@@ -74,8 +75,21 @@ void ACKGameMode::BeginPlay()
             CKGameState->AddItemTable(Table);
         }
 	}
-	
+
 	StartRound();
+}
+
+void ACKGameMode::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	Super::EndPlay(EndPlayReason);
+
+	// Clear persistence data when PIE ends or game quits
+	// This ensures a fresh start for each game session
+	if (EndPlayReason == EEndPlayReason::Quit || EndPlayReason == EEndPlayReason::LevelTransition)
+	{
+		UCKPersistenceManager::Get().ClearAllSavedData();
+		UE_LOG(LogTemp, Warning, TEXT("CKGameMode::EndPlay: Cleared PersistenceManager data (Reason: %d)"), static_cast<int32>(EndPlayReason));
+	}
 }
 
 void ACKGameMode::StartRound()
@@ -173,7 +187,7 @@ void ACKGameMode::StartPostRoundPhaseWithResult(bool bWin)
 
 void ACKGameMode::DelayedTravelToLobby()
 {
-    // Save all player data into PlayerState before traveling
+    // Save all player data into PersistenceManager before traveling
     for (FConstPlayerControllerIterator It = GetWorld()->GetPlayerControllerIterator(); It; ++It)
     {
         APlayerController* PC = It->Get();
@@ -181,7 +195,7 @@ void ACKGameMode::DelayedTravelToLobby()
         {
             if (APlayerCharacter* Char = Cast<APlayerCharacter>(PC->GetPawn()))
             {
-                Char->SaveToPlayerState();
+                Char->SaveToPersistenceManager();
             }
         }
     }
