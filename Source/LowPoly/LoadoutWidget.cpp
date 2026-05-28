@@ -16,35 +16,36 @@ void ULoadoutWidget::NativeConstruct()
 	Super::NativeConstruct();
 	if (CloseButton) CloseButton->OnClicked.AddDynamic(this, &ULoadoutWidget::OnCloseClicked);
 
-	if (MainHand_Active) MainHand_Active->SlotType = EInventorySlotType::MainHand;
-	if (OffHand_Active) OffHand_Active->SlotType = EInventorySlotType::OffHand;
-	if (MainHand_0) MainHand_0->SlotType = EInventorySlotType::MainHand;
-	if (MainHand_1) MainHand_1->SlotType = EInventorySlotType::MainHand;
-	if (OffHand_0) OffHand_0->SlotType = EInventorySlotType::OffHand;
-	if (OffHand_1) OffHand_1->SlotType = EInventorySlotType::OffHand;
-	if (ArmorSlot) ArmorSlot->SlotType = EInventorySlotType::Armor;
-	if (ConsumableSlot) ConsumableSlot->SlotType = EInventorySlotType::Consumable;
+	auto ConfigureSlot = [](UInventorySlotWidget* SlotWidget, EInventorySlotType NewSlotType)
+	{
+		if (!SlotWidget) return;
+		SlotWidget->SlotType = NewSlotType;
+		SlotWidget->InteractionContext = EContextType::Drop;
+	};
 
-    if (Ability_0) Ability_0->SlotType = EInventorySlotType::Ability;
-    if (Ability_1) Ability_1->SlotType = EInventorySlotType::Ability;
-    if (Ability_2) Ability_2->SlotType = EInventorySlotType::Ability;
+	ConfigureSlot(MainHand_Active, EInventorySlotType::MainHand);
+	ConfigureSlot(OffHand_Active, EInventorySlotType::OffHand);
+	ConfigureSlot(MainHand_0, EInventorySlotType::MainHand);
+	ConfigureSlot(MainHand_1, EInventorySlotType::MainHand);
+	ConfigureSlot(OffHand_0, EInventorySlotType::OffHand);
+	ConfigureSlot(OffHand_1, EInventorySlotType::OffHand);
+	ConfigureSlot(ArmorSlot, EInventorySlotType::Armor);
+	ConfigureSlot(ConsumableSlot, EInventorySlotType::Consumable);
+
+    ConfigureSlot(Ability_0, EInventorySlotType::Ability);
+    ConfigureSlot(Ability_1, EInventorySlotType::Ability);
+    ConfigureSlot(Ability_2, EInventorySlotType::Ability);
 
     UInventorySlotWidget* PerkWidgets[] = { Perk_0, Perk_1, Perk_2, Perk_3, Perk_4, Perk_5, Perk_6, Perk_7, Perk_8, Perk_9 };
     for (UInventorySlotWidget* PerkWidget : PerkWidgets)
     {
-        if (PerkWidget)
-        {
-            PerkWidget->SlotType = EInventorySlotType::Perk;
-        }
+        ConfigureSlot(PerkWidget, EInventorySlotType::Perk);
     }
 
 	UInventorySlotWidget* BagWidgets[] = { Inv_0, Inv_1, Inv_2, Inv_3, Inv_4, Inv_5, Inv_6, Inv_7, Inv_8, Inv_9, Inv_10, Inv_11 };
 	for (UInventorySlotWidget* BagWidget : BagWidgets)
 	{
-		if (BagWidget)
-		{
-			BagWidget->SlotType = EInventorySlotType::Bag;
-		}
+		ConfigureSlot(BagWidget, EInventorySlotType::Bag);
 	}
 }
 

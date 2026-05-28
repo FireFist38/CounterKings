@@ -451,7 +451,7 @@ void UShopContextMenuWidget::OnActionClicked()
 			Character->Server_PurchaseItem(CachedSlotIndex);
 			break;
 		case EContextType::Sell:
-            Character->Server_SellItem_Direct(CachedSlotIndex);
+            Character->Server_SellItem(CachedSourceGroup, CachedSlotIndex);
 			break;
 		case EContextType::Drop:
 			if (CachedItem) Character->GetInventoryComponent()->Server_DropItem(CachedSourceGroup, CachedSlotIndex);

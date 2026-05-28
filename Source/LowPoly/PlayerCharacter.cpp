@@ -365,10 +365,56 @@ void APlayerCharacter::Server_RerollShop_Implementation()
 
 void APlayerCharacter::Server_SellItem_Direct_Implementation(int32 SlotIndex)
 {
+    Server_SellItem_Implementation(ESlotGroup::Bag, SlotIndex);
+}
+
+void APlayerCharacter::Server_SellItem_Implementation(ESlotGroup SourceGroup, int32 SlotIndex)
+{
     if (!HasAuthority() || !InventoryComponent || !AttributeComponent) return;
-    AItemBase* ItemToSell = InventoryComponent->GetBagItem(SlotIndex);
+
+    AItemBase* ItemToSell = nullptr;
+    switch (SourceGroup)
+    {
+        case ESlotGroup::MainHand:
+        {
+            const TArray<AItemBase*> MainHands = InventoryComponent->GetMainHandSlotsArray();
+            ItemToSell = MainHands.IsValidIndex(SlotIndex) ? MainHands[SlotIndex] : nullptr;
+            break;
+        }
+        case ESlotGroup::OffHand:
+        {
+            const TArray<AItemBase*> OffHands = InventoryComponent->GetOffHandSlotsArray();
+            ItemToSell = OffHands.IsValidIndex(SlotIndex) ? OffHands[SlotIndex] : nullptr;
+            break;
+        }
+        case ESlotGroup::Armor:
+            ItemToSell = InventoryComponent->GetArmorSetPublic();
+            break;
+        case ESlotGroup::Consumable:
+            ItemToSell = InventoryComponent->GetConsumableSlotPublic();
+            break;
+        case ESlotGroup::Ability:
+        {
+            const TArray<AAbilityBase*> Abilities = InventoryComponent->GetAbilitySlotsArray();
+            ItemToSell = Abilities.IsValidIndex(SlotIndex) ? Abilities[SlotIndex] : nullptr;
+            break;
+        }
+        case ESlotGroup::Perk:
+        {
+            const TArray<APerkBase*> Perks = InventoryComponent->GetPerkSlotsArray();
+            ItemToSell = Perks.IsValidIndex(SlotIndex) ? Perks[SlotIndex] : nullptr;
+            break;
+        }
+        case ESlotGroup::Bag:
+        default:
+            ItemToSell = InventoryComponent->GetBagItem(SlotIndex);
+            break;
+    }
+
     if (!ItemToSell) return;
+
     AttributeComponent->AddGold(ItemToSell->GetGoldValue());
+    Multicast_DetachItem(ItemToSell);
     InventoryComponent->RemoveItem(ItemToSell);
     ItemToSell->Destroy();
 }

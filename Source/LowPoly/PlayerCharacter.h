@@ -4,6 +4,7 @@
 #include "GameFramework/Character.h"
 #include "WeaponStanceTypes.h"
 #include "ItemBase.h"
+#include "InventoryComponent.h"
 #include "LobbyStation.h"
 #include "PlayerCharacter.generated.h"
 
@@ -83,6 +84,9 @@ public:
 
     UFUNCTION(BlueprintCallable, Server, Reliable, Category = "CK|Economy")
 	void Server_SellItem_Direct(int32 SlotIndex);
+
+    UFUNCTION(BlueprintCallable, Server, Reliable, Category = "CK|Economy")
+    void Server_SellItem(ESlotGroup SourceGroup, int32 SlotIndex);
 
     // --- Data Persistence (survives ServerTravel) ---
     /** Saves all character data (stats, gold, inventory, shop) into PlayerState before map travel */
