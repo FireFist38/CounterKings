@@ -61,4 +61,38 @@ void ACKGameState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLife
 	DOREPLIFETIME(ACKGameState, bDebugWin);
 	DOREPLIFETIME(ACKGameState, WinStreak);
 	DOREPLIFETIME(ACKGameState, LossStreak);
+
+	// Persistence properties
+	DOREPLIFETIME(ACKGameState, SavedLevel);
+	DOREPLIFETIME(ACKGameState, SavedXP);
+	DOREPLIFETIME(ACKGameState, SavedGold);
+	DOREPLIFETIME(ACKGameState, SavedAttributePoints);
+	DOREPLIFETIME(ACKGameState, SavedStrength);
+	DOREPLIFETIME(ACKGameState, SavedDexterity);
+	DOREPLIFETIME(ACKGameState, SavedMagic);
+	DOREPLIFETIME(ACKGameState, SavedLuck);
+	DOREPLIFETIME(ACKGameState, SavedMatchHealth);
+	DOREPLIFETIME(ACKGameState, SavedShopPool);
+	DOREPLIFETIME(ACKGameState, SavedLockedSlots);
+	DOREPLIFETIME(ACKGameState, SavedMainHandClasses);
+	DOREPLIFETIME(ACKGameState, SavedMainHandRarities);
+	DOREPLIFETIME(ACKGameState, SavedMainHandGoldValues);
+	DOREPLIFETIME(ACKGameState, SavedOffHandClasses);
+	DOREPLIFETIME(ACKGameState, SavedOffHandRarities);
+	DOREPLIFETIME(ACKGameState, SavedOffHandGoldValues);
+	DOREPLIFETIME(ACKGameState, SavedInventoryClasses);
+	DOREPLIFETIME(ACKGameState, SavedInventoryRarities);
+	DOREPLIFETIME(ACKGameState, SavedInventoryGoldValues);
+	DOREPLIFETIME(ACKGameState, SavedAbilityClasses);
+	DOREPLIFETIME(ACKGameState, SavedAbilityRarities);
+	DOREPLIFETIME(ACKGameState, SavedAbilityGoldValues);
+	DOREPLIFETIME(ACKGameState, SavedPerkClasses);
+	DOREPLIFETIME(ACKGameState, SavedPerkRarities);
+	DOREPLIFETIME(ACKGameState, SavedPerkGoldValues);
+	DOREPLIFETIME(ACKGameState, SavedArmorClass);
+	DOREPLIFETIME(ACKGameState, SavedArmorRarity);
+	DOREPLIFETIME(ACKGameState, SavedArmorGoldValue);
+	DOREPLIFETIME(ACKGameState, SavedConsumableClass);
+	DOREPLIFETIME(ACKGameState, SavedConsumableRarity);
+	DOREPLIFETIME(ACKGameState, SavedConsumableGoldValue);
 }

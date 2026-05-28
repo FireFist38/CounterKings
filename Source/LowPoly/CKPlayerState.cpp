@@ -4,6 +4,7 @@
 ACKPlayerState::ACKPlayerState()
 {
     MatchHealth = 100;
+    SavedMatchHealth = 100;
 }
 
 void ACKPlayerState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -19,8 +20,38 @@ void ACKPlayerState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLi
     DOREPLIFETIME(ACKPlayerState, SavedDexterity);
     DOREPLIFETIME(ACKPlayerState, SavedMagic);
     DOREPLIFETIME(ACKPlayerState, SavedLuck);
-    DOREPLIFETIME(ACKPlayerState, SavedHealth);
-    DOREPLIFETIME(ACKPlayerState, SavedInventory);
+
     DOREPLIFETIME(ACKPlayerState, SavedShopPool);
     DOREPLIFETIME(ACKPlayerState, SavedLockedSlots);
+
+    // Inventory Persistence
+    DOREPLIFETIME(ACKPlayerState, SavedMainHandClasses);
+    DOREPLIFETIME(ACKPlayerState, SavedMainHandRarities);
+    DOREPLIFETIME(ACKPlayerState, SavedMainHandGoldValues);
+
+    DOREPLIFETIME(ACKPlayerState, SavedOffHandClasses);
+    DOREPLIFETIME(ACKPlayerState, SavedOffHandRarities);
+    DOREPLIFETIME(ACKPlayerState, SavedOffHandGoldValues);
+
+    DOREPLIFETIME(ACKPlayerState, SavedInventoryClasses);
+    DOREPLIFETIME(ACKPlayerState, SavedInventoryRarities);
+    DOREPLIFETIME(ACKPlayerState, SavedInventoryGoldValues);
+
+    DOREPLIFETIME(ACKPlayerState, SavedAbilityClasses);
+    DOREPLIFETIME(ACKPlayerState, SavedAbilityRarities);
+    DOREPLIFETIME(ACKPlayerState, SavedAbilityGoldValues);
+
+    DOREPLIFETIME(ACKPlayerState, SavedPerkClasses);
+    DOREPLIFETIME(ACKPlayerState, SavedPerkRarities);
+    DOREPLIFETIME(ACKPlayerState, SavedPerkGoldValues);
+
+    DOREPLIFETIME(ACKPlayerState, SavedArmorClass);
+    DOREPLIFETIME(ACKPlayerState, SavedArmorRarity);
+    DOREPLIFETIME(ACKPlayerState, SavedArmorGoldValue);
+
+    DOREPLIFETIME(ACKPlayerState, SavedConsumableClass);
+    DOREPLIFETIME(ACKPlayerState, SavedConsumableRarity);
+    DOREPLIFETIME(ACKPlayerState, SavedConsumableGoldValue);
+
+    DOREPLIFETIME(ACKPlayerState, SavedMatchHealth);
 }

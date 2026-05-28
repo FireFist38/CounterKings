@@ -215,6 +215,15 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "CK|Item")
 	int32 GetGoldValue() const { return GoldValue; }
 
+	UFUNCTION(BlueprintCallable, Category = "CK|Item")
+	EItemRarity GetRarityInternal() const { return Rarity; }
+
+	UFUNCTION(BlueprintCallable, Category = "CK|Item")
+	void SetRarityInternal(EItemRarity NewRarity) { Rarity = NewRarity; }
+
+	UFUNCTION(BlueprintCallable, Category = "CK|Item")
+	void SetGoldValueInternal(int32 NewValue) { GoldValue = NewValue; }
+
     static float GetRarityStrengthScale(EItemRarity InRarity)
     {
         switch (InRarity)

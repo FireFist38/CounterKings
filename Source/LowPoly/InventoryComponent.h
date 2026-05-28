@@ -122,6 +122,49 @@ public:
     UFUNCTION(BlueprintCallable, Category = "CK|Inventory")
     int32 GetLevelThresholdForAbilitySlot(int32 SlotIndex) const;
 
+	// Public accessors for inventory arrays (for persistence)
+	UFUNCTION(BlueprintCallable, Category = "CK|Inventory")
+	TArray<AItemBase*> GetMainHandSlotsArray() const { return MainHandSlots; }
+
+	UFUNCTION(BlueprintCallable, Category = "CK|Inventory")
+	TArray<AItemBase*> GetOffHandSlotsArray() const { return OffHandSlots; }
+
+	UFUNCTION(BlueprintCallable, Category = "CK|Inventory")
+	TArray<AItemBase*> GetInventorySlotsArray() const { return InventorySlots; }
+
+	UFUNCTION(BlueprintCallable, Category = "CK|Inventory")
+	TArray<AAbilityBase*> GetAbilitySlotsArray() const { return AbilitySlots; }
+
+	UFUNCTION(BlueprintCallable, Category = "CK|Inventory")
+	TArray<APerkBase*> GetPerkSlotsArray() const { return PerkSlots; }
+
+	UFUNCTION(BlueprintCallable, Category = "CK|Inventory")
+	AItemBase* GetArmorSetPublic() const { return ArmorSet; }
+
+	UFUNCTION(BlueprintCallable, Category = "CK|Inventory")
+	AItemBase* GetConsumableSlotPublic() const { return ConsumableSlot; }
+
+	UFUNCTION(BlueprintCallable, Category = "CK|Inventory")
+	void SetArmorSet(AItemBase* NewArmor) { ArmorSet = NewArmor; }
+
+	UFUNCTION(BlueprintCallable, Category = "CK|Inventory")
+	void SetConsumableSlot(AItemBase* NewConsumable) { ConsumableSlot = NewConsumable; }
+
+	UFUNCTION(BlueprintCallable, Category = "CK|Inventory")
+	void SetMainHandSlot(int32 Index, AItemBase* Item) { if (MainHandSlots.IsValidIndex(Index)) MainHandSlots[Index] = Item; }
+
+	UFUNCTION(BlueprintCallable, Category = "CK|Inventory")
+	void SetOffHandSlot(int32 Index, AItemBase* Item) { if (OffHandSlots.IsValidIndex(Index)) OffHandSlots[Index] = Item; }
+
+	UFUNCTION(BlueprintCallable, Category = "CK|Inventory")
+	void SetInventorySlot(int32 Index, AItemBase* Item) { if (InventorySlots.IsValidIndex(Index)) InventorySlots[Index] = Item; }
+
+	UFUNCTION(BlueprintCallable, Category = "CK|Inventory")
+	void SetAbilitySlot(int32 Index, AAbilityBase* Item) { if (AbilitySlots.IsValidIndex(Index)) AbilitySlots[Index] = Item; }
+
+	UFUNCTION(BlueprintCallable, Category = "CK|Inventory")
+	void SetPerkSlot(int32 Index, APerkBase* Item) { if (PerkSlots.IsValidIndex(Index)) PerkSlots[Index] = Item; }
+
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
 	UFUNCTION(BlueprintCallable, Server, Reliable, Category = "CK|Inventory")

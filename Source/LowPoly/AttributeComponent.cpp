@@ -256,13 +256,29 @@ void UAttributeComponent::AddXP(float Amount)
 	if (GetOwnerRole() != ROLE_Authority) return;
 
 	CurrentXP += Amount;
-	
+
 	// Level up loop
 	while (CurrentXP >= GetXPThreshold())
 	{
 		CurrentXP -= GetXPThreshold();
 		Level++;
 		AddAttributePoints(1);
+	}
+}
+
+void UAttributeComponent::SetLevel(int32 NewLevel)
+{
+	if (GetOwnerRole() == ROLE_Authority)
+	{
+		Level = NewLevel;
+	}
+}
+
+void UAttributeComponent::SetCurrentXP(float NewXP)
+{
+	if (GetOwnerRole() == ROLE_Authority)
+	{
+		CurrentXP = NewXP;
 	}
 }
 

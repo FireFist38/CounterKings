@@ -187,6 +187,12 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "CK|Progression")
 	void AddXP(float Amount);
 
+	UFUNCTION(BlueprintCallable, Category = "CK|Progression")
+	void SetLevel(int32 NewLevel);
+
+	UFUNCTION(BlueprintCallable, Category = "CK|Progression")
+	void SetCurrentXP(float NewXP);
+
 	UFUNCTION(BlueprintCallable, Category = "CK|Combat")
 	bool ApplyCombatDamage(const FDamageBundle& Damage, AActor* DamageInstigator);
 

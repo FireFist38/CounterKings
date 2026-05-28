@@ -2,6 +2,9 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameStateBase.h"
+#include "ItemBase.h"
+#include "AbilityBase.h"
+#include "PerkBase.h"
 #include "CKGameState.generated.h"
 
 UENUM(BlueprintType)
@@ -55,6 +58,103 @@ public:
 	bool bDebugWin;
 
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+
+	// --- Player Persistence (persists across ServerTravel) ---
+	UPROPERTY(Replicated, BlueprintReadWrite, Category = "CK|Persist")
+	int32 SavedLevel = 1;
+
+	UPROPERTY(Replicated, BlueprintReadWrite, Category = "CK|Persist")
+	float SavedXP = 0.0f;
+
+	UPROPERTY(Replicated, BlueprintReadWrite, Category = "CK|Persist")
+	int32 SavedGold = 0;
+
+	UPROPERTY(Replicated, BlueprintReadWrite, Category = "CK|Persist")
+	int32 SavedAttributePoints = 0;
+
+	UPROPERTY(Replicated, BlueprintReadWrite, Category = "CK|Persist")
+	float SavedStrength = 0.0f;
+
+	UPROPERTY(Replicated, BlueprintReadWrite, Category = "CK|Persist")
+	float SavedDexterity = 0.0f;
+
+	UPROPERTY(Replicated, BlueprintReadWrite, Category = "CK|Persist")
+	float SavedMagic = 0.0f;
+
+	UPROPERTY(Replicated, BlueprintReadWrite, Category = "CK|Persist")
+	float SavedLuck = 0.0f;
+
+	UPROPERTY(Replicated, BlueprintReadWrite, Category = "CK|Persist")
+	int32 SavedMatchHealth = 100;
+
+	UPROPERTY(Replicated, BlueprintReadWrite, Category = "CK|Persist")
+	TArray<FName> SavedShopPool;
+
+	UPROPERTY(Replicated, BlueprintReadWrite, Category = "CK|Persist")
+	TArray<bool> SavedLockedSlots;
+
+	UPROPERTY(Replicated, BlueprintReadWrite, Category = "CK|Persist")
+	TArray<TSubclassOf<AItemBase>> SavedMainHandClasses;
+
+	UPROPERTY(Replicated, BlueprintReadWrite, Category = "CK|Persist")
+	TArray<int32> SavedMainHandRarities;
+
+	UPROPERTY(Replicated, BlueprintReadWrite, Category = "CK|Persist")
+	TArray<int32> SavedMainHandGoldValues;
+
+	UPROPERTY(Replicated, BlueprintReadWrite, Category = "CK|Persist")
+	TArray<TSubclassOf<AItemBase>> SavedOffHandClasses;
+
+	UPROPERTY(Replicated, BlueprintReadWrite, Category = "CK|Persist")
+	TArray<int32> SavedOffHandRarities;
+
+	UPROPERTY(Replicated, BlueprintReadWrite, Category = "CK|Persist")
+	TArray<int32> SavedOffHandGoldValues;
+
+	UPROPERTY(Replicated, BlueprintReadWrite, Category = "CK|Persist")
+	TArray<TSubclassOf<AItemBase>> SavedInventoryClasses;
+
+	UPROPERTY(Replicated, BlueprintReadWrite, Category = "CK|Persist")
+	TArray<int32> SavedInventoryRarities;
+
+	UPROPERTY(Replicated, BlueprintReadWrite, Category = "CK|Persist")
+	TArray<int32> SavedInventoryGoldValues;
+
+	UPROPERTY(Replicated, BlueprintReadWrite, Category = "CK|Persist")
+	TArray<TSubclassOf<AAbilityBase>> SavedAbilityClasses;
+
+	UPROPERTY(Replicated, BlueprintReadWrite, Category = "CK|Persist")
+	TArray<int32> SavedAbilityRarities;
+
+	UPROPERTY(Replicated, BlueprintReadWrite, Category = "CK|Persist")
+	TArray<int32> SavedAbilityGoldValues;
+
+	UPROPERTY(Replicated, BlueprintReadWrite, Category = "CK|Persist")
+	TArray<TSubclassOf<APerkBase>> SavedPerkClasses;
+
+	UPROPERTY(Replicated, BlueprintReadWrite, Category = "CK|Persist")
+	TArray<int32> SavedPerkRarities;
+
+	UPROPERTY(Replicated, BlueprintReadWrite, Category = "CK|Persist")
+	TArray<int32> SavedPerkGoldValues;
+
+	UPROPERTY(Replicated, BlueprintReadWrite, Category = "CK|Persist")
+	TSubclassOf<AItemBase> SavedArmorClass;
+
+	UPROPERTY(Replicated, BlueprintReadWrite, Category = "CK|Persist")
+	int32 SavedArmorRarity = 0;
+
+	UPROPERTY(Replicated, BlueprintReadWrite, Category = "CK|Persist")
+	int32 SavedArmorGoldValue = 0;
+
+	UPROPERTY(Replicated, BlueprintReadWrite, Category = "CK|Persist")
+	TSubclassOf<AItemBase> SavedConsumableClass;
+
+	UPROPERTY(Replicated, BlueprintReadWrite, Category = "CK|Persist")
+	int32 SavedConsumableRarity = 0;
+
+	UPROPERTY(Replicated, BlueprintReadWrite, Category = "CK|Persist")
+	int32 SavedConsumableGoldValue = 0;
 
 protected:
 	UPROPERTY(Replicated, BlueprintReadOnly, Category = "CK|GameLoop")
