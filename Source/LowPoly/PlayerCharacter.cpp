@@ -343,6 +343,16 @@ void APlayerCharacter::Client_RefreshShopDisplay_Implementation()
     for (UUserWidget* Widget : FoundWidgets) if (UShopWidget* ShopWidget = Cast<UShopWidget>(Widget)) ShopWidget->RefreshShopDisplay();
 }
 
+void APlayerCharacter::OnRep_ShopPool()
+{
+    Client_RefreshShopDisplay_Implementation();
+}
+
+void APlayerCharacter::OnRep_LockedSlots()
+{
+    Client_RefreshShopDisplay_Implementation();
+}
+
 void APlayerCharacter::Server_RerollShop_Implementation()
 {
     if (AttributeComponent && AttributeComponent->GetGold() >= RerollCost)
@@ -936,6 +946,7 @@ void APlayerCharacter::SaveToPlayerState()
     PS->SavedDexterity = AttributeComponent->Dexterity;
     PS->SavedMagic = AttributeComponent->Magic;
     PS->SavedLuck = AttributeComponent->Luck;
+    PS->SavedMatchHealth = PS->MatchHealth;
 
     // Save shop pool
     PS->SavedShopPool = ShopPool;
@@ -965,7 +976,10 @@ void APlayerCharacter::SaveToPersistenceManager()
     PM.SavedLevel = AttributeComponent->GetLevel();
     PM.SavedXP = AttributeComponent->GetCurrentXP();
     PM.SavedAttributePoints = AttributeComponent->AttributePoints;
-    PM.SavedMatchHealth = AttributeComponent->GetCurrentHealth();
+    if (ACKPlayerState* PS = Cast<ACKPlayerState>(GetPlayerState()))
+    {
+        PM.SavedMatchHealth = PS->MatchHealth;
+    }
 
     // Save shop pool
     PM.SavedShopPool = ShopPool;
@@ -1129,11 +1143,17 @@ void APlayerCharacter::RestoreFromPersistenceManager()
     AttributeComponent->SetLevel(PM.SavedLevel);
     AttributeComponent->SetCurrentXP(PM.SavedXP);
     AttributeComponent->AttributePoints = PM.SavedAttributePoints;
-    AttributeComponent->RestoreHealth(PM.SavedMatchHealth);
+
+    if (ACKPlayerState* PS = Cast<ACKPlayerState>(GetPlayerState()))
+    {
+        PS->MatchHealth = PM.SavedMatchHealth;
+        PS->SavedMatchHealth = PM.SavedMatchHealth;
+    }
 
     // --- Restore Shop Pool ---
     ShopPool = PM.SavedShopPool;
     LockedSlots = PM.SavedLockedSlots;
+    Client_RefreshShopDisplay();
 
     // --- Re-spawn Main Hand Items ---
     for (int32 i = 0; i < 2; i++)
@@ -1328,6 +1348,8 @@ void APlayerCharacter::RestoreFromPlayerState()
     AttributeComponent->Dexterity = PS->SavedDexterity;
     AttributeComponent->Magic = PS->SavedMagic;
     AttributeComponent->Luck = PS->SavedLuck;
+    PS->MatchHealth = PS->SavedMatchHealth;
+    Client_RefreshShopDisplay();
 
     UE_LOG(LogTemp, Log, TEXT("Finished restoring player data from PlayerState"));
 }

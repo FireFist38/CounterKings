@@ -52,7 +52,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "CK|Camera") class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
 
     // --- Shop Logic ---
-    UPROPERTY(Replicated, BlueprintReadOnly, Category = "CK|Shop")
+    UPROPERTY(ReplicatedUsing = OnRep_ShopPool, BlueprintReadOnly, Category = "CK|Shop")
     TArray<FName> ShopPool;
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "CK|Shop")
@@ -61,7 +61,7 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CK|Shop")
     int32 RerollCost = 40;
 
-    UPROPERTY(Replicated, BlueprintReadOnly, Category = "CK|Shop")
+    UPROPERTY(ReplicatedUsing = OnRep_LockedSlots, BlueprintReadOnly, Category = "CK|Shop")
     TArray<bool> LockedSlots;
 
     void GenerateShopPool();
@@ -292,4 +292,6 @@ protected:
 	UFUNCTION(Server, Reliable) void Server_SetScoping(bool bScoping);
 	void UpdateScopingState();
 	UFUNCTION() void OnRep_IsScoping();
+    UFUNCTION() void OnRep_ShopPool();
+    UFUNCTION() void OnRep_LockedSlots();
 };
