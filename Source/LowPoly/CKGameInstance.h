@@ -128,4 +128,10 @@ public:
 
     // --- Helper Functions ---
     void ClearAllSavedData();
+
+    /** Called once when the game instance starts (not during ServerTravel). Clears stale persistence data. */
+    virtual void OnStart() override;
+
+    /** Called when the PIE/game session shuts down. Clears the rooted persistence singleton. */
+    virtual void Shutdown() override;
 };

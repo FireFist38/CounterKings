@@ -79,19 +79,6 @@ void ACKGameMode::BeginPlay()
 	StartRound();
 }
 
-void ACKGameMode::EndPlay(const EEndPlayReason::Type EndPlayReason)
-{
-	Super::EndPlay(EndPlayReason);
-
-	// Clear persistence data when PIE ends or game quits
-	// This ensures a fresh start for each game session
-	if (EndPlayReason == EEndPlayReason::Quit || EndPlayReason == EEndPlayReason::LevelTransition)
-	{
-		UCKPersistenceManager::Get().ClearAllSavedData();
-		UE_LOG(LogTemp, Warning, TEXT("CKGameMode::EndPlay: Cleared PersistenceManager data (Reason: %d)"), static_cast<int32>(EndPlayReason));
-	}
-}
-
 void ACKGameMode::StartRound()
 {
 	if (!HasAuthority()) return;

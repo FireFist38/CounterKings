@@ -972,109 +972,130 @@ void APlayerCharacter::SaveToPersistenceManager()
     PM.SavedLockedSlots = LockedSlots;
 
     // Save Main Hand items
-    TArray<AItemBase*> MainHands = InventoryComponent->GetMainHandSlotsArray();
-    for (int32 i = 0; i < 2; i++)
+    if (IsValid(InventoryComponent))
     {
-        if (MainHands.IsValidIndex(i) && MainHands[i])
+        TArray<AItemBase*> MainHands = InventoryComponent->GetMainHandSlotsArray();
+        for (int32 i = 0; i < 2; i++)
         {
-            PM.SavedMainHandClasses.Add(MainHands[i]->GetClass());
-            PM.SavedMainHandRarities.Add(static_cast<int32>(MainHands[i]->GetRarity()));
-            PM.SavedMainHandGoldValues.Add(MainHands[i]->GetGoldValue());
-        }
-        else
-        {
-            PM.SavedMainHandClasses.Add(nullptr);
-            PM.SavedMainHandRarities.Add(0);
-            PM.SavedMainHandGoldValues.Add(0);
+            if (MainHands.IsValidIndex(i) && MainHands[i])
+            {
+                PM.SavedMainHandClasses.Add(MainHands[i]->GetClass());
+                PM.SavedMainHandRarities.Add(static_cast<int32>(MainHands[i]->GetRarity()));
+                PM.SavedMainHandGoldValues.Add(MainHands[i]->GetGoldValue());
+            }
+            else
+            {
+                PM.SavedMainHandClasses.Add(nullptr);
+                PM.SavedMainHandRarities.Add(0);
+                PM.SavedMainHandGoldValues.Add(0);
+            }
         }
     }
 
     // Save Off Hand items
-    TArray<AItemBase*> OffHands = InventoryComponent->GetOffHandSlotsArray();
-    for (int32 i = 0; i < 2; i++)
+    if (IsValid(InventoryComponent))
     {
-        if (OffHands.IsValidIndex(i) && OffHands[i])
+        TArray<AItemBase*> OffHands = InventoryComponent->GetOffHandSlotsArray();
+        for (int32 i = 0; i < 2; i++)
         {
-            PM.SavedOffHandClasses.Add(OffHands[i]->GetClass());
-            PM.SavedOffHandRarities.Add(static_cast<int32>(OffHands[i]->GetRarity()));
-            PM.SavedOffHandGoldValues.Add(OffHands[i]->GetGoldValue());
-        }
-        else
-        {
-            PM.SavedOffHandClasses.Add(nullptr);
-            PM.SavedOffHandRarities.Add(0);
-            PM.SavedOffHandGoldValues.Add(0);
+            if (OffHands.IsValidIndex(i) && OffHands[i])
+            {
+                PM.SavedOffHandClasses.Add(OffHands[i]->GetClass());
+                PM.SavedOffHandRarities.Add(static_cast<int32>(OffHands[i]->GetRarity()));
+                PM.SavedOffHandGoldValues.Add(OffHands[i]->GetGoldValue());
+            }
+            else
+            {
+                PM.SavedOffHandClasses.Add(nullptr);
+                PM.SavedOffHandRarities.Add(0);
+                PM.SavedOffHandGoldValues.Add(0);
+            }
         }
     }
 
     // Save Bag Inventory items
-    TArray<AItemBase*> Inventory = InventoryComponent->GetInventorySlotsArray();
-    for (int32 i = 0; i < 12; i++)
+    if (IsValid(InventoryComponent))
     {
-        if (Inventory.IsValidIndex(i) && Inventory[i])
+        TArray<AItemBase*> Inventory = InventoryComponent->GetInventorySlotsArray();
+        for (int32 i = 0; i < 12; i++)
         {
-            PM.SavedInventoryClasses.Add(Inventory[i]->GetClass());
-            PM.SavedInventoryRarities.Add(static_cast<int32>(Inventory[i]->GetRarity()));
-            PM.SavedInventoryGoldValues.Add(Inventory[i]->GetGoldValue());
-        }
-        else
-        {
-            PM.SavedInventoryClasses.Add(nullptr);
-            PM.SavedInventoryRarities.Add(0);
-            PM.SavedInventoryGoldValues.Add(0);
+            if (Inventory.IsValidIndex(i) && Inventory[i])
+            {
+                PM.SavedInventoryClasses.Add(Inventory[i]->GetClass());
+                PM.SavedInventoryRarities.Add(static_cast<int32>(Inventory[i]->GetRarity()));
+                PM.SavedInventoryGoldValues.Add(Inventory[i]->GetGoldValue());
+            }
+            else
+            {
+                PM.SavedInventoryClasses.Add(nullptr);
+                PM.SavedInventoryRarities.Add(0);
+                PM.SavedInventoryGoldValues.Add(0);
+            }
         }
     }
 
     // Save Ability items
-    TArray<AAbilityBase*> Abilities = InventoryComponent->GetAbilitySlotsArray();
-    for (int32 i = 0; i < 3; i++)
+    if (IsValid(InventoryComponent))
     {
-        if (Abilities.IsValidIndex(i) && Abilities[i])
+        TArray<AAbilityBase*> Abilities = InventoryComponent->GetAbilitySlotsArray();
+        for (int32 i = 0; i < 3; i++)
         {
-            PM.SavedAbilityClasses.Add(Abilities[i]->GetClass());
-            PM.SavedAbilityRarities.Add(static_cast<int32>(Abilities[i]->GetRarity()));
-            PM.SavedAbilityGoldValues.Add(Abilities[i]->GetGoldValue());
-        }
-        else
-        {
-            PM.SavedAbilityClasses.Add(nullptr);
-            PM.SavedAbilityRarities.Add(0);
-            PM.SavedAbilityGoldValues.Add(0);
+            if (Abilities.IsValidIndex(i) && Abilities[i])
+            {
+                PM.SavedAbilityClasses.Add(Abilities[i]->GetClass());
+                PM.SavedAbilityRarities.Add(static_cast<int32>(Abilities[i]->GetRarity()));
+                PM.SavedAbilityGoldValues.Add(Abilities[i]->GetGoldValue());
+            }
+            else
+            {
+                PM.SavedAbilityClasses.Add(nullptr);
+                PM.SavedAbilityRarities.Add(0);
+                PM.SavedAbilityGoldValues.Add(0);
+            }
         }
     }
 
     // Save Perk items
-    TArray<APerkBase*> Perks = InventoryComponent->GetPerkSlots();
-    for (int32 i = 0; i < 10; i++)
+    if (IsValid(InventoryComponent))
     {
-        if (Perks.IsValidIndex(i) && Perks[i])
+        TArray<APerkBase*> Perks = InventoryComponent->GetPerkSlots();
+        for (int32 i = 0; i < 10; i++)
         {
-            PM.SavedPerkClasses.Add(Perks[i]->GetClass());
-            PM.SavedPerkRarities.Add(static_cast<int32>(Perks[i]->GetRarity()));
-            PM.SavedPerkGoldValues.Add(Perks[i]->GetGoldValue());
-        }
-        else
-        {
-            PM.SavedPerkClasses.Add(nullptr);
-            PM.SavedPerkRarities.Add(0);
-            PM.SavedPerkGoldValues.Add(0);
+            if (Perks.IsValidIndex(i) && Perks[i])
+            {
+                PM.SavedPerkClasses.Add(Perks[i]->GetClass());
+                PM.SavedPerkRarities.Add(static_cast<int32>(Perks[i]->GetRarity()));
+                PM.SavedPerkGoldValues.Add(Perks[i]->GetGoldValue());
+            }
+            else
+            {
+                PM.SavedPerkClasses.Add(nullptr);
+                PM.SavedPerkRarities.Add(0);
+                PM.SavedPerkGoldValues.Add(0);
+            }
         }
     }
 
     // Save Armor
-    if (AItemBase* Armor = InventoryComponent->GetArmorSet())
+    if (IsValid(InventoryComponent))
     {
-        PM.SavedArmorClass = Armor->GetClass();
-        PM.SavedArmorRarity = static_cast<int32>(Armor->GetRarity());
-        PM.SavedArmorGoldValue = Armor->GetGoldValue();
+        if (AItemBase* Armor = InventoryComponent->GetArmorSet())
+        {
+            PM.SavedArmorClass = Armor->GetClass();
+            PM.SavedArmorRarity = static_cast<int32>(Armor->GetRarity());
+            PM.SavedArmorGoldValue = Armor->GetGoldValue();
+        }
     }
 
     // Save Consumable
-    if (AItemBase* Consumable = InventoryComponent->GetConsumableSlot())
+    if (IsValid(InventoryComponent))
     {
-        PM.SavedConsumableClass = Consumable->GetClass();
-        PM.SavedConsumableRarity = static_cast<int32>(Consumable->GetRarity());
-        PM.SavedConsumableGoldValue = Consumable->GetGoldValue();
+        if (AItemBase* Consumable = InventoryComponent->GetConsumableSlot())
+        {
+            PM.SavedConsumableClass = Consumable->GetClass();
+            PM.SavedConsumableRarity = static_cast<int32>(Consumable->GetRarity());
+            PM.SavedConsumableGoldValue = Consumable->GetGoldValue();
+        }
     }
 
     UE_LOG(LogTemp, Warning, TEXT("SaveToPersistenceManager: Complete - Saved Gold: %d, Level: %d, MatchHealth: %d, ShopPool size: %d"),

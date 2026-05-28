@@ -4,10 +4,24 @@
 UCKGameInstance::UCKGameInstance()
 {
     SavedMatchHealth = 100;
+}
 
-    // Clear PersistenceManager singleton on GameInstance init
-    // This ensures PIE sessions start fresh
+void UCKGameInstance::OnStart()
+{
+    Super::OnStart();
+
+    // Clear the PersistenceManager singleton on new PIE session start.
+    // OnStart() is called once per game session (including PIE start).
+    // It is NOT called during ServerTravel transitions, so data survives
+    // map travel within the same PIE session but gets cleared when PIE stops/restarts.
     UCKPersistenceManager::Get().ClearAllSavedData();
+}
+
+void UCKGameInstance::Shutdown()
+{
+    UCKPersistenceManager::Get().ClearAllSavedData();
+
+    Super::Shutdown();
 }
 
 void UCKGameInstance::ClearAllSavedData()
