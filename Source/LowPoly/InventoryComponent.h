@@ -3,7 +3,10 @@
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "ItemBase.h"
+#include "InventoryUpgradeComponent.h"
+#include "EquipmentUpgradeTypes.h"
 #include "InventoryComponent.generated.h"
+
 
 class AAbilityBase;
 class APerkBase;
@@ -25,6 +28,7 @@ UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class LOWPOLY_API UInventoryComponent : public UActorComponent
 {
 	GENERATED_BODY()
+
 
 public:	
 	UInventoryComponent();
@@ -191,6 +195,13 @@ public:
 
     UFUNCTION(Server, Reliable)
     void Server_UnequipItem(ESlotGroup Slot, int32 Index);
+
+    // --- Equipment Upgrade (Rarity) ---
+    UFUNCTION(Server, Reliable, BlueprintCallable, Category="CK|Upgrade")
+    void Server_RequestUpgradeRarity(AItemBase* Item, EItemUpgradeTarget UpgradeTarget);
+
+    // Server implementation
+    void Server_RequestUpgradeRarity_Implementation(AItemBase* Item, EItemUpgradeTarget UpgradeTarget);
 
     void RemoveItem(AItemBase* ItemToRemove);
 };

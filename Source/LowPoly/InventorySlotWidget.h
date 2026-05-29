@@ -42,13 +42,21 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CK|UI")
 	EInventorySlotType SlotType = EInventorySlotType::Bag;
 
-    /** The index in the InventoryComponent array this slot represents (0, 1, 2, etc.) */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CK|UI")
-    int32 SlotIndex = 0;
+	/** The index in the InventoryComponent array this slot represents (0, 1, 2, etc.) */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CK|UI")
+	int32 SlotIndex = 0;
 
 	void UpdateSlot(AItemBase* Item, int32 NewSlotIndex);
 	void SetHighlighted(bool bIsHighlighted);
 	void SetActiveSlotIndicator(bool bIsActive);
+
+	/** True if this slot currently has a valid item cached. */
+	UFUNCTION(BlueprintCallable, Category="CK|UI")
+	bool HasCachedItem() const { return CachedItem != nullptr; }
+
+	/** Returns the currently cached item (may be null). */
+	UFUNCTION(BlueprintCallable, Category="CK|UI")
+	AItemBase* GetCachedItem() const { return CachedItem; }
 
 private:
 	/** True while mouse is hovering this slot widget (independent of whether it contains an item). */
