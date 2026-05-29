@@ -62,16 +62,16 @@ public:
 	UPROPERTY(meta = (BindWidget)) UTextBlock* GoldText;
 
 	// --- Upgrade Tab Widgets ---
-	UPROPERTY(meta = (BindWidgetOptional)) UWidgetSwitcher* EquipTabSwitcher;
-	UPROPERTY(meta = (BindWidgetOptional)) UButton* Btn_InventoryTab;
-	UPROPERTY(meta = (BindWidgetOptional)) UButton* Btn_UpgradeTab;
+	UPROPERTY(meta = (BindWidget)) UWidgetSwitcher* EquipTabSwitcher;
+	UPROPERTY(meta = (BindWidget)) UButton* Btn_InventoryTab;
+	UPROPERTY(meta = (BindWidget)) UButton* Btn_UpgradeTab;
 
-	UPROPERTY(meta = (BindWidgetOptional)) UWidget* UpgradePanel;
-	UPROPERTY(meta = (BindWidgetOptional)) UInventorySlotWidget* Upgrade_SourceSlot;
-	UPROPERTY(meta = (BindWidgetOptional)) UTextBlock* Upgrade_BeforeStats;
-	UPROPERTY(meta = (BindWidgetOptional)) UTextBlock* Upgrade_AfterStats;
-	UPROPERTY(meta = (BindWidgetOptional)) UTextBlock* Upgrade_CostText;
-	UPROPERTY(meta = (BindWidgetOptional)) UButton* Btn_ConfirmUpgrade;
+	UPROPERTY(meta = (BindWidget)) UWidget* UpgradePanel;
+	UPROPERTY(meta = (BindWidget)) UInventorySlotWidget* Upgrade_SourceSlot;
+	UPROPERTY(meta = (BindWidget)) UTextBlock* Upgrade_BeforeStats;
+	UPROPERTY(meta = (BindWidget)) UTextBlock* Upgrade_AfterStats;
+	UPROPERTY(meta = (BindWidget)) UTextBlock* Upgrade_CostText;
+	UPROPERTY(meta = (BindWidget)) UButton* Btn_ConfirmUpgrade;
 
 protected:
 	UFUNCTION() void OnInventoryTabClicked();

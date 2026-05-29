@@ -1,25 +1,44 @@
 # Editor Setup Steps: Equipment Upgrade Tab
 
-To finalize the implementation in the Unreal Editor, please follow these steps for the `EquipWidget` and data configuration.
+To finalize the implementation in the Unreal Editor, please follow these steps for the **`WBP_Equipment`** widget.
 
-## 1. EquipWidget Blueprint Setup
+## 1. UI Hierarchy & Binding Names
 
-Open your `WBP_EquipWidget` (or equivalent) and ensure the following widgets are present and named exactly as specified in the C++ header (`EquipWidget.h`).
+The C++ code in `UEquipWidget` uses `meta = (BindWidgetOptional)`, meaning you can name your widgets exactly as follows to "hook" them into the logic.
 
-### Tab Navigation
-- **Btn_InventoryTab** (Button): Button to switch to the inventory view.
-- **Btn_UpgradeTab** (Button): Button to switch to the upgrade view.
-- **EquipTabSwitcher** (WidgetSwitcher): Should contain at least two children:
-    - Index 0: Your existing Inventory/Equipment layout.
-    - Index 1: The new **UpgradePanel**.
+### Recommended Hierarchy for `WBP_Equipment`:
 
-### Upgrade Panel (Index 1 of Switcher)
-Inside the **UpgradePanel** (which can be a Canvas, Vertical Box, etc.), add these widgets:
-- **Upgrade_SourceSlot** (UInventorySlotWidget): A slot widget to display the item selected for upgrade.
-- **Upgrade_BeforeStats** (TextBlock): Displays current item stats.
-- **Upgrade_AfterStats** (TextBlock): Displays preview of upgraded stats.
-- **Upgrade_CostText** (TextBlock): Displays the gold cost.
-- **Btn_ConfirmUpgrade** (Button): The button to execute the upgrade.
+- **[Root]** (Canvas Panel)
+    - **Btn_InventoryTab** (Button) - *Binding Name: `Btn_InventoryTab`*
+    - **Btn_UpgradeTab** (Button) - *Binding Name: `Btn_UpgradeTab`*
+    - **EquipTabSwitcher** (WidgetSwitcher) - *Binding Name: `EquipTabSwitcher`*
+        - **[Index 0] InventoryLayout** (Canvas/VerticalBox)
+            - *Keep your existing slots here (Inv_0, ArmorSlot, etc.)*
+        - **[Index 1] UpgradePanel** (Canvas/VerticalBox) - *Binding Name: `UpgradePanel`*
+            - **Upgrade_SourceSlot** (WBP_InventorySlot) - *Binding Name: `Upgrade_SourceSlot`*
+            - **Upgrade_BeforeStats** (TextBlock) - *Binding Name: `Upgrade_BeforeStats`*
+            - **Upgrade_AfterStats** (TextBlock) - *Binding Name: `Upgrade_AfterStats`*
+            - **Upgrade_CostText** (TextBlock) - *Binding Name: `Upgrade_CostText`*
+            - **Btn_ConfirmUpgrade** (Button) - *Binding Name: `Btn_ConfirmUpgrade`*
+
+### Does the Upgrade Panel need to be its own WBP?
+**No.** You can build the layout directly inside the `WidgetSwitcher` at Index 1. However, if you prefer to keep it clean, you can make a separate `WBP_UpgradePanel`, but the `WBP_Equipment` must still have the **Binding Names** assigned to the instances of those widgets.
+
+**Pro-tip:** In the Designer tab, select each widget and check the **"Is Variable"** checkbox. Then, ensure the **Variable Name** matches the bold names above exactly.
+
+## 2. Binding Names Cheat Sheet
+
+| Widget Type | Variable Name (Binding) | Purpose |
+| :--- | :--- | :--- |
+| **WidgetSwitcher** | `EquipTabSwitcher` | Switches between Inventory and Upgrade views. |
+| **Button** | `Btn_InventoryTab` | Button to show the standard inventory. |
+| **Button** | `Btn_UpgradeTab` | Button to show the upgrade interface. |
+| **Widget/Canvas** | `UpgradePanel` | The container for the upgrade UI elements. |
+| **WBP_InventorySlot** | `Upgrade_SourceSlot` | Displays the item currently selected for upgrade. |
+| **TextBlock** | `Upgrade_BeforeStats` | Shows the current stats (e.g., "Damage: 10"). |
+| **TextBlock** | `Upgrade_AfterStats` | Shows the preview stats (e.g., "Damage: 15"). |
+| **TextBlock** | `Upgrade_CostText` | Shows the gold cost (e.g., "Cost: 250 Gold"). |
+| **Button** | `Btn_ConfirmUpgrade` | The button that actually triggers the upgrade. |
 
 ## 2. InventoryUpgradeComponent Configuration
 
