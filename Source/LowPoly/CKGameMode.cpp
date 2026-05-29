@@ -174,18 +174,10 @@ void ACKGameMode::StartPostRoundPhaseWithResult(bool bWin)
 
 void ACKGameMode::DelayedTravelToLobby()
 {
-    // Save all player data into PersistenceManager before traveling
-    for (FConstPlayerControllerIterator It = GetWorld()->GetPlayerControllerIterator(); It; ++It)
-    {
-        APlayerController* PC = It->Get();
-        if (PC)
-        {
-            if (APlayerCharacter* Char = Cast<APlayerCharacter>(PC->GetPawn()))
-            {
-                Char->SaveToPersistenceManager();
-            }
-        }
-    }
+    // NO LONGER saving to PersistenceManager here.
+    // PersistenceManager is for permanent cross-session or long-term storage.
+    // ServerTravel handles PlayerState preservation automatically.
+    // Saving here was causing 'ghost' items to resurface from the singleton.
 
     TravelToLobby();
 }

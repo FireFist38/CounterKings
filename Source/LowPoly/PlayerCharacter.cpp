@@ -83,19 +83,16 @@ void APlayerCharacter::BeginPlay()
 	if (APlayerController* PlayerController = Cast<APlayerController>(Controller)) { if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer())) { Subsystem->AddMappingContext(DefaultMappingContext, 0); } }
     UpdateInputGating();
 
-    // Restore player data from PersistenceManager if this is after map travel
+    // Restore player data from PersistenceManager only if explicitly needed.
+    // Standard round-to-lobby travel is handled by PlayerState restoration in GameMode.
     if (HasAuthority())
     {
         UCKPersistenceManager& PM = UCKPersistenceManager::Get();
-        UE_LOG(LogTemp, Warning, TEXT("BeginPlay: PersistenceManager found - SavedGold: %d, SavedLevel: %d"), PM.SavedGold, PM.SavedLevel);
-        if (PM.SavedGold > 0 || PM.SavedLevel > 1)
+        // Only restore if we have valid classes saved, which indicates a real manual save.
+        if (PM.SavedMainHandClasses.Num() > 0 || PM.SavedInventoryClasses.Num() > 0)
         {
-            UE_LOG(LogTemp, Warning, TEXT("BeginPlay: Restoring player data from PersistenceManager - Gold: %d, Level: %d"), PM.SavedGold, PM.SavedLevel);
+            UE_LOG(LogTemp, Warning, TEXT("BeginPlay: Restoring player data from PersistenceManager - Gold: %d"), PM.SavedGold);
             RestoreFromPersistenceManager();
-        }
-        else
-        {
-            UE_LOG(LogTemp, Warning, TEXT("BeginPlay: No saved data to restore (Gold: %d, Level: %d)"), PM.SavedGold, PM.SavedLevel);
         }
     }
 }

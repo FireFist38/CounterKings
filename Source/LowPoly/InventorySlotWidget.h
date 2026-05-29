@@ -42,6 +42,9 @@ public:
 	EContextType InteractionContext = EContextType::Drop;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CK|UI")
+	bool bAllowContextMenu = true;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CK|UI")
 	EInventorySlotType SlotType = EInventorySlotType::Bag;
 
 	/** The index in the InventoryComponent array this slot represents (0, 1, 2, etc.) */
