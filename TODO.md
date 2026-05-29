@@ -13,8 +13,8 @@
 ## Progress
 - [x] Backend primitives scaffolded in:
   - [x] `InventoryUpgradeComponent.h/.cpp` (target rarity resolution, cost lookup, preview scaffolding)
-- [ ] UI wiring: Upgrade tab/panel + widgets + selection state
-- [ ] UI eligibility + preview computation (event-driven)
-- [ ] Server RPC to perform upgrade + deduct gold + update item rarity
-- [ ] Replication refresh verification
+- [x] UI wiring: Upgrade tab/panel + widgets + selection state
+- [x] UI eligibility + preview computation (event-driven)
+- [x] Server RPC to perform upgrade + deduct gold + update item rarity
+- [x] Replication refresh verification
 - [ ] Compile + PIE tests

@@ -137,11 +137,16 @@ FReply UInventorySlotWidget::NativeOnMouseButtonDown(const FGeometry& InGeometry
 
 FReply UInventorySlotWidget::NativeOnMouseButtonUp(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
 {
-    if (GetWorld()->GetTimeSeconds() - ClickStartTime < 0.2f && CachedItem)
+    if (GetWorld()->GetTimeSeconds() - ClickStartTime < 0.2f)
     {
-        APlayerController* PC = GetOwningPlayer();
-        if (PC && ContextMenuClass)
+        // Broadcast selection even if CachedItem is null (to allow clearing selection in Upgrade tab)
+        OnSlotSelected.Broadcast(this);
+
+        if (CachedItem)
         {
+            APlayerController* PC = GetOwningPlayer();
+            if (PC && ContextMenuClass)
+            {
             TArray<UUserWidget*> FoundWidgets;
             UWidgetBlueprintLibrary::GetAllWidgetsOfClass(GetWorld(), FoundWidgets, UShopContextMenuWidget::StaticClass(), false);
             for (UUserWidget* Widget : FoundWidgets) Widget->RemoveFromParent();

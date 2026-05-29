@@ -11,7 +11,9 @@
 
 class AItemBase;
 
-UENUM(BlueprintType)
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnSlotSelected, UInventorySlotWidget*, SlotWidget);
+
+UCLASS()BlueprintType)
 enum class EInventorySlotType : uint8
 {
 	MainHand,
@@ -44,9 +46,12 @@ public:
 
 	/** The index in the InventoryComponent array this slot represents (0, 1, 2, etc.) */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CK|UI")
-	int32 SlotIndex = 0;
+		int32 SlotIndex = 0;
 
-	void UpdateSlot(AItemBase* Item, int32 NewSlotIndex);
+		UPROPERTY(BlueprintAssignable, Category = "CK|UI")
+		FOnSlotSelected OnSlotSelected;
+
+		void UpdateSlot(AItemBase* Item, int32 NewSlotIndex);
 	void SetHighlighted(bool bIsHighlighted);
 	void SetActiveSlotIndicator(bool bIsActive);
 

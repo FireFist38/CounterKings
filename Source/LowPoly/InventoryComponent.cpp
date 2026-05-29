@@ -9,6 +9,7 @@
 #include "OffHandBase.h"
 #include "ArmorBase.h"
 #include "ConsumableBase.h"
+#include "InventoryUpgradeComponent.h"
 
 UInventoryComponent::UInventoryComponent()
 {
@@ -412,6 +413,47 @@ void UInventoryComponent::Server_DropItem_Implementation(ESlotGroup FromGroup, i
 		: ItemToDrop->GetActorLocation();
 
 	ItemToDrop->OnDropped(DropLocation);
+}
+
+void UInventoryComponent::Server_RequestUpgradeRarity_Implementation(AItemBase* Item, EItemUpgradeTarget UpgradeTarget)
+{
+    if (!Item) return;
+
+    // 1. Validate ownership: Item must be in one of our slots
+    bool bOwned = false;
+    if (MainHandSlots.Contains(Item)) bOwned = true;
+    else if (OffHandSlots.Contains(Item)) bOwned = true;
+    else if (InventorySlots.Contains(Item)) bOwned = true;
+    else if (ArmorSet == Item) bOwned = true;
+    else if (ConsumableSlot == Item) bOwned = true;
+
+    if (!bOwned) return;
+
+    // 2. Get Upgrade Component
+    APlayerCharacter* Character = Cast<APlayerCharacter>(GetOwner());
+    if (!Character) return;
+
+    UInventoryUpgradeComponent* UpgradeComp = Character->FindComponentByClass<UInventoryUpgradeComponent>();
+    if (!UpgradeComp) return;
+
+    UAttributeComponent* Attr = Character->GetAttributeComponent();
+    if (!Attr) return;
+
+    // 3. Resolve target rarity and cost
+    EItemRarity CurrentRarity = Item->Rarity;
+    EItemRarity TargetRarity = UpgradeComp->ResolveTargetRarity(CurrentRarity, UpgradeTarget);
+
+    int32 Cost = 0;
+    if (!UpgradeComp->GetUpgradeCostFor(CurrentRarity, TargetRarity, Cost)) return;
+
+    // 4. Validate gold
+    if (Attr->GetGold() < Cost) return;
+
+    // 5. Deduct gold and update rarity
+    Attr->AddGold(-Cost);
+    Item->Rarity = TargetRarity;
+
+    // Rarity is replicated on ItemBase, so this will propagate to clients.
 }
 
 void UInventoryComponent::RemoveItem(AItemBase* ItemToRemove)

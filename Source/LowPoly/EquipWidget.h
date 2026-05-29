@@ -7,6 +7,8 @@
 
 class UButton;
 class UInventorySlotWidget;
+class UWidgetSwitcher;
+class UWidget;
 
 UCLASS()
 class LOWPOLY_API UEquipWidget : public UUserWidget
@@ -59,7 +61,31 @@ public:
 	UPROPERTY(meta = (BindWidget)) UTextBlock* TimerText;
 	UPROPERTY(meta = (BindWidget)) UTextBlock* GoldText;
 
+	// --- Upgrade Tab Widgets ---
+	UPROPERTY(meta = (BindWidgetOptional)) UWidgetSwitcher* EquipTabSwitcher;
+	UPROPERTY(meta = (BindWidgetOptional)) UButton* Btn_InventoryTab;
+	UPROPERTY(meta = (BindWidgetOptional)) UButton* Btn_UpgradeTab;
+
+	UPROPERTY(meta = (BindWidgetOptional)) UWidget* UpgradePanel;
+	UPROPERTY(meta = (BindWidgetOptional)) UInventorySlotWidget* Upgrade_SourceSlot;
+	UPROPERTY(meta = (BindWidgetOptional)) UTextBlock* Upgrade_BeforeStats;
+	UPROPERTY(meta = (BindWidgetOptional)) UTextBlock* Upgrade_AfterStats;
+	UPROPERTY(meta = (BindWidgetOptional)) UTextBlock* Upgrade_CostText;
+	UPROPERTY(meta = (BindWidgetOptional)) UButton* Btn_ConfirmUpgrade;
+
 protected:
+	UFUNCTION() void OnInventoryTabClicked();
+	UFUNCTION() void OnUpgradeTabClicked();
+	UFUNCTION() void OnConfirmUpgradeClicked();
+	UFUNCTION() void HandleSlotSelected(UInventorySlotWidget* SlotWidget);
+	void UpdateUpgradePreview();
+
+	// Selection state for upgrade
+	UPROPERTY() AItemBase* SelectedUpgradeItem = nullptr;
+
+	// Keep track of the current rarity of the selected item to detect changes
+	EItemRarity LastKnownRarity;
+
 	virtual void NativeConstruct() override;
 	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
 };
