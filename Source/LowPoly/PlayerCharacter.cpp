@@ -824,8 +824,8 @@ void APlayerCharacter::StartAttackMontageSection(int32 C)
     if (!W || !W->GetAttackMontage()) { Server_ResetCombo_Implementation(); return; } 
     if (AttributeComponent) 
     { 
-        if (W->bUseMana) { if (!AttributeComponent->ConsumeMana(W->ManaCost)) { Server_ResetCombo_Implementation(); return; } } 
-        else { if (!AttributeComponent->ConsumeStamina(W->StaminaCost)) { Server_ResetCombo_Implementation(); return; } } 
+        if (W->bUseMana) { if (!AttributeComponent->ConsumeMana(W->GetManaCost())) { Server_ResetCombo_Implementation(); return; } } 
+        else { if (!AttributeComponent->ConsumeStamina(W->GetStaminaCost())) { Server_ResetCombo_Implementation(); return; } } 
     } else { Server_ResetCombo_Implementation(); return; } 
     const FName S = W->GetComboSectionName(C); if (S == NAME_None) { Server_ResetCombo_Implementation(); return; } 
     Multicast_PlayAttackMontage(W->GetAttackMontage(), S); 
@@ -1195,9 +1195,11 @@ void APlayerCharacter::RestoreFromPersistenceManager()
     UCKPersistenceManager& PM = UCKPersistenceManager::Get();
 
     // Check if we have saved data to restore
-    if (PM.SavedGold == 0 && PM.SavedLevel == 1)
+    // Added a more robust check: Only restore if Gold > 0 OR Level > 1. 
+    // If both are defaults (0 and 1), assume this is a fresh start and do NOT restore.
+    if (PM.SavedGold <= 0 && PM.SavedLevel <= 1 && PM.SavedMainHandClasses.Num() == 0)
     {
-        UE_LOG(LogTemp, Warning, TEXT("RestoreFromPersistenceManager: No saved data to restore (Gold: %d, Level: %d)"), PM.SavedGold, PM.SavedLevel);
+        UE_LOG(LogTemp, Warning, TEXT("RestoreFromPersistenceManager: No valid saved data to restore (Gold: %d, Level: %d). Skipping restore."), PM.SavedGold, PM.SavedLevel);
         return;
     }
 

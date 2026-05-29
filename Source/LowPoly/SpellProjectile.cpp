@@ -33,9 +33,22 @@ bool USpellProjectile::Cast(APlayerCharacter* Caster, AMagicWeaponBase* Staff)
 	UAttributeComponent* Attr = Caster->GetAttributeComponent();
 	const float Mult = Staff->ComputeAttributeMultiplier(Attr);
     
+    // Total Damage = (Spell's own internal damage + the Staff's Rarity-based damage) * Attributes
     FDamageBundle FinalDamage = SpellDamage;
+    FDamageBundle StaffBonus = Staff->GetCurrentDamage();
+    
+    FinalDamage.Physical += StaffBonus.Physical;
+    FinalDamage.Magic += StaffBonus.Magic;
+    FinalDamage.Fire += StaffBonus.Fire;
+    FinalDamage.Lightning += StaffBonus.Lightning;
+    FinalDamage.Frost += StaffBonus.Frost;
+    FinalDamage.Poison += StaffBonus.Poison;
+    FinalDamage.Holy += StaffBonus.Holy;
+    FinalDamage.Earth += StaffBonus.Earth;
+
     FinalDamage.Scale(Mult);
 
 	Projectile->InitProjectile(Caster, FinalDamage);
+
 	return true;
 }

@@ -65,3 +65,59 @@ void AShieldBase::StopUseOffHand(class APlayerCharacter* Character)
         }
     }
 }
+
+float AShieldBase::GetPhysicalNegationForRarity(EItemRarity TargetRarity) const
+{
+    FRarityStats Stats;
+    if (GetRarityStatsFor(TargetRarity, Stats)) return Stats.PhysicalNegation;
+    return PhysicalNegation;
+}
+
+float AShieldBase::GetMagicNegationForRarity(EItemRarity TargetRarity) const
+{
+    FRarityStats Stats;
+    if (GetRarityStatsFor(TargetRarity, Stats)) return Stats.MagicNegation;
+    return MagicNegation;
+}
+
+float AShieldBase::GetFireNegationForRarity(EItemRarity TargetRarity) const
+{
+    FRarityStats Stats;
+    if (GetRarityStatsFor(TargetRarity, Stats)) return Stats.FireNegation;
+    return FireNegation;
+}
+
+float AShieldBase::GetLightningNegationForRarity(EItemRarity TargetRarity) const
+{
+    FRarityStats Stats;
+    if (GetRarityStatsFor(TargetRarity, Stats)) return Stats.LightningNegation;
+    return LightningNegation;
+}
+
+float AShieldBase::GetFrostNegationForRarity(EItemRarity TargetRarity) const
+{
+    FRarityStats Stats;
+    if (GetRarityStatsFor(TargetRarity, Stats)) return Stats.FrostNegation;
+    return FrostNegation;
+}
+
+float AShieldBase::GetPoisonNegationForRarity(EItemRarity TargetRarity) const
+{
+    FRarityStats Stats;
+    if (GetRarityStatsFor(TargetRarity, Stats)) return Stats.PoisonNegation;
+    return PoisonNegation;
+}
+
+float AShieldBase::GetHolyNegationForRarity(EItemRarity TargetRarity) const
+{
+    FRarityStats Stats;
+    if (GetRarityStatsFor(TargetRarity, Stats)) return Stats.HolyNegation;
+    return HolyNegation;
+}
+
+float AShieldBase::GetEarthNegationForRarity(EItemRarity TargetRarity) const
+{
+    FRarityStats Stats;
+    if (GetRarityStatsFor(TargetRarity, Stats)) return Stats.EarthNegation;
+    return EarthNegation;
+}

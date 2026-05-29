@@ -24,10 +24,6 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "CK|Components")
 	class UBoxComponent* HitboxComponent;
 
-    // --- Combat Stats ---
-    UPROPERTY(Replicated, EditAnywhere, BlueprintReadWrite, Category = "CK|Combat")
-    FDamageBundle BaseDamage;
-
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CK|Combat")
     UAnimMontage* AttackMontage;
 
@@ -131,6 +127,12 @@ public:
 
     UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "CK|Combat")
     EWeaponHoldStance GetHoldStance() const;
+
+    UFUNCTION(BlueprintCallable, Category = "CK|Combat")
+    virtual float GetManaCost() const;
+
+    UFUNCTION(BlueprintCallable, Category = "CK|Combat")
+    virtual float GetStaminaCost() const;
 
     virtual FSkillSlotInfo GetLMBSkillInfo() const;
     virtual FSkillSlotInfo GetRMBSkillInfo() const;

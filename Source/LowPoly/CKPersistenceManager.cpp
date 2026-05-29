@@ -12,6 +12,15 @@ UCKPersistenceManager& UCKPersistenceManager::Get()
     return *Instance;
 }
 
+void UCKPersistenceManager::DestroyInstance()
+{
+    if (Instance)
+    {
+        Instance->RemoveFromRoot();
+        Instance = nullptr;
+    }
+}
+
 UCKPersistenceManager::UCKPersistenceManager()
 {
     SavedLevel = 1;

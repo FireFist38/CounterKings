@@ -7,6 +7,9 @@
 #include "SecondaryRangedBase.h"
 #include "MagicWeaponBase.h"
 #include "ShieldBase.h"
+#include "ArmorBase.h"
+#include "SpellBase.h"
+#include "SpellProjectile.h"
 #include "CKGameState.h"
 #include "Kismet/GameplayStatics.h"
 #include "ItemUpgradeCost.h"
@@ -85,7 +88,7 @@ static FString FormatDamageBundleCompact(const FDamageBundle& Dmg)
 
 	if (Parts.Num() == 0)
 	{
-		return TEXT("Damage: 0");
+		return TEXT("0");
 	}
 	return FString::Join(Parts, TEXT(" | "));
 }
@@ -95,67 +98,161 @@ FUpgradePreviewStats UInventoryUpgradeComponent::BuildUpgradePreviewStats(const 
 	FUpgradePreviewStats Out;
 	if (!Item || !Attr) return Out;
 
-	// We temporarily compute stats based on rarity by calling getters that already incorporate rarity.
-	// Since item getters rely on Item->Rarity, we compute by directly overriding rarity on a local pointer pattern:
-	// In authoritative flow, we will update item rarity on server. For UI preview we just need the computed strings.
-	// NOTE: We are not mutating the item here.
+    TArray<FString> BeforeLines;
+    TArray<FString> AfterLines;
 
-	// Helper: compute based on a hypothetical rarity by using rarity strength scale.
-	// Existing damage/negation getters use ItemBase::GetRarityInternal() / Rarity where available.
-	// For melee/ranged/magic damage we will use the weapon ComputeAttributeMultiplier which uses Rarity.
-	// So we need the rarity-specific multiplier. Since item mutation is not safe for preview, we use the scaled getters
-	// by cloning the computation formula is out-of-scope; for now, reuse SetupContextMenu-style logic is done by forcing
-	// item rarity during preview at UI layer.
-	//
-	// Therefore, this component currently returns negation for shields and compact damage text using the *current* item rarity.
-	// The actual Upgrade UI should compute AfterText/AfterNegations by temporarily setting item rarity on the server-owned instance.
+    auto AddStatLine = [&](const FString& Label, const FString& BeforeVal, const FString& AfterVal)
+    {
+        BeforeLines.Add(FString::Printf(TEXT("%s: %s"), *Label, *BeforeVal));
+        AfterLines.Add(FString::Printf(TEXT("%s: %s"), *Label, *AfterVal));
+    };
 
-	// Shield negation preview
-	if (const AShieldBase* Shield = Cast<AShieldBase>(Item))
+	// 0. Spell Name (for Staves/Magic items)
+	if (const AMagicWeaponBase* Staff = Cast<AMagicWeaponBase>(Item))
 	{
-		Out.bIsNegationPreview = true;
-
-		// Before
-		Out.BeforePhysicalNegation = Shield->GetPhysicalNegation();
-		Out.BeforeMagicNegation = Shield->GetMagicNegation();
-
-		// After - rarity impacts item visuals via Rarity only; current shield negation getters are rarity-independent.
-		// So After equals Before unless shield-specific rarity re-authoring exists.
-		Out.AfterPhysicalNegation = Out.BeforePhysicalNegation;
-		Out.AfterMagicNegation = Out.BeforeMagicNegation;
-
-		Out.BeforeText = FString::Printf(TEXT("Negation:\nPhys %.1f%%\nMagic %.1f%%"), Out.BeforePhysicalNegation * 100.0f, Out.BeforeMagicNegation * 100.0f);
-		Out.AfterText = FString::Printf(TEXT("Negation:\nPhys %.1f%%\nMagic %.1f%%"), Out.AfterPhysicalNegation * 100.0f, Out.AfterMagicNegation * 100.0f);
-		return Out;
+		if (Staff->GetPrimarySpell())
+		{
+			FString SpellName = Staff->GetPrimarySpell()->DisplayName.ToString();
+			if (SpellName.IsEmpty() || SpellName == TEXT("Unnamed Spell")) SpellName = TEXT("Active Spell");
+			AddStatLine(TEXT("Spell"), SpellName, SpellName);
+		}
 	}
 
-	// Weapon damage preview (compact)
-	auto GetDmg = [&]() -> FDamageBundle
+	// 1. Damage (for Weapons/Offhands)
+	if (Item->GetItemType() == EItemType::Melee || Item->GetItemType() == EItemType::Ranged || Item->GetItemType() == EItemType::Magic)
 	{
-		if (const AMagicWeaponBase* Staff = Cast<AMagicWeaponBase>(Item))
-		{
-			// Note: We'd need USpellBase to have GetDamageForUI, but for now we fallback
-			return FDamageBundle();
-		}
-		if (const ARangedWeaponBase* Ranged = Cast<ARangedWeaponBase>(Item))
-		{
-			return Ranged->GetScaledDamage(Attr);
-		}
-		if (const AMainHandBase* Weapon = Cast<AMainHandBase>(Item))
-		{
-			return Weapon->GetScaledDamage(Attr);
-		}
-		if (const ASecondaryRangedBase* OffRanged = Cast<ASecondaryRangedBase>(Item))
-		{
-			return OffRanged->GetScaledDamageForUI(Attr);
-		}
-		return FDamageBundle();
-	};
+        auto GetDmgText = [&](EItemRarity RarityToPreview) -> FString
+        {
+            FDamageBundle FinalDmg;
+            if (const AMagicWeaponBase* Staff = Cast<AMagicWeaponBase>(Item))
+            {
+                // Magic Total = (Spell Base + Staff Bonus) * Attr
+                if (Staff->GetPrimarySpell())
+                {
+                    if (const USpellProjectile* Proj = Cast<USpellProjectile>(Staff->GetPrimarySpell()))
+                    {
+                        FinalDmg = Proj->SpellDamage;
+                        FDamageBundle StaffBonus = Staff->GetDamageForRarity(RarityToPreview);
+                        FinalDmg.Physical += StaffBonus.Physical;
+                        FinalDmg.Magic += StaffBonus.Magic;
+                        FinalDmg.Fire += StaffBonus.Fire;
+                        FinalDmg.Lightning += StaffBonus.Lightning;
+                        FinalDmg.Frost += StaffBonus.Frost;
+                        FinalDmg.Poison += StaffBonus.Poison;
+                        FinalDmg.Holy += StaffBonus.Holy;
+                        FinalDmg.Earth += StaffBonus.Earth;
+                        
+                        const float RarityScale = AItemBase::GetRarityStrengthScale(RarityToPreview);
+                        const float MagicCoeff = AItemBase::GetLetterStatScalingCoeff(Staff->MagicScalingLetter);
+                        float Mult = 1.0f + RarityScale * (Attr->Magic * MagicCoeff);
+                        FinalDmg.Scale(Mult);
+                    }
+                }
+            }
+            else if (const AMainHandBase* MH = Cast<AMainHandBase>(Item))
+            {
+                FinalDmg = Item->GetDamageForRarity(RarityToPreview);
+                const float RarityScale = AItemBase::GetRarityStrengthScale(RarityToPreview);
+                const float StrengthCoeff  = AItemBase::GetLetterStatScalingCoeff(MH->StrengthScalingLetter);
+                const float DexterityCoeff = AItemBase::GetLetterStatScalingCoeff(MH->DexterityScalingLetter);
+                const float MagicCoeff     = AItemBase::GetLetterStatScalingCoeff(MH->MagicScalingLetter);
+                const float LuckCoeff      = AItemBase::GetLetterStatScalingCoeff(MH->LuckScalingLetter);
+                float Mult = 1.0f + RarityScale * (Attr->Strength * StrengthCoeff + Attr->Dexterity * DexterityCoeff + Attr->Magic * MagicCoeff + Attr->Luck * LuckCoeff);
+                FinalDmg.Scale(Mult);
+            }
+            else if (const ASecondaryRangedBase* SR = Cast<ASecondaryRangedBase>(Item))
+            {
+                FinalDmg = Item->GetDamageForRarity(RarityToPreview);
+                const float RarityScale = AItemBase::GetRarityStrengthScale(RarityToPreview);
+                const float StrengthCoeff  = AItemBase::GetLetterStatScalingCoeff(SR->GetStrengthScalingLetter());
+                const float DexterityCoeff = AItemBase::GetLetterStatScalingCoeff(SR->GetDexterityScalingLetter());
+                const float MagicCoeff     = AItemBase::GetLetterStatScalingCoeff(SR->GetMagicScalingLetter());
+                const float LuckCoeff      = AItemBase::GetLetterStatScalingCoeff(SR->GetLuckScalingLetter());
+                float Mult = 1.0f + RarityScale * (Attr->Strength * StrengthCoeff + Attr->Dexterity * DexterityCoeff + Attr->Magic * MagicCoeff + Attr->Luck * LuckCoeff);
+                FinalDmg.Scale(Mult);
+            }
+            return FormatDamageBundleCompact(FinalDmg);
+        };
 
-	const FDamageBundle CurrDmg = GetDmg();
+        AddStatLine(TEXT("Damage"), GetDmgText(CurrentRarity), GetDmgText(TargetRarity));
+	}
 
-	Out.BeforeText = FormatDamageBundleCompact(CurrDmg);
-	Out.AfterText = Out.BeforeText;
+    // 2. Ranged Performance
+    if (const ARangedWeaponBase* Ranged = Cast<ARangedWeaponBase>(Item))
+    {
+        // Magazine
+        int32 MagBefore = Ranged->GetMagazineCapacityForRarity(CurrentRarity);
+        if (MagBefore <= 0) MagBefore = Ranged->GetMagazineCapacity();
+        int32 MagAfter = Ranged->GetMagazineCapacityForRarity(TargetRarity);
+        if (MagAfter <= 0) MagAfter = MagBefore;
+        if (MagBefore != MagAfter || MagAfter > 1) // Only show if relevant
+            AddStatLine(TEXT("Magazine"), FString::FromInt(MagBefore), FString::FromInt(MagAfter));
+
+        // Fire Rate
+        float RPMBefore = Ranged->GetFireRateRPMForRarity(CurrentRarity);
+        if (RPMBefore <= 0.0f) RPMBefore = Ranged->GetFireRateRPM();
+        float RPMAfter = Ranged->GetFireRateRPMForRarity(TargetRarity);
+        if (RPMAfter <= 0.0f) RPMAfter = RPMBefore;
+        if (RPMBefore != RPMAfter || RPMAfter > 0.0f)
+            AddStatLine(TEXT("RPM"), FString::Printf(TEXT("%.0f"), RPMBefore), FString::Printf(TEXT("%.0f"), RPMAfter));
+
+        // Reload
+        float ReloadBefore = Ranged->GetReloadTimeForRarity(CurrentRarity);
+        if (ReloadBefore <= 0.0f) ReloadBefore = Ranged->GetReloadTime();
+        float ReloadAfter = Ranged->GetReloadTimeForRarity(TargetRarity);
+        if (ReloadAfter <= 0.0f) ReloadAfter = ReloadBefore;
+        if (ReloadBefore != ReloadAfter)
+            AddStatLine(TEXT("Reload Time"), FString::Printf(TEXT("%.1fs"), ReloadBefore), FString::Printf(TEXT("%.1fs"), ReloadAfter));
+    }
+
+    // 3. Resource Costs
+    if (const AMainHandBase* MH = Cast<AMainHandBase>(Item))
+    {
+        float ManaBefore = MH->GetManaCostForRarity(CurrentRarity);
+        if (ManaBefore <= 0.0f) ManaBefore = MH->GetManaCost();
+        float ManaAfter = MH->GetManaCostForRarity(TargetRarity);
+        if (ManaAfter <= 0.0f) ManaAfter = ManaBefore;
+        if (ManaBefore != ManaAfter && ManaAfter > 0.0f)
+            AddStatLine(TEXT("Mana Cost"), FString::Printf(TEXT("%.0f"), ManaBefore), FString::Printf(TEXT("%.0f"), ManaAfter));
+
+        float StamBefore = MH->GetStaminaCostForRarity(CurrentRarity);
+        if (StamBefore <= 0.0f) StamBefore = MH->GetStaminaCost();
+        float StamAfter = MH->GetStaminaCostForRarity(TargetRarity);
+        if (StamAfter <= 0.0f) StamAfter = StamBefore;
+        if (StamBefore != StamAfter && StamAfter > 0.0f)
+            AddStatLine(TEXT("Stamina Cost"), FString::Printf(TEXT("%.0f"), StamBefore), FString::Printf(TEXT("%.0f"), StamAfter));
+    }
+
+    // 4. Defense (Shields)
+    if (const AShieldBase* Shield = Cast<AShieldBase>(Item))
+    {
+        Out.bIsNegationPreview = true;
+        float PhysBefore = Shield->GetPhysicalNegationForRarity(CurrentRarity);
+        float PhysAfter = Shield->GetPhysicalNegationForRarity(TargetRarity);
+        AddStatLine(TEXT("Physical Block"), FString::Printf(TEXT("%.0f%%"), PhysBefore * 100.0f), FString::Printf(TEXT("%.0f%%"), PhysAfter * 100.0f));
+
+        float MagBefore = Shield->GetMagicNegationForRarity(CurrentRarity);
+        float MagAfter = Shield->GetMagicNegationForRarity(TargetRarity);
+        if (MagBefore > 0.0f || MagAfter > 0.0f)
+            AddStatLine(TEXT("Magic Block"), FString::Printf(TEXT("%.0f%%"), MagBefore * 100.0f), FString::Printf(TEXT("%.0f%%"), MagAfter * 100.0f));
+    }
+
+    // 5. Armor
+    if (const AArmorBase* Armor = Cast<AArmorBase>(Item))
+    {
+        float HPBefore = Armor->GetHealthBonusForRarity(CurrentRarity);
+        float HPAfter = Armor->GetHealthBonusForRarity(TargetRarity);
+        if (HPBefore != HPAfter || HPAfter > 0.0f)
+            AddStatLine(TEXT("HP Bonus"), FString::Printf(TEXT("%d"), FMath::RoundToInt(HPBefore)), FString::Printf(TEXT("%d"), FMath::RoundToInt(HPAfter)));
+
+        float SpeedBefore = Armor->GetMovementSpeedModifierForRarity(CurrentRarity);
+        float SpeedAfter = Armor->GetMovementSpeedModifierForRarity(TargetRarity);
+        if (SpeedBefore != SpeedAfter || SpeedAfter != 1.0f)
+            AddStatLine(TEXT("Speed Multiplier"), FString::Printf(TEXT("x%.2f"), SpeedBefore), FString::Printf(TEXT("x%.2f"), SpeedAfter));
+    }
+
+    Out.BeforeText = FString::Join(BeforeLines, TEXT("\n"));
+    Out.AfterText = FString::Join(AfterLines, TEXT("\n"));
+
 	return Out;
 }
-

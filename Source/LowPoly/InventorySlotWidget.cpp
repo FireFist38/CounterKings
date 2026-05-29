@@ -137,7 +137,8 @@ FReply UInventorySlotWidget::NativeOnMouseButtonUp(const FGeometry& InGeometry, 
 	{
 		OnSlotSelected.Broadcast(this);
 
-		if (CachedItem)
+		// ONLY show context menu if NOT in the Upgrade tab (which uses 'Drop' context to represent selection)
+		if (CachedItem && InteractionContext != EContextType::Drop)
 		{
 			APlayerController* PC = GetOwningPlayer();
 			if (PC && ContextMenuClass)

@@ -12,12 +12,20 @@ class LOWPOLY_API AArmorBase : public AItemBase
 public:
 	AArmorBase();
 
+    // --- Rarity-Aware Overrides ---
+    virtual float GetHealthBonusForRarity(EItemRarity TargetRarity) const override;
+    virtual float GetMovementSpeedModifierForRarity(EItemRarity TargetRarity) const override;
+
+    // Legacy getters (linked to rarity logic)
+    float GetHealthBonus() const { return GetCurrentHealthBonus(); }
+    float GetMovementSpeedModifier() const { return GetCurrentMovementSpeedModifier(); }
+
 protected:
 	UPROPERTY(Replicated, EditAnywhere, BlueprintReadWrite, Category = "CK|Stats")
-	float HealthBonus;
+	float HealthBonus; // Fallback if no rarity stats
 
 	UPROPERTY(Replicated, EditAnywhere, BlueprintReadWrite, Category = "CK|Stats")
-	float MovementSpeedModifier; // GDD 5.2: trade-offs
+	float MovementSpeedModifier; // Fallback if no rarity stats
 
 public:
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;

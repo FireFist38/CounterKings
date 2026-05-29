@@ -298,3 +298,140 @@ void AItemBase::Unequip()
 	SetActorHiddenInGame(true);
 	SetActorEnableCollision(false);
 }
+
+bool AItemBase::GetRarityStatsFor(EItemRarity TargetRarity, FRarityStats& OutStats) const
+{
+	if (const FRarityStats* Found = RarityStats.Find(TargetRarity))
+	{
+		OutStats = *Found;
+		return true;
+	}
+	return false;
+}
+
+FDamageBundle AItemBase::GetDamageForRarity(EItemRarity TargetRarity) const
+{
+	FRarityStats Stats;
+	if (GetRarityStatsFor(TargetRarity, Stats))
+	{
+		return Stats.Damage;
+	}
+	
+	// Fallback: use base damage with rarity scale (legacy behavior)
+	FDamageBundle ScaledDamage = BaseDamage;
+	ScaledDamage.Scale(GetRarityStrengthScale(TargetRarity));
+	return ScaledDamage;
+}
+
+float AItemBase::GetPhysicalNegationForRarity(EItemRarity TargetRarity) const
+{
+	FRarityStats Stats;
+	if (GetRarityStatsFor(TargetRarity, Stats)) return Stats.PhysicalNegation;
+	return 0.0f;
+}
+
+float AItemBase::GetMagicNegationForRarity(EItemRarity TargetRarity) const
+{
+	FRarityStats Stats;
+	if (GetRarityStatsFor(TargetRarity, Stats)) return Stats.MagicNegation;
+	return 0.0f;
+}
+
+float AItemBase::GetFireNegationForRarity(EItemRarity TargetRarity) const
+{
+	FRarityStats Stats;
+	if (GetRarityStatsFor(TargetRarity, Stats)) return Stats.FireNegation;
+	return 0.0f;
+}
+
+float AItemBase::GetLightningNegationForRarity(EItemRarity TargetRarity) const
+{
+	FRarityStats Stats;
+	if (GetRarityStatsFor(TargetRarity, Stats)) return Stats.LightningNegation;
+	return 0.0f;
+}
+
+float AItemBase::GetFrostNegationForRarity(EItemRarity TargetRarity) const
+{
+	FRarityStats Stats;
+	if (GetRarityStatsFor(TargetRarity, Stats)) return Stats.FrostNegation;
+	return 0.0f;
+}
+
+float AItemBase::GetPoisonNegationForRarity(EItemRarity TargetRarity) const
+{
+	FRarityStats Stats;
+	if (GetRarityStatsFor(TargetRarity, Stats)) return Stats.PoisonNegation;
+	return 0.0f;
+}
+
+float AItemBase::GetHolyNegationForRarity(EItemRarity TargetRarity) const
+{
+	FRarityStats Stats;
+	if (GetRarityStatsFor(TargetRarity, Stats)) return Stats.HolyNegation;
+	return 0.0f;
+}
+
+float AItemBase::GetEarthNegationForRarity(EItemRarity TargetRarity) const
+{
+	FRarityStats Stats;
+	if (GetRarityStatsFor(TargetRarity, Stats)) return Stats.EarthNegation;
+	return 0.0f;
+}
+
+float AItemBase::GetHealthBonusForRarity(EItemRarity TargetRarity) const
+{
+	FRarityStats Stats;
+	if (GetRarityStatsFor(TargetRarity, Stats)) return Stats.HealthBonus;
+	return 0.0f;
+}
+
+float AItemBase::GetMovementSpeedModifierForRarity(EItemRarity TargetRarity) const
+{
+    FRarityStats Stats;
+    if (GetRarityStatsFor(TargetRarity, Stats)) return Stats.MovementSpeedModifier;
+    return 1.0f;
+}
+
+int32 AItemBase::GetMagazineCapacityForRarity(EItemRarity TargetRarity) const
+{
+	FRarityStats Stats;
+	if (GetRarityStatsFor(TargetRarity, Stats)) return Stats.MagazineCapacity;
+	return 0;
+}
+
+float AItemBase::GetFireRateRPMForRarity(EItemRarity TargetRarity) const
+{
+	FRarityStats Stats;
+	if (GetRarityStatsFor(TargetRarity, Stats)) return Stats.FireRateRPM;
+	return 0.0f;
+}
+
+float AItemBase::GetReloadTimeForRarity(EItemRarity TargetRarity) const
+{
+	FRarityStats Stats;
+	if (GetRarityStatsFor(TargetRarity, Stats)) return Stats.ReloadTime;
+	return 0.0f;
+}
+
+float AItemBase::GetRecoilPitchForRarity(EItemRarity TargetRarity) const
+{
+	FRarityStats Stats;
+	if (GetRarityStatsFor(TargetRarity, Stats)) return Stats.RecoilPitch;
+	return 0.0f;
+}
+
+float AItemBase::GetManaCostForRarity(EItemRarity TargetRarity) const
+{
+	FRarityStats Stats;
+	if (GetRarityStatsFor(TargetRarity, Stats)) return Stats.ManaCost;
+	return 0.0f;
+}
+
+float AItemBase::GetStaminaCostForRarity(EItemRarity TargetRarity) const
+{
+	FRarityStats Stats;
+	if (GetRarityStatsFor(TargetRarity, Stats)) return Stats.StaminaCost;
+	return 0.0f;
+}
+

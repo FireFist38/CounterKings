@@ -79,10 +79,6 @@ protected:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CK|Combat")
     bool bAutomatic = false;
 
-    /** Base damage bundle for the secondary weapon */
-	UPROPERTY(Replicated, EditAnywhere, BlueprintReadWrite, Category = "CK|Combat")
-	FDamageBundle BaseDamage;
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CK|Combat")
 	float AimTraceDistance = 10000.0f;
 

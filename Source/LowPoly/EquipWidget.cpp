@@ -23,31 +23,27 @@ void UEquipWidget::NativeConstruct()
 		if (!SlotWidget) return;
 		SlotWidget->SlotType = NewSlotType;
 		SlotWidget->InteractionContext = EContextType::Sell;
-
-		// Bind selection delegate for all slots to handle upgrade selection
-		// Note: We use AddUniqueDynamic to avoid double-binding if NativeConstruct is called multiple times
-		// (though unlikely for UserWidgets, it's safer).
-		// We'll use a member function for the binding.
+		SlotWidget->OnSlotSelected.AddUniqueDynamic(this, &UEquipWidget::HandleSlotSelected);
 	};
 
-	TArray<UInventorySlotWidget*> AllSlots;
-	AllSlots.Add(MainHand_Active); AllSlots.Add(OffHand_Active);
-	AllSlots.Add(MainHand_0); AllSlots.Add(MainHand_1);
-	AllSlots.Add(OffHand_0); AllSlots.Add(OffHand_1);
-	AllSlots.Add(ArmorSlot); AllSlots.Add(ConsumableSlot);
-	AllSlots.Add(Ability_0); AllSlots.Add(Ability_1); AllSlots.Add(Ability_2);
+	// 1. Configure standard slots
+	TArray<UInventorySlotWidget*> StandardSlots;
+	StandardSlots.Add(MainHand_Active); StandardSlots.Add(OffHand_Active);
+	StandardSlots.Add(MainHand_0); StandardSlots.Add(MainHand_1);
+	StandardSlots.Add(OffHand_0); StandardSlots.Add(OffHand_1);
+	StandardSlots.Add(ArmorSlot); StandardSlots.Add(ConsumableSlot);
+	StandardSlots.Add(Ability_0); StandardSlots.Add(Ability_1); StandardSlots.Add(Ability_2);
 	
 	UInventorySlotWidget* PerkWidgets[] = { Perk_0, Perk_1, Perk_2, Perk_3, Perk_4, Perk_5, Perk_6, Perk_7, Perk_8, Perk_9 };
-	for (UInventorySlotWidget* W : PerkWidgets) AllSlots.Add(W);
+	for (UInventorySlotWidget* W : PerkWidgets) StandardSlots.Add(W);
 
 	UInventorySlotWidget* BagWidgets[] = { Inv_0, Inv_1, Inv_2, Inv_3, Inv_4, Inv_5, Inv_6, Inv_7, Inv_8, Inv_9, Inv_10, Inv_11 };
-	for (UInventorySlotWidget* W : BagWidgets) AllSlots.Add(W);
+	for (UInventorySlotWidget* W : BagWidgets) StandardSlots.Add(W);
 
-	for (UInventorySlotWidget* CurrentSlot : AllSlots)
+	for (UInventorySlotWidget* CurrentSlot : StandardSlots)
 	{
 		if (!CurrentSlot) continue;
 		
-		// Configure basic slot types
 		if (CurrentSlot == ArmorSlot) ConfigureSlot(CurrentSlot, EInventorySlotType::Armor);
 		else if (CurrentSlot == ConsumableSlot) ConfigureSlot(CurrentSlot, EInventorySlotType::Consumable);
 		else if (CurrentSlot == Ability_0 || CurrentSlot == Ability_1 || CurrentSlot == Ability_2) ConfigureSlot(CurrentSlot, EInventorySlotType::Ability);
@@ -59,9 +55,30 @@ void UEquipWidget::NativeConstruct()
 			for (UInventorySlotWidget* P : PerkWidgets) if (CurrentSlot == P) { bIsPerk = true; break; }
 			ConfigureSlot(CurrentSlot, bIsPerk ? EInventorySlotType::Perk : EInventorySlotType::Bag);
 		}
+	}
 
-		// Bind selection
-		CurrentSlot->OnSlotSelected.AddUniqueDynamic(this, &UEquipWidget::HandleSlotSelected);
+	// 2. Configure Upgrade Tab slots
+	TArray<UInventorySlotWidget*> UpgradeSlots;
+	UpgradeSlots.Add(Upgrade_MainHand_Active); UpgradeSlots.Add(Upgrade_OffHand_Active);
+	UpgradeSlots.Add(Upgrade_MainHand_0); UpgradeSlots.Add(Upgrade_MainHand_1);
+	UpgradeSlots.Add(Upgrade_OffHand_0); UpgradeSlots.Add(Upgrade_OffHand_1);
+	UpgradeSlots.Add(Upgrade_ArmorSlot); UpgradeSlots.Add(Upgrade_ConsumableSlot);
+	
+	UInventorySlotWidget* UpgradeBagWidgets[] = { 
+		Upgrade_Inv_0, Upgrade_Inv_1, Upgrade_Inv_2, Upgrade_Inv_3, Upgrade_Inv_4, Upgrade_Inv_5, 
+		Upgrade_Inv_6, Upgrade_Inv_7, Upgrade_Inv_8, Upgrade_Inv_9, Upgrade_Inv_10, Upgrade_Inv_11 
+	};
+	for (UInventorySlotWidget* W : UpgradeBagWidgets) UpgradeSlots.Add(W);
+
+	for (UInventorySlotWidget* CurrentSlot : UpgradeSlots)
+	{
+		if (!CurrentSlot) continue;
+
+		if (CurrentSlot == Upgrade_ArmorSlot) ConfigureSlot(CurrentSlot, EInventorySlotType::Armor);
+		else if (CurrentSlot == Upgrade_ConsumableSlot) ConfigureSlot(CurrentSlot, EInventorySlotType::Consumable);
+		else if (CurrentSlot == Upgrade_MainHand_Active || CurrentSlot == Upgrade_MainHand_0 || CurrentSlot == Upgrade_MainHand_1) ConfigureSlot(CurrentSlot, EInventorySlotType::MainHand);
+		else if (CurrentSlot == Upgrade_OffHand_Active || CurrentSlot == Upgrade_OffHand_0 || CurrentSlot == Upgrade_OffHand_1) ConfigureSlot(CurrentSlot, EInventorySlotType::OffHand);
+		else ConfigureSlot(CurrentSlot, EInventorySlotType::Bag);
 	}
 
 	// Bind Tab Buttons
@@ -75,12 +92,59 @@ void UEquipWidget::NativeConstruct()
 
 void UEquipWidget::OnInventoryTabClicked()
 {
-	if (EquipTabSwitcher) EquipTabSwitcher->SetActiveWidgetIndex(0);
+	if (EquipTabSwitcher)
+	{
+		EquipTabSwitcher->SetActiveWidgetIndex(0);
+		SetSlotsInteractionContext(EContextType::Sell);
+	}
 }
 
 void UEquipWidget::OnUpgradeTabClicked()
 {
-	if (EquipTabSwitcher) EquipTabSwitcher->SetActiveWidgetIndex(1);
+	if (EquipTabSwitcher)
+	{
+		EquipTabSwitcher->SetActiveWidgetIndex(1);
+		SetSlotsInteractionContext(EContextType::Drop); // Use Drop/Select context in upgrade tab
+		
+		// When switching to upgrade tab, clear selection and reset slot context
+		SelectedUpgradeItem = nullptr;
+		if (Upgrade_SourceSlot) Upgrade_SourceSlot->UpdateSlot(nullptr, 0);
+		UpdateUpgradePreview();
+	}
+}
+
+void UEquipWidget::SetSlotsInteractionContext(EContextType NewContext)
+{
+	// Collect every possible slot reference into a TArray to avoid compiler confusion with stack arrays of member variables
+	TArray<UInventorySlotWidget*> AllPossibleSlots;
+	
+	AllPossibleSlots.Add(MainHand_Active); AllPossibleSlots.Add(OffHand_Active);
+	AllPossibleSlots.Add(MainHand_0); AllPossibleSlots.Add(MainHand_1);
+	AllPossibleSlots.Add(OffHand_0); AllPossibleSlots.Add(OffHand_1);
+	AllPossibleSlots.Add(ArmorSlot); AllPossibleSlots.Add(ConsumableSlot);
+	AllPossibleSlots.Add(Ability_0); AllPossibleSlots.Add(Ability_1); AllPossibleSlots.Add(Ability_2);
+	
+	UInventorySlotWidget* PWidgets[] = { Perk_0, Perk_1, Perk_2, Perk_3, Perk_4, Perk_5, Perk_6, Perk_7, Perk_8, Perk_9 };
+	for (auto* W : PWidgets) AllPossibleSlots.Add(W);
+
+	UInventorySlotWidget* BWidgets[] = { Inv_0, Inv_1, Inv_2, Inv_3, Inv_4, Inv_5, Inv_6, Inv_7, Inv_8, Inv_9, Inv_10, Inv_11 };
+	for (auto* W : BWidgets) AllPossibleSlots.Add(W);
+
+	AllPossibleSlots.Add(Upgrade_MainHand_Active); AllPossibleSlots.Add(Upgrade_OffHand_Active);
+	AllPossibleSlots.Add(Upgrade_MainHand_0); AllPossibleSlots.Add(Upgrade_MainHand_1);
+	AllPossibleSlots.Add(Upgrade_OffHand_0); AllPossibleSlots.Add(Upgrade_OffHand_1);
+	AllPossibleSlots.Add(Upgrade_ArmorSlot); AllPossibleSlots.Add(Upgrade_ConsumableSlot);
+	
+	UInventorySlotWidget* UBWidgets[] = { 
+		Upgrade_Inv_0, Upgrade_Inv_1, Upgrade_Inv_2, Upgrade_Inv_3, Upgrade_Inv_4, Upgrade_Inv_5, 
+		Upgrade_Inv_6, Upgrade_Inv_7, Upgrade_Inv_8, Upgrade_Inv_9, Upgrade_Inv_10, Upgrade_Inv_11 
+	};
+	for (auto* W : UBWidgets) AllPossibleSlots.Add(W);
+
+	for (UInventorySlotWidget* S : AllPossibleSlots)
+	{
+		if (S) S->InteractionContext = NewContext;
+	}
 }
 
 void UEquipWidget::OnConfirmUpgradeClicked()
@@ -90,47 +154,37 @@ void UEquipWidget::OnConfirmUpgradeClicked()
 	APlayerCharacter* Character = Cast<APlayerCharacter>(GetOwningPlayerPawn());
 	if (Character && Character->GetInventoryComponent())
 	{
-		// Send RPC to server
 		Character->GetInventoryComponent()->Server_RequestUpgradeRarity(SelectedUpgradeItem, EItemUpgradeTarget::Next);
-		
-		// Note: The UI will refresh automatically via NativeTick/UpdateUpgradePreview 
-		// as the item rarity replicates back from the server.
 	}
 }
 
 void UEquipWidget::HandleSlotSelected(UInventorySlotWidget* SlotWidget)
 {
-	// Only care about selection if we are in the Upgrade tab
 	if (!EquipTabSwitcher || EquipTabSwitcher->GetActiveWidgetIndex() != 1) return;
-
 	if (!SlotWidget) return;
 
 	AItemBase* Item = SlotWidget->GetCachedItem();
 	
-	// Eligibility check: Only non-perk/non-ability items can be upgraded (as per TODO.md)
 	if (Item)
 	{
 		if (Item->IsA(APerkBase::StaticClass()) || Item->IsA(AAbilityBase::StaticClass()))
 		{
-			// Invalid selection for upgrade
 			return;
 		}
 	}
 
 	SelectedUpgradeItem = Item;
 
-	// Update the source slot in the upgrade panel
 	if (Upgrade_SourceSlot)
 	{
 		Upgrade_SourceSlot->UpdateSlot(SelectedUpgradeItem, 0);
 	}
 
-		// Trigger preview refresh
-		if (SelectedUpgradeItem)
-		{
-			LastKnownRarity = SelectedUpgradeItem->GetRarity();
-		}
-		UpdateUpgradePreview();
+	if (SelectedUpgradeItem)
+	{
+		LastKnownRarity = SelectedUpgradeItem->GetRarity();
+	}
+	UpdateUpgradePreview();
 }
 
 void UEquipWidget::UpdateUpgradePreview()
@@ -158,7 +212,6 @@ void UEquipWidget::UpdateUpgradePreview()
 	EItemRarity CurrentRarity = SelectedUpgradeItem->GetRarity();
 	EItemRarity TargetRarity = UpgradeComp->ResolveTargetRarity(CurrentRarity, EItemUpgradeTarget::Next);
 
-	// 1. Cost
 	int32 Cost = 0;
 	bool bHasCost = UpgradeComp->GetUpgradeCostFor(CurrentRarity, TargetRarity, Cost);
 	
@@ -174,8 +227,6 @@ void UEquipWidget::UpdateUpgradePreview()
 		}
 	}
 
-	// 2. Stats Preview
-	// We use the BuildUpgradePreviewStats from the component
 	FUpgradePreviewStats Preview = UpgradeComp->BuildUpgradePreviewStats(Attr, SelectedUpgradeItem, CurrentRarity, TargetRarity);
 
 	if (Upgrade_BeforeStats) Upgrade_BeforeStats->SetText(FText::FromString(Preview.BeforeText));
@@ -184,9 +235,6 @@ void UEquipWidget::UpdateUpgradePreview()
 	{
 		if (bHasCost)
 		{
-			// Note: The component's BuildUpgradePreviewStats currently returns AfterText == BeforeText 
-			// because it doesn't want to mutate the item. In a real scenario, we'd want to 
-			// show the scaled-up values. For now, we follow the component's implementation.
 			Upgrade_AfterStats->SetText(FText::FromString(Preview.AfterText));
 		}
 		else
@@ -195,12 +243,78 @@ void UEquipWidget::UpdateUpgradePreview()
 		}
 	}
 
-	// 3. Confirm Button State
 	if (Btn_ConfirmUpgrade)
 	{
 		bool bCanAfford = Attr->GetGold() >= Cost;
 		bool bIsEligible = bHasCost && CurrentRarity != EItemRarity::Legendary;
 		Btn_ConfirmUpgrade->SetIsEnabled(bCanAfford && bIsEligible);
+	}
+}
+
+void UEquipWidget::UpdateInventorySlots()
+{
+	APlayerCharacter* Character = Cast<APlayerCharacter>(GetOwningPlayerPawn());
+	if (!Character || !Character->GetInventoryComponent()) return;
+
+	UInventoryComponent* Inv = Character->GetInventoryComponent();
+	
+	int32 ActiveMH = Inv->GetActiveMainHandIndex();
+	int32 ActiveOH = Inv->GetActiveOffHandIndex();
+	AItemBase* MHItem = Inv->GetActiveMainHandItem();
+	AItemBase* OHItem = Inv->GetActiveOffHandItem();
+
+	const TArray<AItemBase*> MainHandSlots = Inv->GetMainHandSlots();
+	const TArray<AItemBase*> OffHandSlots = Inv->GetOffHandSlots();
+	AItemBase* Armor = Inv->GetArmorSet();
+	AItemBase* Consumable = Inv->GetConsumableSlot();
+
+	// Helper to update a slot and its optional duplicate
+	auto UpdateDualSlot = [&](UInventorySlotWidget* Primary, UInventorySlotWidget* Secondary, AItemBase* Item, int32 Index, bool bIsActive = false)
+	{
+		if (Primary)
+		{
+			Primary->UpdateSlot(Item, Index);
+			Primary->SetActiveSlotIndicator(bIsActive);
+		}
+		if (Secondary)
+		{
+			Secondary->UpdateSlot(Item, Index);
+			Secondary->SetActiveSlotIndicator(bIsActive);
+		}
+	};
+
+	UpdateDualSlot(MainHand_Active, Upgrade_MainHand_Active, MHItem, ActiveMH);
+	UpdateDualSlot(OffHand_Active,  Upgrade_OffHand_Active, OHItem, ActiveOH);
+
+	UpdateDualSlot(MainHand_0, Upgrade_MainHand_0, MainHandSlots.IsValidIndex(0) ? MainHandSlots[0] : nullptr, 0, ActiveMH == 0 && MHItem);
+	UpdateDualSlot(MainHand_1, Upgrade_MainHand_1, MainHandSlots.IsValidIndex(1) ? MainHandSlots[1] : nullptr, 1, ActiveMH == 1 && MHItem);
+	UpdateDualSlot(OffHand_0, Upgrade_OffHand_0, OffHandSlots.IsValidIndex(0) ? OffHandSlots[0] : nullptr, 0, ActiveOH == 0 && OHItem);
+	UpdateDualSlot(OffHand_1, Upgrade_OffHand_1, OffHandSlots.IsValidIndex(1) ? OffHandSlots[1] : nullptr, 1, ActiveOH == 1 && OHItem);
+
+	UpdateDualSlot(ArmorSlot, Upgrade_ArmorSlot, Armor, 0);
+	UpdateDualSlot(ConsumableSlot, Upgrade_ConsumableSlot, Consumable, 0);
+
+	// Bag Slots
+	UInventorySlotWidget* PrimaryInv[] = { Inv_0, Inv_1, Inv_2, Inv_3, Inv_4, Inv_5, Inv_6, Inv_7, Inv_8, Inv_9, Inv_10, Inv_11 };
+	UInventorySlotWidget* SecondaryInv[] = { Upgrade_Inv_0, Upgrade_Inv_1, Upgrade_Inv_2, Upgrade_Inv_3, Upgrade_Inv_4, Upgrade_Inv_5, Upgrade_Inv_6, Upgrade_Inv_7, Upgrade_Inv_8, Upgrade_Inv_9, Upgrade_Inv_10, Upgrade_Inv_11 };
+	
+	for (int32 i = 0; i < 12; i++)
+	{
+		UpdateDualSlot(PrimaryInv[i], SecondaryInv[i], Inv->GetBagItem(i), i);
+	}
+
+	// Ability Slots (Primary only for now)
+	TArray<AAbilityBase*> Abilities = Inv->GetAbilitySlots();
+	if (Ability_0) Ability_0->UpdateSlot(Abilities.IsValidIndex(0) ? (AItemBase*)Abilities[0] : nullptr, 0);
+	if (Ability_1) Ability_1->UpdateSlot(Abilities.IsValidIndex(1) ? (AItemBase*)Abilities[1] : nullptr, 1);
+	if (Ability_2) Ability_2->UpdateSlot(Abilities.IsValidIndex(2) ? (AItemBase*)Abilities[2] : nullptr, 2);
+
+	// Perk Slots (Primary only for now)
+	TArray<APerkBase*> Perks = Inv->GetPerkSlots();
+	UInventorySlotWidget* PerkSlots[] = { Perk_0, Perk_1, Perk_2, Perk_3, Perk_4, Perk_5, Perk_6, Perk_7, Perk_8, Perk_9 };
+	for (int32 i = 0; i < 10; i++)
+	{
+		if (PerkSlots[i]) PerkSlots[i]->UpdateSlot(Perks.IsValidIndex(i) ? (AItemBase*)Perks[i] : nullptr, i);
 	}
 }
 
@@ -223,73 +337,12 @@ void UEquipWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 
 	if (Character && Character->GetInventoryComponent())
 	{
-		UInventoryComponent* Inv = Character->GetInventoryComponent();
-		
-			// If the selected item's rarity has changed (replicated from server), refresh the preview
-			if (SelectedUpgradeItem && SelectedUpgradeItem->GetRarity() != LastKnownRarity)
-			{
-				LastKnownRarity = SelectedUpgradeItem->GetRarity();
-				UpdateUpgradePreview();
-			}
-
-		int32 ActiveMH = Inv->GetActiveMainHandIndex();
-		int32 ActiveOH = Inv->GetActiveOffHandIndex();
-
-		// Update Equipped Slots (Active Only)
-		if (MainHand_Active) MainHand_Active->UpdateSlot(Inv->GetActiveMainHandItem(), ActiveMH);
-		if (OffHand_Active)  OffHand_Active->UpdateSlot(Inv->GetActiveOffHandItem(), ActiveOH);
-		const TArray<AItemBase*> MainHandSlots = Inv->GetMainHandSlots();
-		const TArray<AItemBase*> OffHandSlots = Inv->GetOffHandSlots();
-
-		if (MainHand_0)
+		if (SelectedUpgradeItem && SelectedUpgradeItem->GetRarity() != LastKnownRarity)
 		{
-			AItemBase* MainHandItem0 = MainHandSlots.IsValidIndex(0) ? MainHandSlots[0] : nullptr;
-			MainHand_0->UpdateSlot(MainHandItem0, 0);
-			MainHand_0->SetActiveSlotIndicator(ActiveMH == 0 && MainHandItem0);
+			LastKnownRarity = SelectedUpgradeItem->GetRarity();
+			UpdateUpgradePreview();
 		}
-		if (MainHand_1)
-		{
-			AItemBase* MainHandItem1 = MainHandSlots.IsValidIndex(1) ? MainHandSlots[1] : nullptr;
-			MainHand_1->UpdateSlot(MainHandItem1, 1);
-			MainHand_1->SetActiveSlotIndicator(ActiveMH == 1 && MainHandItem1);
-		}
-		if (OffHand_0)
-		{
-			AItemBase* OffHandItem0 = OffHandSlots.IsValidIndex(0) ? OffHandSlots[0] : nullptr;
-			OffHand_0->UpdateSlot(OffHandItem0, 0);
-			OffHand_0->SetActiveSlotIndicator(ActiveOH == 0 && OffHandItem0);
-		}
-		if (OffHand_1)
-		{
-			AItemBase* OffHandItem1 = OffHandSlots.IsValidIndex(1) ? OffHandSlots[1] : nullptr;
-			OffHand_1->UpdateSlot(OffHandItem1, 1);
-			OffHand_1->SetActiveSlotIndicator(ActiveOH == 1 && OffHandItem1);
-		}
-		if (ArmorSlot)       ArmorSlot->UpdateSlot(Inv->GetArmorSet(), 0);
-		if (ConsumableSlot)  ConsumableSlot->UpdateSlot(Inv->GetConsumableSlot(), 0);
 
-        // Update Ability Slots
-        TArray<AAbilityBase*> Abilities = Inv->GetAbilitySlots();
-        if (Ability_0) Ability_0->UpdateSlot(Abilities.IsValidIndex(0) ? (AItemBase*)Abilities[0] : nullptr, 0);
-        if (Ability_1) Ability_1->UpdateSlot(Abilities.IsValidIndex(1) ? (AItemBase*)Abilities[1] : nullptr, 1);
-        if (Ability_2) Ability_2->UpdateSlot(Abilities.IsValidIndex(2) ? (AItemBase*)Abilities[2] : nullptr, 2);
-
-        // Update Perk Slots
-        TArray<APerkBase*> Perks = Inv->GetPerkSlots();
-        UInventorySlotWidget* PerkSlots[] = { Perk_0, Perk_1, Perk_2, Perk_3, Perk_4, Perk_5, Perk_6, Perk_7, Perk_8, Perk_9 };
-        for (int32 i = 0; i < 10; i++)
-        {
-            if (PerkSlots[i]) PerkSlots[i]->UpdateSlot(Perks.IsValidIndex(i) ? (AItemBase*)Perks[i] : nullptr, i);
-        }
-		
-		// Update Inventory Bag Slots (Inv_0 to Inv_11)
-		UInventorySlotWidget* InvSlots[] = { Inv_0, Inv_1, Inv_2, Inv_3, Inv_4, Inv_5, Inv_6, Inv_7, Inv_8, Inv_9, Inv_10, Inv_11 };
-		for (int32 i = 0; i < 12; i++)
-		{
-			if (InvSlots[i])
-			{
-				InvSlots[i]->UpdateSlot(Inv->GetBagItem(i), i);
-			}
-		}
+		UpdateInventorySlots();
 	}
 }

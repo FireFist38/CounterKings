@@ -5,15 +5,6 @@
 #include "InventoryComponent.h"
 #include "ShopContextMenuWidget.generated.h"
 
-UENUM(BlueprintType)
-enum class EContextType : uint8
-{
-    Purchase,
-    Sell,
-    Equip,
-    Drop
-};
-
 class UButton;
 class UTextBlock;
 class AItemBase;

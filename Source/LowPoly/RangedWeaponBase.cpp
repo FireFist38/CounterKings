@@ -107,13 +107,34 @@ void ARangedWeaponBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Ou
 
 float ARangedWeaponBase::GetEffectiveShotsPerSecond() const
 {
-	if (FireRateRPM > 0.0f)
-	{
-		return FireRateRPM / 60.0f;
-	}
+	float RPM = GetCurrentFireRateRPM();
+    if (RPM <= 0.0f) RPM = FireRateRPM;
 
+	if (RPM > 0.0f)
+	{
+		return RPM / 60.0f;
+	}
 	return FireRate;
 }
+
+int32 ARangedWeaponBase::GetMagazineCapacity() const
+{
+    int32 RarityMag = GetCurrentMagazineCapacity();
+    return (RarityMag > 0) ? RarityMag : MagazineCapacity;
+}
+
+float ARangedWeaponBase::GetReloadTime() const
+{
+    float RarityReload = GetReloadTimeForRarity(GetRarity());
+    return (RarityReload > 0.0f) ? RarityReload : ReloadTime;
+}
+
+float ARangedWeaponBase::GetRecoilPitch() const
+{
+    float RarityRecoil = GetRecoilPitchForRarity(GetRarity());
+    return (RarityRecoil > 0.0f) ? RarityRecoil : RecoilPitch;
+}
+
 
 bool ARangedWeaponBase::CanFire() const
 {

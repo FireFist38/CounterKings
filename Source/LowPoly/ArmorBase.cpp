@@ -15,3 +15,18 @@ void AArmorBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifeti
 	DOREPLIFETIME(AArmorBase, HealthBonus);
 	DOREPLIFETIME(AArmorBase, MovementSpeedModifier);
 }
+
+float AArmorBase::GetHealthBonusForRarity(EItemRarity TargetRarity) const
+{
+    FRarityStats Stats;
+    if (GetRarityStatsFor(TargetRarity, Stats)) return Stats.HealthBonus;
+    return HealthBonus;
+}
+
+float AArmorBase::GetMovementSpeedModifierForRarity(EItemRarity TargetRarity) const
+{
+    FRarityStats Stats;
+    if (GetRarityStatsFor(TargetRarity, Stats)) return Stats.MovementSpeedModifier;
+    return MovementSpeedModifier;
+}
+

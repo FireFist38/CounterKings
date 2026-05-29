@@ -24,6 +24,15 @@ enum class ESlotGroup : uint8
     Perk
 };
 
+UENUM(BlueprintType)
+enum class EContextType : uint8
+{
+    Purchase,
+    Sell,
+    Equip,
+    Drop
+};
+
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class LOWPOLY_API UInventoryComponent : public UActorComponent
 {

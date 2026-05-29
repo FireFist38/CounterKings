@@ -17,12 +17,33 @@ public:
     virtual void UseOffHand(class APlayerCharacter* Character) override;
     virtual void StopUseOffHand(class APlayerCharacter* Character) override;
 
+    // --- Rarity-Aware Overrides ---
+    virtual float GetPhysicalNegationForRarity(EItemRarity TargetRarity) const override;
+    virtual float GetMagicNegationForRarity(EItemRarity TargetRarity) const override;
+    virtual float GetFireNegationForRarity(EItemRarity TargetRarity) const override;
+    virtual float GetLightningNegationForRarity(EItemRarity TargetRarity) const override;
+    virtual float GetFrostNegationForRarity(EItemRarity TargetRarity) const override;
+    virtual float GetPoisonNegationForRarity(EItemRarity TargetRarity) const override;
+    virtual float GetHolyNegationForRarity(EItemRarity TargetRarity) const override;
+    virtual float GetEarthNegationForRarity(EItemRarity TargetRarity) const override;
+
+    // Legacy getters (linked to rarity logic)
+    float GetPhysicalNegation() const { return GetCurrentPhysicalNegation(); }
+    float GetMagicNegation() const { return GetCurrentMagicNegation(); }
+    float GetFireNegation() const { return GetFireNegationForRarity(GetRarity()); }
+    float GetLightningNegation() const { return GetLightningNegationForRarity(GetRarity()); }
+    float GetFrostNegation() const { return GetFrostNegationForRarity(GetRarity()); }
+    float GetPoisonNegation() const { return GetPoisonNegationForRarity(GetRarity()); }
+    float GetHolyNegation() const { return GetHolyNegationForRarity(GetRarity()); }
+    float GetEarthNegation() const { return GetEarthNegationForRarity(GetRarity()); }
+    float GetStaminaCostOnBlock() const { return StaminaCostOnBlock; }
+
 protected:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CK|Combat|Negation")
-    float PhysicalNegation = 0.8f; // 0.0 to 1.0
+    float PhysicalNegation = 0.8f; // 0.0 to 1.0 (fallback if no rarity stats)
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CK|Combat|Negation")
-    float MagicNegation = 0.2f; // 0.0 to 1.0
+    float MagicNegation = 0.2f; // 0.0 to 1.0 (fallback if no rarity stats)
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CK|Combat|Negation")
     float FireNegation = 0.2f;
@@ -44,17 +65,6 @@ protected:
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CK|Combat")
     float StaminaCostOnBlock = 10.0f;
-
-public:
-    float GetPhysicalNegation() const { return PhysicalNegation; }
-    float GetMagicNegation() const { return MagicNegation; }
-    float GetFireNegation() const { return FireNegation; }
-    float GetLightningNegation() const { return LightningNegation; }
-    float GetFrostNegation() const { return FrostNegation; }
-    float GetPoisonNegation() const { return PoisonNegation; }
-    float GetHolyNegation() const { return HolyNegation; }
-    float GetEarthNegation() const { return EarthNegation; }
-    float GetStaminaCostOnBlock() const { return StaminaCostOnBlock; }
 
 protected:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CK|Combat")

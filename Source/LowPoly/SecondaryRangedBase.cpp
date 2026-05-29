@@ -234,7 +234,7 @@ void ASecondaryRangedBase::Multicast_PlayMuzzleFlash_Implementation()
 
 FDamageBundle ASecondaryRangedBase::GetScaledDamage(const UAttributeComponent* Attributes) const
 {
-    FDamageBundle Scaled = BaseDamage;
+    FDamageBundle Scaled = GetCurrentDamage();
     Scaled.Scale(ComputeAttributeMultiplier(Attributes));
     return Scaled;
 }
@@ -268,7 +268,7 @@ float ASecondaryRangedBase::ComputeAttributeMultiplier(const UAttributeComponent
 void ASecondaryRangedBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
-	DOREPLIFETIME(ASecondaryRangedBase, BaseDamage);
 	DOREPLIFETIME(ASecondaryRangedBase, CurrentAmmo);
 	DOREPLIFETIME(ASecondaryRangedBase, bIsReloading);
 }
+

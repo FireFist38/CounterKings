@@ -89,7 +89,13 @@ public:
 	int32 GetCurrentAmmo() const { return CurrentAmmo; }
 
 	UFUNCTION(BlueprintCallable, Category = "CK|Ranged")
-	int32 GetMagazineCapacity() const { return MagazineCapacity; }
+	virtual int32 GetMagazineCapacity() const;
+
+	UFUNCTION(BlueprintCallable, Category = "CK|Ranged")
+	virtual float GetReloadTime() const;
+
+	UFUNCTION(BlueprintCallable, Category = "CK|Ranged")
+	virtual float GetRecoilPitch() const;
 
 	UFUNCTION(BlueprintCallable, Category = "CK|Ranged")
 	bool IsReloading() const { return bIsReloading; }

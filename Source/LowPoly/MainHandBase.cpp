@@ -39,15 +39,27 @@ AMainHandBase::AMainHandBase()
 void AMainHandBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
-
-	DOREPLIFETIME(AMainHandBase, BaseDamage);
 }
+
+float AMainHandBase::GetManaCost() const
+{
+    float RarityMana = GetCurrentManaCost();
+    return (RarityMana > 0.0f) ? RarityMana : ManaCost;
+}
+
+float AMainHandBase::GetStaminaCost() const
+{
+    float RarityStamina = GetCurrentStaminaCost();
+    return (RarityStamina > 0.0f) ? RarityStamina : StaminaCost;
+}
+
 
 FDamageBundle AMainHandBase::GetScaledDamage(const UAttributeComponent* Attributes) const
 {
-    FDamageBundle Scaled = BaseDamage;
-    Scaled.Scale(ComputeAttributeMultiplier(Attributes));
-    return Scaled;
+	// Get base damage for current rarity (uses rarity stats if defined, otherwise base damage with rarity scale)
+	FDamageBundle Scaled = GetCurrentDamage();
+	Scaled.Scale(ComputeAttributeMultiplier(Attributes));
+	return Scaled;
 }
 
 FName AMainHandBase::GetComboSectionName(int32 ComboIndex) const

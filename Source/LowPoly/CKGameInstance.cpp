@@ -9,17 +9,20 @@ UCKGameInstance::UCKGameInstance()
 void UCKGameInstance::OnStart()
 {
     Super::OnStart();
+    UE_LOG(LogTemp, Log, TEXT("CKGameInstance::OnStart - Force-clearing PersistenceManager."));
 
-    // Clear the PersistenceManager singleton on new PIE session start.
-    // OnStart() is called once per game session (including PIE start).
-    // It is NOT called during ServerTravel transitions, so data survives
-    // map travel within the same PIE session but gets cleared when PIE stops/restarts.
+    // Clear and ensure a fresh persistence manager singleton on new session start.
+    UCKPersistenceManager::DestroyInstance();
     UCKPersistenceManager::Get().ClearAllSavedData();
 }
 
 void UCKGameInstance::Shutdown()
 {
+    UE_LOG(LogTemp, Log, TEXT("CKGameInstance::Shutdown - Clearing and destroying PersistenceManager."));
+
+    // Clear the persistence manager data and destroy the singleton on shutdown.
     UCKPersistenceManager::Get().ClearAllSavedData();
+    UCKPersistenceManager::DestroyInstance();
 
     Super::Shutdown();
 }

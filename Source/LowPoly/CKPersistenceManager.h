@@ -17,6 +17,7 @@ class LOWPOLY_API UCKPersistenceManager : public UObject
 
 public:
     static UCKPersistenceManager& Get();
+    static void DestroyInstance();
 
     // --- Attributes ---
     int32 SavedLevel = 1;
