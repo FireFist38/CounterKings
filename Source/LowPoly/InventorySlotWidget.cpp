@@ -40,7 +40,6 @@ void UInventorySlotWidget::SetHighlighted(bool bIsHighlighted)
 void UInventorySlotWidget::SetActiveSlotIndicator(bool bIsActive)
 {
 	// Active indicator should not override hover highlighting.
-	// The highlight border is controlled by hover (NativeOnMouseEnter/Leave).
 }
 
 void UInventorySlotWidget::UpdateSlot(AItemBase* Item, int32 NewSlotIndex)
@@ -106,9 +105,6 @@ void UInventorySlotWidget::UpdateSlot(AItemBase* Item, int32 NewSlotIndex)
 			}
 		}
 	}
-
-	// Data tables are the single source of truth. If the row isn't found,
-	// leave the fields blank so you know to fill in the data table.
 }
 
 void UInventorySlotWidget::NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
@@ -137,84 +133,76 @@ FReply UInventorySlotWidget::NativeOnMouseButtonDown(const FGeometry& InGeometry
 
 FReply UInventorySlotWidget::NativeOnMouseButtonUp(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
 {
-    if (GetWorld()->GetTimeSeconds() - ClickStartTime < 0.2f)
-    {
-        // Broadcast selection even if CachedItem is null (to allow clearing selection in Upgrade tab)
-        OnSlotSelected.Broadcast(this);
+	if (GetWorld()->GetTimeSeconds() - ClickStartTime < 0.2f)
+	{
+		OnSlotSelected.Broadcast(this);
 
-        if (CachedItem)
-        {
-            APlayerController* PC = GetOwningPlayer();
-            if (PC && ContextMenuClass)
-            {
-            TArray<UUserWidget*> FoundWidgets;
-            UWidgetBlueprintLibrary::GetAllWidgetsOfClass(GetWorld(), FoundWidgets, UShopContextMenuWidget::StaticClass(), false);
-            for (UUserWidget* Widget : FoundWidgets) Widget->RemoveFromParent();
+		if (CachedItem)
+		{
+			APlayerController* PC = GetOwningPlayer();
+			if (PC && ContextMenuClass)
+			{
+				TArray<UUserWidget*> FoundWidgets;
+				UWidgetBlueprintLibrary::GetAllWidgetsOfClass(GetWorld(), FoundWidgets, UShopContextMenuWidget::StaticClass(), false);
+				for (UUserWidget* Widget : FoundWidgets) Widget->RemoveFromParent();
 
-            UShopContextMenuWidget* Menu = CreateWidget<UShopContextMenuWidget>(PC, ContextMenuClass);
-            if (Menu)
-            {
-                // Track the currently open context menu so it can be closed when parent UI closes
-                if (APlayerCharacter* Character = Cast<APlayerCharacter>(PC->GetPawn()))
-                {
-                    // If we already had a tracked menu, clear it before replacing
-                    Character->ActiveContextMenuInstance = Menu;
-                }
-
-				ESlotGroup SourceGroup = ESlotGroup::Bag;
-				switch (SlotType)
+				UShopContextMenuWidget* Menu = CreateWidget<UShopContextMenuWidget>(PC, ContextMenuClass);
+				if (Menu)
 				{
+					if (APlayerCharacter* Character = Cast<APlayerCharacter>(PC->GetPawn()))
+					{
+						Character->ActiveContextMenuInstance = Menu;
+					}
+
+					ESlotGroup SourceGroup = ESlotGroup::Bag;
+					switch (SlotType)
+					{
 					case EInventorySlotType::MainHand: SourceGroup = ESlotGroup::MainHand; break;
 					case EInventorySlotType::OffHand: SourceGroup = ESlotGroup::OffHand; break;
 					case EInventorySlotType::Armor: SourceGroup = ESlotGroup::Armor; break;
 					case EInventorySlotType::Consumable: SourceGroup = ESlotGroup::Consumable; break;
-                    case EInventorySlotType::Ability: SourceGroup = ESlotGroup::Ability; break;
-                    case EInventorySlotType::Perk: SourceGroup = ESlotGroup::Perk; break;
+					case EInventorySlotType::Ability: SourceGroup = ESlotGroup::Ability; break;
+					case EInventorySlotType::Perk: SourceGroup = ESlotGroup::Perk; break;
 					default: SourceGroup = ESlotGroup::Bag; break;
+					}
+
+					EContextType ActiveContext = InteractionContext;
+					ACKGameState* GS = Cast<ACKGameState>(UGameplayStatics::GetGameState(GetWorld()));
+					if (GS && GS->GetMatchPhase() == ECKMatchPhase::PostRound && SlotType == EInventorySlotType::Bag)
+					{
+						ActiveContext = EContextType::Sell;
+					}
+
+					Menu->SetupContextMenu(CachedItem, SlotIndex, ActiveContext, SourceGroup);
+					Menu->AddToViewport(1000);
+					Menu->ForceLayoutPrepass();
+
+					FVector2D MousePos;
+					PC->GetMousePosition(MousePos.X, MousePos.Y);
+
+					const float ViewportScale = UWidgetLayoutLibrary::GetViewportScale(this);
+					const FVector2D MousePosScaled = MousePos / FMath::Max(0.01f, ViewportScale);
+
+					const FVector2D ViewportSize = UWidgetLayoutLibrary::GetViewportSize(this);
+					const FVector2D DesiredSize = Menu->GetDesiredSize();
+
+					const float MaxX = FMath::Max(0.0f, (float)ViewportSize.X - (float)DesiredSize.X);
+					const float MaxY = FMath::Max(0.0f, (float)ViewportSize.Y - (float)DesiredSize.Y);
+
+					const float ClampedX = FMath::Clamp((float)MousePosScaled.X, 0.0f, MaxX);
+					const float ClampedY = FMath::Clamp((float)MousePosScaled.Y, 0.0f, MaxY);
+
+					Menu->SetPositionInViewport(FVector2D(ClampedX, ClampedY), false);
 				}
-
-				EContextType ActiveContext = InteractionContext;
-				ACKGameState* GS = Cast<ACKGameState>(UGameplayStatics::GetGameState(GetWorld()));
-				if (GS && GS->GetMatchPhase() == ECKMatchPhase::PostRound && SlotType == EInventorySlotType::Bag)
-				{
-					ActiveContext = EContextType::Sell;
-				}
-
-				Menu->SetupContextMenu(CachedItem, SlotIndex, ActiveContext, SourceGroup);
-				Menu->AddToViewport(1000);
-
-				// Force a layout prepass so GetDesiredSize() returns the correct size.
-				Menu->ForceLayoutPrepass();
-
-				// Use DPI-scaled mouse position so clamping matches what SetPositionInViewport expects.
-				FVector2D MousePos;
-				PC->GetMousePosition(MousePos.X, MousePos.Y);
-
-				const float ViewportScale = UWidgetLayoutLibrary::GetViewportScale(this);
-				const FVector2D MousePosScaled = MousePos / FMath::Max(0.01f, ViewportScale);
-
-				// Clamp context menu so it never spawns off-screen near viewport edges.
-				const FVector2D ViewportSize = UWidgetLayoutLibrary::GetViewportSize(this);
-				const FVector2D DesiredSize = Menu->GetDesiredSize();
-
-				const float MaxX = FMath::Max(0.0f, (float)ViewportSize.X - (float)DesiredSize.X);
-				const float MaxY = FMath::Max(0.0f, (float)ViewportSize.Y - (float)DesiredSize.Y);
-
-				const float ClampedX = FMath::Clamp((float)MousePosScaled.X, 0.0f, MaxX);
-				const float ClampedY = FMath::Clamp((float)MousePosScaled.Y, 0.0f, MaxY);
-
-				Menu->SetPositionInViewport(FVector2D(ClampedX, ClampedY), false);
-            }
-        }
-        return FReply::Handled();
-    }
-    return FReply::Unhandled();
+			}
+		}
+		return FReply::Handled();
+	}
+	return FReply::Unhandled();
 }
 
 void UInventorySlotWidget::NativeOnDragDetected(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent, UDragDropOperation*& OutOperation)
 {
-    // If a context menu is open, close it as soon as the user starts dragging.
-    // Otherwise the menu can remain on-screen at its old position while UI changes.
     if (APlayerCharacter* PC = Cast<APlayerCharacter>(GetOwningPlayerPawn()))
     {
         PC->CloseContextMenu();

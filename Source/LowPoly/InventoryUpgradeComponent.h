@@ -4,6 +4,7 @@
 #include "Components/ActorComponent.h"
 #include "ItemBase.h"
 #include "EquipmentUpgradeTypes.h"
+#include "Engine/DataTable.h"
 #include "InventoryUpgradeComponent.generated.h"
 
 class AItemBase;
@@ -30,6 +31,6 @@ public:
 
 	// Editable in editor/blueprint: data table that maps CurrentRarity + NextRarity to cost.
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="CK|Upgrade")
-	UDataTable* UpgradeCostTable = nullptr;
+	class UDataTable* UpgradeCostTable;
 };
 

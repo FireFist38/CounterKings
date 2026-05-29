@@ -440,7 +440,7 @@ void UInventoryComponent::Server_RequestUpgradeRarity_Implementation(AItemBase* 
     if (!Attr) return;
 
     // 3. Resolve target rarity and cost
-    EItemRarity CurrentRarity = Item->Rarity;
+    EItemRarity CurrentRarity = Item->GetRarity();
     EItemRarity TargetRarity = UpgradeComp->ResolveTargetRarity(CurrentRarity, UpgradeTarget);
 
     int32 Cost = 0;
@@ -451,7 +451,7 @@ void UInventoryComponent::Server_RequestUpgradeRarity_Implementation(AItemBase* 
 
     // 5. Deduct gold and update rarity
     Attr->AddGold(-Cost);
-    Item->Rarity = TargetRarity;
+    Item->SetRarity(TargetRarity);
 
     // Rarity is replicated on ItemBase, so this will propagate to clients.
 }

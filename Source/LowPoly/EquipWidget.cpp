@@ -43,25 +43,25 @@ void UEquipWidget::NativeConstruct()
 	UInventorySlotWidget* BagWidgets[] = { Inv_0, Inv_1, Inv_2, Inv_3, Inv_4, Inv_5, Inv_6, Inv_7, Inv_8, Inv_9, Inv_10, Inv_11 };
 	for (UInventorySlotWidget* W : BagWidgets) AllSlots.Add(W);
 
-	for (UInventorySlotWidget* Slot : AllSlots)
+	for (UInventorySlotWidget* CurrentSlot : AllSlots)
 	{
-		if (!Slot) continue;
+		if (!CurrentSlot) continue;
 		
 		// Configure basic slot types
-		if (Slot == ArmorSlot) ConfigureSlot(Slot, EInventorySlotType::Armor);
-		else if (Slot == ConsumableSlot) ConfigureSlot(Slot, EInventorySlotType::Consumable);
-		else if (Slot == Ability_0 || Slot == Ability_1 || Slot == Ability_2) ConfigureSlot(Slot, EInventorySlotType::Ability);
-		else if (Slot == MainHand_Active || Slot == MainHand_0 || Slot == MainHand_1) ConfigureSlot(Slot, EInventorySlotType::MainHand);
-		else if (Slot == OffHand_Active || Slot == OffHand_0 || Slot == OffHand_1) ConfigureSlot(Slot, EInventorySlotType::OffHand);
+		if (CurrentSlot == ArmorSlot) ConfigureSlot(CurrentSlot, EInventorySlotType::Armor);
+		else if (CurrentSlot == ConsumableSlot) ConfigureSlot(CurrentSlot, EInventorySlotType::Consumable);
+		else if (CurrentSlot == Ability_0 || CurrentSlot == Ability_1 || CurrentSlot == Ability_2) ConfigureSlot(CurrentSlot, EInventorySlotType::Ability);
+		else if (CurrentSlot == MainHand_Active || CurrentSlot == MainHand_0 || CurrentSlot == MainHand_1) ConfigureSlot(CurrentSlot, EInventorySlotType::MainHand);
+		else if (CurrentSlot == OffHand_Active || CurrentSlot == OffHand_0 || CurrentSlot == OffHand_1) ConfigureSlot(CurrentSlot, EInventorySlotType::OffHand);
 		else
 		{
 			bool bIsPerk = false;
-			for (UInventorySlotWidget* P : PerkWidgets) if (Slot == P) { bIsPerk = true; break; }
-			ConfigureSlot(Slot, bIsPerk ? EInventorySlotType::Perk : EInventorySlotType::Bag);
+			for (UInventorySlotWidget* P : PerkWidgets) if (CurrentSlot == P) { bIsPerk = true; break; }
+			ConfigureSlot(CurrentSlot, bIsPerk ? EInventorySlotType::Perk : EInventorySlotType::Bag);
 		}
 
 		// Bind selection
-		Slot->OnSlotSelected.AddUniqueDynamic(this, &UEquipWidget::HandleSlotSelected);
+		CurrentSlot->OnSlotSelected.AddUniqueDynamic(this, &UEquipWidget::HandleSlotSelected);
 	}
 
 	// Bind Tab Buttons
@@ -125,12 +125,12 @@ void UEquipWidget::HandleSlotSelected(UInventorySlotWidget* SlotWidget)
 		Upgrade_SourceSlot->UpdateSlot(SelectedUpgradeItem, 0);
 	}
 
-	// Trigger preview refresh
-	if (SelectedUpgradeItem)
-	{
-		LastKnownRarity = SelectedUpgradeItem->Rarity;
-	}
-	UpdateUpgradePreview();
+		// Trigger preview refresh
+		if (SelectedUpgradeItem)
+		{
+			LastKnownRarity = SelectedUpgradeItem->GetRarity();
+		}
+		UpdateUpgradePreview();
 }
 
 void UEquipWidget::UpdateUpgradePreview()
@@ -155,7 +155,7 @@ void UEquipWidget::UpdateUpgradePreview()
 	UAttributeComponent* Attr = Character->GetAttributeComponent();
 	if (!Attr) return;
 
-	EItemRarity CurrentRarity = SelectedUpgradeItem->Rarity;
+	EItemRarity CurrentRarity = SelectedUpgradeItem->GetRarity();
 	EItemRarity TargetRarity = UpgradeComp->ResolveTargetRarity(CurrentRarity, EItemUpgradeTarget::Next);
 
 	// 1. Cost
@@ -225,12 +225,12 @@ void UEquipWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 	{
 		UInventoryComponent* Inv = Character->GetInventoryComponent();
 		
-		// If the selected item's rarity has changed (replicated from server), refresh the preview
-		if (SelectedUpgradeItem && SelectedUpgradeItem->Rarity != LastKnownRarity)
-		{
-			LastKnownRarity = SelectedUpgradeItem->Rarity;
-			UpdateUpgradePreview();
-		}
+			// If the selected item's rarity has changed (replicated from server), refresh the preview
+			if (SelectedUpgradeItem && SelectedUpgradeItem->GetRarity() != LastKnownRarity)
+			{
+				LastKnownRarity = SelectedUpgradeItem->GetRarity();
+				UpdateUpgradePreview();
+			}
 
 		int32 ActiveMH = Inv->GetActiveMainHandIndex();
 		int32 ActiveOH = Inv->GetActiveOffHandIndex();

@@ -9,10 +9,12 @@
 #include "ShieldBase.h"
 #include "CKGameState.h"
 #include "Kismet/GameplayStatics.h"
+#include "ItemUpgradeCost.h"
 
 UInventoryUpgradeComponent::UInventoryUpgradeComponent()
 {
 	PrimaryComponentTick.bCanEverTick = false;
+	UpgradeCostTable = nullptr;
 }
 
 EItemRarity UInventoryUpgradeComponent::ResolveTargetRarity(EItemRarity CurrentRarity, EItemUpgradeTarget Target) const
@@ -128,13 +130,12 @@ FUpgradePreviewStats UInventoryUpgradeComponent::BuildUpgradePreviewStats(const 
 	}
 
 	// Weapon damage preview (compact)
-	const FDamageBundle CurrDmg = [&]()
+	auto GetDmg = [&]() -> FDamageBundle
 	{
 		if (const AMagicWeaponBase* Staff = Cast<AMagicWeaponBase>(Item))
 		{
-			// Primary spell only for compact preview
-			// In UI we will use full SetupContextMenu-like math later.
-			return Staff->GetPrimarySpell() ? Staff->GetPrimarySpell()->GetDamageForUI(Attr) : FDamageBundle();
+			// Note: We'd need USpellBase to have GetDamageForUI, but for now we fallback
+			return FDamageBundle();
 		}
 		if (const ARangedWeaponBase* Ranged = Cast<ARangedWeaponBase>(Item))
 		{
@@ -149,7 +150,9 @@ FUpgradePreviewStats UInventoryUpgradeComponent::BuildUpgradePreviewStats(const 
 			return OffRanged->GetScaledDamageForUI(Attr);
 		}
 		return FDamageBundle();
-	}();
+	};
+
+	const FDamageBundle CurrDmg = GetDmg();
 
 	Out.BeforeText = FormatDamageBundleCompact(CurrDmg);
 	Out.AfterText = Out.BeforeText;
